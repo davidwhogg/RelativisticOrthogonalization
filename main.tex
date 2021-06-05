@@ -7,16 +7,17 @@
 
 % fixing latex page layout and typography
 \setlength{\textwidth}{5.50in}
-\setlength{\textheight}{9.20in}
+\setlength{\textheight}{9.40in}
 \setlength{\oddsidemargin}{3.25in}
 \addtolength{\oddsidemargin}{-0.5\textwidth}
-\setlength{\topmargin}{-0.20in}
+\setlength{\topmargin}{-0.40in}
 \renewcommand{\small}{\normalsize} % pure evil
 \linespread{1.08}
 \frenchspacing\raggedbottom\sloppy\sloppypar
 \pagestyle{myheadings}
 \markboth{}{\textsf{Hogg \& Villar / Orthogonalization in relativity}}
 \newcommand{\documentname}{\textsl{Note}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
 
 \title{\bfseries Orthogonalization and vector operations in special and general relativity}
 \author{\textbf{David W. Hogg}\\
@@ -24,7 +25,7 @@
         \and
         \textbf{Soledad Villar}\\
         \textsl{Johns Hopkins University}}
-\date{incomplete draft as of 2021 June 04}
+\date{incomplete draft as of 2021 June 05}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -35,8 +36,9 @@
     The concept of orthogonalization (Gram--Schmidt, for example) carries over to Minkowski/Lorentz space, but there are pathologies in which it is possible for the procedure to produce a lightlike vector and thus bork.
     We describe how to avoid this and successfully orthogonalize any $d+1$ linearly independent input vectors; every successful such orthogonalization produces one time-like and $d$ space-like unit vectors, all orthogonal (in the Minkowski sense).
     We use these orthogonalizations to construct subspace projection operators.
-    We use these, in turn, to construct Lorentz transformations that fix or vary particular vectors or subspaces.
-    As in many areas of physics, important aspects of relativity get simpler when we think of the theory in terms of unit vectors and inner products.
+    We use these, in turn, to construct coordinate-free representations of Lorentz transformations that fix or align particular vectors or subspaces.
+    That is, we effectively present \emph{a new parameterization of the Lorentz transformations} for all $d+1$.
+    As in many areas of physics, important aspects of relativity get simpler when we think of the theory in terms of vectors and coordinate-free forms built therefrom.
 \end{abstract}
 
 \section{Introduction}
@@ -47,7 +49,7 @@
 
 ...Remind what the LT is.
 
-\section{Orthogonalization, projection, and rotation in O($d$)}
+\section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:orth}
 
 Before we consider special and general relativity, it is worth reviewing how orthogonalizations are performed and projection and rotation operators are constructed in ordinary space with an ordinary metric.
 In standard $d$-dimensional space, with the standard Euclidean metric (the identity), containing vectors governed by the standard orthogonal group O($d$), inner products (scalar products) of vectors are defined as follows:
@@ -71,11 +73,50 @@ We sequentially construct orthogonal vectors $u_1,u_2,\ldots,u_n$ and normalize 
 Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the vectors $v_1,v_2,\ldots,v_n$ into a different order, the orthogonalization will return different specific basis unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$.
 However, all the different possible returned bases (under permutations of the $v_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
 
-...projection matrices....
+If you have $n\leq d$ linearly independent vectors $v_j\in\mathbb{R}^d$ that span an $n$-dimensional subspace of the $d$-dimensional space, you can use this orthonormalization procedure to build a subspace projection operator $\Pi\in\mathbb{R}^{d\times d}$
+\begin{align}
+    \Pi &= \sum_{j=1}^n \hat{u}_j\,\hat{u}_j^\top ~,
+\end{align}
+where the $\hat{u}_j$ are the orthogonal unit vectors\footnote{Note that because---for us---all vectors $u,v$ are column vectors, $u\,v^\top\in\mathbb{R}^{d\times d}$ while $u^\top v\in\mathbb{R}$.} delivered by the orthonormalization procedure applied to the $v_j$.
+This projection operator has the property that, for any vector $w\in\mathbb{R}^d$, the vector $\Pi\,w$ will lie in the subspace spanned by the $v_j$.
+One consequence of this line of reasoning is that if you have $n=d$ linearly independent vectors $v_j$, they will span the whole space, and the projection operator $\Pi$ will become the identity matrix.
+More properly for what follows, the projection operator will become \emph{the metric of the space}.
+That is, if you have an orthonormal basis of $d$ unit vectors $\hat{u}_j$, the $d\times d$ Euclidean metric of the space can be written as
+\begin{align}
+    I &= \sum_{j=1}^d \hat{u}_j\,\hat{u}_j^\top = \sum_{j=1}^d \frac{u_j\,u_j^\top}{\inner{u_j}{u_j}} ~,
+\end{align}
+where we have written it in terms of both the normalized and un-normalized vectors, anticipating results to come.
+Physicists might call these forms for $\Pi$ and $I$ \emph{coordinate-free}:
+They are coordinate-free in the sense that they are stated just in terms of the input vectors, not in terms of matrix components.
+Or, equivalently, we didn't have to specify my coordinate system when we constructed them; we only had to specify the vectors that span the subspace.
 
-...rotation matrices...
+These aren't the only kinds of operators that can be written in this coordinate-free form.
+It is also possible to write any rotation-reflection operator $Q$ in a coordinate-free form.
+First a definition: A matrix $Q\in\mathbb{R}^{d\times d}$ is a rotation-reflection operator in the orthogonal group O($d$) if the operator preserves all inner products (scalar products).
+That is,
+\begin{equation}
+    Q \in \mbox{O($d$)} ~ \mbox{if and only if} ~ \inner{u}{v}=\inner{Q\,u}{Q\,v} ~ \mbox{for all $u,v$ in $\mathbb{R}^d$} ~ .
+\end{equation}
+This, in turn, will be true if and only if $Q$ is a square root of the metric---the identity:
+\begin{equation}
+    Q \in \mbox{O($d$)} ~ \mbox{if and only if} ~ Q^\top Q=I ~ .
+\end{equation}
+We call $Q$ a rotation-reflection operator because the group encompasses all rotations, all reflections, and all combinations of rotations and reflections.
 
-\section{Notation}\label{sec:notation}
+Now how do we construct these operators $Q$?
+Usually they are given in terms of sines and cosines of rotation angles, plus sign flips.
+However, there are coordinate-free forms.
+For example: Imagine that we have two complete orthonormal bases in $\mathbb{R}^d$, $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_d$ and $\hat{u}'_1,\hat{u}'_2,\ldots,\hat{u}'_d$.
+We can now imagine a rotation-reflection operator $Q$ that rotates and reflects any vector $w$ in the same way that these two bases are rotated and reflected with respect to one another.
+This particular operator $Q$ can be constructed by the following coordinate-free construction:
+\begin{align}
+    Q &= \sum_{j=1}^d \hat{u}'_j\,\hat{u}_j^\top ~.
+\end{align}
+That is, rotations and reflections can be specified directly using orthonormal bases, with no explicit reference to any angles.
+
+For example: SHOW A FIGURE AND GIVE AN EXAMPLE IN O(2).
+
+\section{Relativistic notation}\label{sec:notation}
 
 There is a history of notation in special and general relativity.
 Here we deliver a translation from traditional Einstein summation notation, and traditional language about boost, to a more linear-algebra-oriented notation.
@@ -84,12 +125,15 @@ After this Section, we will be using exclusively the linear-algebra notation, wh
 In Lorentz or Minkowski space, we think of there being a metric $\Lambda$ (often called $g_{\mu\nu}$), which is a $(d+1)\times(d+1)$ matrix that is \emph{not} positive definite.
 The metric $\Lambda$ is diagonal with $+1$ in the first position and $-1$ repeated on all the remaining $d$ diagonal elements.
 In $3+1$ this is
-\begin{align}
+\begin{align}\label{eq:sig}
     \Lambda &= \begin{bmatrix}1 & 0 & 0 & 0\\
                               0 & -1 & 0 & 0\\
                               0 & 0 & -1 & 0\\
                               0 & 0 & 0 & -1\end{bmatrix} ~.
 \end{align}
+There is another possible signature---with $-1$ in the first position and $+1$ thereafter.
+In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature. HOGG CHECK THIS AT THE END.
+
 Given two vectors $u$, $v$ in $d+1$, old-school relativists tend to write the relativistic inner product $\inner{u}{v}\in\mathbb{R}$ (the scalar product or Minkowski inner product) as
 \begin{align}
     \inner{u}{v} &= u^\mu\,v_\mu = v^\mu\,u_\mu ~,
@@ -103,7 +147,7 @@ Contravariant and covariant components are related as follows:
     \inner{u}{v} &= u^\mu\,v_\mu = \Lambda^{\mu\nu}\,u_\mu\,v_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \Lambda^{\mu\nu}\,u_\mu\,v_\nu
 \end{align}
 where the $\Lambda^{\mu\nu}$ are the components of the metric $\Lambda$.
-The implicit summations on the left of the ``$\equiv$'' sign is called Einstein summation notation: Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
+The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (CITE; it is a subset of the Ricci calculus CITE): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
 
 In linear algebra notation, if we think of $u$ and $v$ as being column vectors in $\mathbb{R}^{d+1}$ (or, to be extremely specific, $\mathbb{R}^{(d+1)\times 1}$), then we can write this same inner product as
 \begin{align}
@@ -113,8 +157,9 @@ We are going to use this notation going forward, not the Einstein summation nota
 
 In standard special-relativity lore, Lorentz transformations are taught as \emph{boost transformations} in which the assignment of the stationary observer is changed and the time and space axes change accordingly.
 For our purposes, the Lorentz transformations also include spatial rotations, spatial reflections, and even time reflections (gasp!):
-That is, for our purposes, an operator $Q$ is a valid Lorentz transformation if it is a member of the group O(1,$d$).
-To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is in O(1,$d$)---if it preserves all inner products (scalar products). That is,
+That is, for our purposes, an operator $Q$ is a valid Lorentz transformation if it is a member of the Lorentz group O(1,$d$).
+To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is in O(1,$d$)---if it preserves all inner products (scalar products). 
+That is,
 \begin{equation}
     Q \in \mbox{O(1,$d$)} ~ \mbox{if and only if} ~ \inner{u}{v}=\inner{Q\,u}{Q\,v} ~ \mbox{for all $u,v$ in $\mathbb{R}^{d+1}$} ~ .
 \end{equation}
@@ -123,22 +168,39 @@ This, in turn, will be true if and only if $Q$ leaves the metric unchanged:
     Q \in \mbox{O(1,$d$)} ~ \mbox{if and only if} ~ Q^\top\Lambda\,Q=\Lambda ~ .
 \end{equation}
 This is our (surprising, perhaps) definition of the Lorentz transformation $Q$.
-In the simplest case of $1+1$ ($d=1$), Lorentz transformations form a one-dimensional family; they are all of the form
+
+For example, the simplest Lorentz space is O(1,1) or $1+1$ ($d=1$).
+In this case, the Lorentz transformations form a one-dimensional family; they are all of the form
 \begin{align}
-    Q &= \begin{bmatrix}\gamma & \beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix}
+    Q &= \begin{bmatrix}\gamma & \beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix} ~\mbox{or}~
+    \begin{bmatrix}-\gamma & -\beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix} ~\mbox{or}~
+    \begin{bmatrix}\gamma & \beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix} \label{eq:o11}
     \\
     \gamma &\equiv \frac{1}{\sqrt{1 - \beta^2}}
     \\
-    \beta &\in (-1,1) ~.
+    -1 &< \beta < 1
 \end{align}
 In this simple case, $\beta$ is the dimensionless velocity of the boost, and $\gamma$ is the Lorentz factor.
-There is more that can be said here, but for now, this defines the inner products and Lorentz transformations that will appear below.
+The three choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), and reversing space (after the boost).
+But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation-reflection operators given in \secref{sec:orth}.
 
 \section{Relativistic orthogonalization}
 
-\section{Relativistic projection operators}
+...Generalize G-S.
+
+...Deal with pathologies.
+
+...Note that you always get one time-like and $d$ space-like unit vectors.
+
+...Construct projection operators.
+
+...Construct the metric. Maybe comment on the signature here?
 
 \section{Vector-guided Lorentz transformations}
+
+...Consider an observer moving through the space with some 4-momentum. What does her coordinate system look like?
+
+FOR EXAMPLE: SHOW A FIGURE AND GIVE THE FORM FOR AN EXAMPLE IN O(1,1).
 
 \section{Discussion}
 
