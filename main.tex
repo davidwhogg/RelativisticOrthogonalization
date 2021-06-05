@@ -24,7 +24,7 @@
         \and
         \textbf{Soledad Villar}\\
         \textsl{Johns Hopkins University}}
-\date{June 2021}
+\date{incomplete draft as of 2021 June 04}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -36,7 +36,7 @@
     We describe how to avoid this and successfully orthogonalize any $d+1$ linearly independent input vectors; every successful such orthogonalization produces one time-like and $d$ space-like unit vectors, all orthogonal (in the Minkowski sense).
     We use these orthogonalizations to construct subspace projection operators.
     We use these, in turn, to construct Lorentz transformations that fix or vary particular vectors or subspaces.
-    Like in many areas of physics, important aspects of relativity get simpler when we think of them in terms of unit vectors and inner products.
+    As in many areas of physics, important aspects of relativity get simpler when we think of the theory in terms of unit vectors and inner products.
 \end{abstract}
 
 \section{Introduction}
@@ -57,14 +57,19 @@ Given two column vectors $u,v\in\mathbb{R}^d$ (or, more specifically, $\mathbb{R
 \end{align}
 Two vectors $u,v$ are considered orthogonal if their inner product vanishes, or $\inner{u}{v}=0$.
 
-....orthogonalization... Given a collection of $n\leq d$ linearly independent vectors $v_1,v_2,\ldots,v_n$, construct orthogonal vectors $u_1,u_2,\ldots,u_n$ and orthogonal unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$ as follows:
+Imagine that we are given a collection of $n\leq d$ linearly independent vectors $v_1,v_2,\ldots,v_n$,
+and we want to construct orthonormal basis vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$ that span the linear subspace spanned by the vectors $v_j$.
+We can perform this orthonormalization by the Gram--Schmidt process:
+We sequentially construct orthogonal vectors $u_1,u_2,\ldots,u_n$ and normalize them into orthogonal unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$ by the following algorithm:
 \begin{align}
-    u_1 &\leftarrow v_1
+    u_1 &\leftarrow v_1 \label{eq:ogs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ u_j &\leftarrow v_j - \sum_{k=1}^{j-1} \frac{\inner{v_j}{u_k}}{\inner{u_k}{u_k}}\,u_k
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ u_j &\leftarrow v_j - \sum_{k=1}^{j-1} \frac{\inner{v_j}{u_k}}{\inner{u_k}{u_k}}\,u_k \label{eq:ogs2}
     \\
-    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \hat{u}_j &\leftarrow \frac{1}{\sqrt{\inner{u_j}{u_j}}}\,u_j
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \hat{u}_j &\leftarrow \frac{1}{\sqrt{\inner{u_j}{u_j}}}\,u_j ~. \label{eq:ogs3}
 \end{align}
+Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the vectors $v_1,v_2,\ldots,v_n$ into a different order, the orthogonalization will return different specific basis unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$.
+However, all the different possible returned bases (under permutations of the $v_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
 
 ...projection matrices....
 
@@ -77,7 +82,7 @@ Here we deliver a translation from traditional Einstein summation notation, and 
 After this Section, we will be using exclusively the linear-algebra notation, which is simpler (for us).
 
 In Lorentz or Minkowski space, we think of there being a metric $\Lambda$ (often called $g_{\mu\nu}$), which is a $(d+1)\times(d+1)$ matrix that is \emph{not} positive definite.
-The metric $\Lambda$ is diagonal with a $+1$ in the first position and $-1$ repeated on all the remaining $d$ diagonal elements.
+The metric $\Lambda$ is diagonal with $+1$ in the first position and $-1$ repeated on all the remaining $d$ diagonal elements.
 In $3+1$ this is
 \begin{align}
     \Lambda &= \begin{bmatrix}1 & 0 & 0 & 0\\
@@ -109,8 +114,7 @@ We are going to use this notation going forward, not the Einstein summation nota
 In standard special-relativity lore, Lorentz transformations are taught as \emph{boost transformations} in which the assignment of the stationary observer is changed and the time and space axes change accordingly.
 For our purposes, the Lorentz transformations also include spatial rotations, spatial reflections, and even time reflections (gasp!):
 That is, for our purposes, an operator $Q$ is a valid Lorentz transformation if it is a member of the group O(1,$d$).
-
-An operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation if it preserves all inner products (scalar products). That is,
+To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is in O(1,$d$)---if it preserves all inner products (scalar products). That is,
 \begin{equation}
     Q \in \mbox{O(1,$d$)} ~ \mbox{if and only if} ~ \inner{u}{v}=\inner{Q\,u}{Q\,v} ~ \mbox{for all $u,v$ in $\mathbb{R}^{d+1}$} ~ .
 \end{equation}
