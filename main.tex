@@ -1,3 +1,11 @@
+% Copyright 2021 the authors. All rights reserved.
+
+% To-do
+% -----
+% - Search for all HOGG, SOLE, \cite{} and fix them.
+% - Stronger literature searches.
+% - Do we say v_1,v_2,\ldots,v_n or do we say v_j, 1\leq j\leq n? Decide and flow it through.
+
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts}
@@ -6,6 +14,10 @@
 
 % math definitions
 \newcommand{\inner}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\bra}[1]{\langle\,{#1}\,|}
+\newcommand{\ket}[1]{|\,{#1}\,\rangle}
+\newcommand{\braket}[2]{\langle\,{#1}\,|\,{#2}\,\rangle}
+\newcommand{\ketbra}[2]{|\,{#1}\,\rangle\,\langle\,{#2}\,|}
 
 % fixing latex page layout and typography
 \setlength{\textwidth}{5.50in}
@@ -59,11 +71,18 @@ In the context of group theory, the word ``equivariant'' means the following:
 If you rotate, reflect, or boost the space, all of the predictions of the theory rotate, reflect, and boost appropriately to match.
 What group theorists call ``equivariance'', physicists call ``symmetry''.
 
-...Why are we working on all this? Machine-learning angle.
+HOGG...Why are we working on all this? Machine-learning angle.
 
-...Why are we working on all this? Coordinate-free angle.
+HOGG...Why are we working on all this? Coordinate-free angle.
 
-...Either here or in \secref{sec:orth}, understand~\cite{joot}.
+\paragraph{Our contribution:}
+We do XXX and we do YYY. Make references to particular equations in particular sections.
+
+\paragraph{Prior work:}
+Some of the ideas discussed here have been looked at previously.
+In particular, orthogonalization in special relativity is addressed in~\cite{joot}.
+However, this previous work does not deal with the pathologies that can arise when orthogonalization is performed on arbitrary collections of vectors.
+A kind of coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals (HOGG CHECK THIS).
 
 \section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:od}
 
@@ -77,7 +96,7 @@ Two vectors $u,v$ are considered orthogonal if their inner product vanishes, or 
 
 Imagine that we are given a collection of $n\leq d$ linearly independent vectors $v_1,v_2,\ldots,v_n$,
 and we want to construct orthonormal basis vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$ that span the linear subspace spanned by the vectors $v_j$.
-We can perform this orthonormalization by the Gram--Schmidt process:
+We can perform this orthonormalization by the Gram--Schmidt process (SOLE: WHAT TO CITE HERE?):
 We sequentially construct orthogonal vectors $u_1,u_2,\ldots,u_n$ and normalize them into orthogonal unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_n$ by the following algorithm:
 \begin{align}
     u_1 &\leftarrow v_1 \label{eq:ogs1}
@@ -119,18 +138,41 @@ This, in turn, will be true if and only if $Q$ is a square root of the metric---
 \end{equation}
 We call $Q$ a rotation-reflection operator because the group encompasses all rotations, all reflections, and all combinations of rotations and reflections.
 
-Now how do we construct these operators $Q$?
+For example, the simplest (interesting) orthogonal space is $O(2)$. In this case the operators form a one-dimensional family; they are all of the form
+\begin{align}
+    Q &= \begin{bmatrix}\cos{\theta} & -\sin{\theta} \\ \sin{\theta} & \cos{\theta}\end{bmatrix} ~\mbox{or}~
+    \begin{bmatrix}-\cos{\theta} & \sin{\theta} \\ \sin{\theta} & \cos{\theta}\end{bmatrix} \label{eq:o2}
+    \\
+    -\pi &< \theta < \pi ~,
+\end{align}
+where $\theta$ is a rotation angle.
+The two choices in \eqref{eq:o2} correspond to, in one case, pure rotation and, in the other, rotation plus reflection.
+When $d>2$ the coordinate representations of the $Q$ become large matrices full of trig functions.
+They get very complicated, while the coordinate-free representations we are about to deliver stay simple.
+
+Now how do we construct general coordinate-free forms for the operators $Q$?
 Usually they are given in terms of sines and cosines of rotation angles, plus sign flips.
 However, there are coordinate-free forms.
 For example: Imagine that we have two complete orthonormal bases in $\mathbb{R}^d$, $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_d$ and $\hat{u}'_1,\hat{u}'_2,\ldots,\hat{u}'_d$.
 We can now imagine a rotation-reflection operator $Q$ that rotates and reflects any vector $w$ in the same way that these two bases are rotated and reflected with respect to one another.
-This particular operator $Q$ can be constructed by the following coordinate-free construction:
+This particular operator $Q$ can be constructed by the following coordinate-free outer-product construction:
 \begin{align}
     Q &= \sum_{j=1}^d \hat{u}'_j\,\hat{u}_j^\top ~.
 \end{align}
 That is, rotations and reflections can be specified directly using orthonormal bases, with no explicit reference to any angles.
 
-For example: SHOW A FIGURE AND GIVE AN EXAMPLE IN O(2).
+Here's an irrelevant aside:
+If your background is quantum mechanics, then you probably use bra--ket notation.
+For you an inner product is written as a braket $\braket{u}{v}$, and an outer product is written as a ketbra $\ketbra{u}{v}$.
+In this notation, the rotation operator $Q$ can be written 
+\begin{align}
+    Q &= \sum_{j=1}^d \ketbra{\hat{u}'_j}{\hat{u}_j} ~,
+\end{align}
+which looks just like a change-of-basis operator in quantum mechanics (see, for example,~\cite{}).
+
+HOGG: For example: SHOW A FIGURE AND GIVE AN EXAMPLE IN O(2).
+It should give an example in coordinate-free form, and then compare
+to the standard matrix formulation.
 
 \section{Relativistic notation}\label{sec:notation}
 
@@ -148,7 +190,9 @@ In $3+1$ this is
                               0 & 0 & 0 & -1\end{bmatrix} ~.
 \end{align}
 There is another possible signature---with $-1$ in the first position and $+1$ thereafter.
-In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature. HOGG CHECK THIS AT THE END.
+In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature.
+Indeed, this is one of the main reasons to pursue the coordinate-free representations pursued here:
+The coordinate-free representations don't care about the signature of your metric, or any other aspects of your coordinate system.
 
 Given two vectors $u$, $v$ in $d+1$, old-school relativists tend to write the relativistic inner product $\inner{u}{v}\in\mathbb{R}$ (the scalar product or Minkowski inner product) as
 \begin{align}
@@ -164,9 +208,11 @@ Contravariant and covariant components are related as follows:
 \end{align}
 where the $\Lambda^{\mu\nu}$ are the components of the metric $\Lambda$.
 The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (\cite{summation}; it is a subset of the Ricci calculus~\cite{ricci}): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
+In quantum-mechanics (bra--ket) notation, a covariant vector is like a ket $\ket{v}$, a contravariant vector is like a bra $\bra{v}$,
+an inner product is a braket $\braket{u}{v}$, and an outer product (to appear below) is a ketbra $\ketbra{u}{v}$.
 
 In linear algebra notation, if we think of $u$ and $v$ as being column vectors in $\mathbb{R}^{d+1}$ (or, to be extremely specific, $\mathbb{R}^{(d+1)\times 1}$), then we can write this same inner product as
-\begin{align}
+\begin{align}\label{eq:inner}
     \inner{u}{v} &= u^\top\Lambda\,v ~.
 \end{align}
 We are going to use this notation going forward, not the Einstein summation notation.
@@ -190,44 +236,105 @@ In this case, the Lorentz transformations form a one-dimensional family; they ar
 \begin{align}
     Q &= \begin{bmatrix}\gamma & \beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix} ~\mbox{or}~
     \begin{bmatrix}-\gamma & -\beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix} ~\mbox{or}~
-    \begin{bmatrix}\gamma & \beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix} \label{eq:o11}
+    \begin{bmatrix}\gamma & \beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix}  ~\mbox{or}~
+    \begin{bmatrix}-\gamma & -\beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix} \label{eq:o11}
     \\
     \gamma &\equiv \frac{1}{\sqrt{1 - \beta^2}}
     \\
     -1 &< \beta < 1
 \end{align}
 In this simple case, $\beta$ is the dimensionless velocity of the boost, and $\gamma$ is the Lorentz factor.
-The three choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), and reversing space (after the boost).
+The four choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), reversing space (after the boost), and reversing both.
 But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation-reflection operators given in \secref{sec:od}.
 
 \section{Relativistic orthogonalization}\label{sec:orth}
 
-...Generalize G-S.
+Before we orthogonalize, we should make some comments about vectors in O(1,$d$).
+The first is that a vector $v$ can come in three forms now, \emph{timelike}, \emph{spacelike}, or \emph{lightlike} (sometimes \emph{null}):
+\begin{align}
+    v ~ \mbox{is timelike} &~ \mbox{if} ~ \inner{v}{v} > 0 \\
+    v ~ \mbox{is lightlike} &~ \mbox{if} ~ \inner{v}{v} = 0 \\
+    v ~ \mbox{is spacelike} &~ \mbox{if} ~ \inner{v}{v} < 0 ~.
+\end{align}
+(Technically, these definitions depend on the signature you chose for your metric; you would use the opposite language if you chose the opposite signature; see \secref{sec:notation}.)
+Because Lorentz transformations $Q\in$~O(1,$d$) preserve inner products, you can't Lorentz transform a vector from any one of these three categories to any other category.
 
-...Deal with pathologies.
+The second comment is that we will still say that two vectors are ``orthogonal'' if their inner product is zero.
+\begin{align}
+    u,v ~\mbox{are orthogonal} ~ &\mbox{if and only if} ~ \inner{u}{v}=0 ~,
+\end{align}
+where the inner product is defined as in \eqref{eq:inner}.
+This is great, but it leads to a strange consequence:
+Any lightlike vector $v$ is \emph{orthogonal to itself}.
 
-...Note that you always get one time-like and $d$ space-like unit vectors.
+The third comment is that linear dependence and independence carries over exactly from O($d$):
+A set of $n$ vectors $v_j\in\mathbb{R}^{d+1}$ are linearly independent if there is no non-trivial set of amplitudes $a_j\in\mathbb{R}$ such that $\sum_{j=1}^n a_n\,v_n = 0$
 
-...Construct projection operators.
+Now: How does orthogonalization and orthonormalization work in relativity?
+Once again you start with $n\leq d+1$ linearly independent vectors $v_1,v_2,\ldots,v_n$ in $\mathbb{R}^{d+1}$.
+If these vectors are randomly generated, then with probability unity the straightforward generalization of Gram--Schmidt will work:
+\begin{align}
+    u_1 &\leftarrow v_1 \label{eq:rgs1}
+    \\
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ u_j &\leftarrow v_j - \sum_{k=1}^{j-1} \frac{\inner{v_j}{u_k}}{\inner{u_k}{u_k}}\,u_k \label{eq:rgs2}
+    \\
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \hat{u}_j &\leftarrow \frac{1}{\sqrt{|\inner{u_j}{u_j}|}}\,u_j ~, \label{eq:rgs3}
+\end{align}
+where we had to insert an absolute value inside the square-root operation because negative inner products will appear.
+We're done. \emph{Ta-da!}
+But we aren't really done, because the iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if the procedure accidentally produces a lightlike vector $u_j$ for some $j$.
 
-...Construct the metric. Maybe comment on the signature here?
+In principle (and in practice if your context is adversarial), the orthogonalization procedure in \eqref{eq:rgs1} and \eqref{eq:rgs2} can produce a lightlike vector.
+If you start with $n$ linearly independent vectors $v_j$, ($1\leq j\leq n$), begin the orthogonalization procedure, and then at some $j$ produce a lightlike $u_j$, here are the strategies:
+\begin{enumerate}
+    \item If all your input vectors $v_j$ are lightlike, then by construction, $u_1$ will be lightlike.
+    Replace the first two input vectors $v_1, v_2$ with two (possibly randomly constructed) independent linear combinations of the $v_1$ and $v_2$.
+    Re-start the orthogonalization.
+    With high probability the orthogonalization will succeed.
+    \item If not every one of your input vectors is lightlike, but the first one is, then by construction $u_1$ will be lightlike.
+    Reorder the vectors such that the first vector is not lightlike and re-start the orthogonalization.
+    With high probability the orthogonalization will succeed.
+    \item If none of your input vectors is lightlike, but a lightlike $u_j$ is appearing, reorder the input vectors and re-start the orthogonalization.
+    \item If all of the above fails, replace the $n$ input vectors $v_j$ with a randomly generated set of $n$ indepdent linear combinations of the original $n$ input vectors.
+    With probability one, orthogonalization will succeed on this new set of inputs (and, by construction, it will span the same subspace as the original input vectors).
+\end{enumerate}
+These rules aren't extremely satisfying, because (unless you are extremely careful) they involve changing things like the orientation of the coordinate system.
+We conjecture that there are better possible rules.
+
+One comment to make is that orthogonalization is not necessarily numerically stable.
+That is, a set of vectors can be formally linearly independent, but only barely (or not at all) at finite precision.
+It is out of scope for us here, but there are methods to improve the stability of orthogonalizations (SOLE WHAT TO CITE?); these will be generalizable to the Lorentz space.
+
+Another comment to make is that if you start with $n=d+1$ linearly independent vectors in $\mathbb{R}^{d+1}$, the outcome of the orthogonalization will be exactly one timelike vector and exactly $d$ spacelike vectors.
+Importantly for what follows, \emph{the algorithm-generated set of normalized unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_{d+1}$ will form a coordinate basis in spacetime}, with one time axis vector and three orthogonal spatial axis vectors.
+
+HOGG...Construct projection operators.
+
+HOGG...Construct the metric. Maybe comment one more time on the signature here?
+
+HOGG...Remind the reader of the Einstein summation version, the bra--ket version, but use the linear-algebra version.
 
 \section{Vector-guided Lorentz transformations}\label{sec:lt}
 
-...Consider an observer moving through the space with some 4-momentum. What does her coordinate system look like?
+HOGG...Consider two observers moving through spacetime with 4-momenta $p_1,p_2$.
+What do their coordinate systems look like?
+What are their time axes?
+What are their spatial axes?
 
-FOR EXAMPLE: SHOW A FIGURE AND GIVE THE FORM FOR AN EXAMPLE IN O(1,1).
+HOGG...Construct the LT from $p_1, p_2$.
+
+HOGG...Show what you would have written in Einstein summation notation and in bra-ket notation.
+
+HOGG: FOR EXAMPLE: SHOW A FIGURE AND GIVE THE FORM FOR AN EXAMPLE IN O(1,1).
 
 \section{Discussion}\label{sec:discussion}
 
-Much of this is very mathematical and theoretical.
+HOGG: Much of this is very mathematical and theoretical.
 However, the new parameterization of the Lorentz transformation in \secref{sec:lt} is useful and conceptually valuable.
 
-The hacks to fix the orthogonalization in \secref{sec:orth} are unsatisfying. Are there better solutions?
+HOGG: The hacks to fix the orthogonalization in \secref{sec:orth} are unsatisfying. Are there better solutions?
 
-Should we translate anything back into the summation notation? Is that worth thinking about?
-
-What about spaces like O(2,5)?
+SOLE: What can we say about spaces like O(2,9), which might appear in string-like theories?
 
 \raggedright
 \printbibliography
