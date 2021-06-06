@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts}
+\usepackage{biblatex}
+\addbibresource{sr.bib}
 
 % math definitions
 \newcommand{\inner}[2]{\langle{#1},{#2}\rangle}
@@ -19,7 +21,8 @@
 \newcommand{\documentname}{\textsl{Note}}
 \newcommand{\secref}[1]{Section~\ref{#1}}
 
-\title{\bfseries Orthogonalization and vector operations in special and general relativity}
+\title{\bfseries Orthogonalization and vector operations in special and general relativity\footnote{%
+It is a pleasure to thank Ben Blum-Smith (NYU) for very valuable discussions. This research was supported in part by XXX YYY.}}
 \author{\textbf{David W. Hogg}\\
         \textsl{Flatiron Institute}\\
         \and
@@ -35,21 +38,34 @@
     These spaces violate of a lot of the intuitions we have about subspaces, inner products, and orthogonality.
     The concept of orthogonalization (Gram--Schmidt, for example) carries over to Minkowski/Lorentz space, but there are pathologies in which it is possible for the procedure to produce a lightlike vector and thus bork.
     We describe how to avoid this and successfully orthogonalize any $d+1$ linearly independent input vectors; every successful such orthogonalization produces one time-like and $d$ space-like unit vectors, all orthogonal (in the Minkowski sense).
-    We use these orthogonalizations to construct subspace projection operators.
-    We use these, in turn, to construct coordinate-free representations of Lorentz transformations that fix or align particular vectors or subspaces.
+    We use these orthogonalizations to construct coordinate-free representations of Lorentz transformations that fix or align particular vectors or subspaces.
     That is, we effectively present \emph{a new parameterization of the Lorentz transformations} for all $d+1$.
     As in many areas of physics, important aspects of relativity get simpler when we think of the theory in terms of vectors and coordinate-free forms built therefrom.
 \end{abstract}
 
-\section{Introduction}
+\section{Introduction}\label{sec:intro}
 
-...What are the metrics of sr and gr?
+Special relativity~\cite{sr} is a purely kinematic theory, which can be formulated in terms of vector displacements (4-vectors in $(3+1)$-dimensional spacetime) between \emph{events}.
+The coordinate system can be varied not just by rotations and translations, but also by \emph{boosts}, in which the stationary observer (the zero-point of 3-velocity) is redefined.
+Most of the remarkable and counter-intuitive aspects of special relativity---time dilation, length contraction, twin paradox, and so on---flow from the fact that boost transformations preserve not the usual vector magnitudes and inner products, but instead magnitudes and inner products made with a \emph{non-positive-definite metric tensor}\footnote{For some, you can't call something a ``metric tensor'' if it isn't positive definite: How can you use a metric to define displacements if those displacements won't satisfy the triangle inequality? But that's where we are.}.
+General relativity~\cite{gr} is a dynamical theory in which the non-positive-definite spacetime metric becomes (in general) a function of space and time, and the resulting curvature of spacetime is related to the energy densities and stresses in the matter and fields.
+This \documentname{} is motivated partly by attempts to understand the geometric properties of spacetime with this strange metric, and confront a few of the pathologies that arise.
 
-...Introduce concepts of O($d$) and O(1,$d$)...
+For group theorists, $(3+1)$-dimensional special relativity is equivariant with respect to the group called the Lorentz group and denoted O(1,3).
+In $(d+1)$-dimensional spacetime the group would be O(1,$d$).
+The operators in the group O(1,$d$) include rotations in the $d$-dimensional spatial subspace of spacetime, reflections in space and time, and boosts.
+These groups are generalizations of the orthogonal group O($d$), which is the group of rotations and reflections in $d$-dimensional space.
+In the context of group theory, the word ``equivariant'' means the following:
+If you rotate, reflect, or boost the space, all of the predictions of the theory rotate, reflect, and boost appropriately to match.
+What group theorists call ``equivariance'', physicists call ``symmetry''.
 
-...Remind what the LT is.
+...Why are we working on all this? Machine-learning angle.
 
-\section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:orth}
+...Why are we working on all this? Coordinate-free angle.
+
+...Either here or in \secref{sec:orth}, understand~\cite{joot}.
+
+\section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:od}
 
 Before we consider special and general relativity, it is worth reviewing how orthogonalizations are performed and projection and rotation operators are constructed in ordinary space with an ordinary metric.
 In standard $d$-dimensional space, with the standard Euclidean metric (the identity), containing vectors governed by the standard orthogonal group O($d$), inner products (scalar products) of vectors are defined as follows:
@@ -147,7 +163,7 @@ Contravariant and covariant components are related as follows:
     \inner{u}{v} &= u^\mu\,v_\mu = \Lambda^{\mu\nu}\,u_\mu\,v_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \Lambda^{\mu\nu}\,u_\mu\,v_\nu
 \end{align}
 where the $\Lambda^{\mu\nu}$ are the components of the metric $\Lambda$.
-The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (CITE; it is a subset of the Ricci calculus CITE): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
+The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (\cite{summation}; it is a subset of the Ricci calculus~\cite{ricci}): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
 
 In linear algebra notation, if we think of $u$ and $v$ as being column vectors in $\mathbb{R}^{d+1}$ (or, to be extremely specific, $\mathbb{R}^{(d+1)\times 1}$), then we can write this same inner product as
 \begin{align}
@@ -182,9 +198,9 @@ In this case, the Lorentz transformations form a one-dimensional family; they ar
 \end{align}
 In this simple case, $\beta$ is the dimensionless velocity of the boost, and $\gamma$ is the Lorentz factor.
 The three choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), and reversing space (after the boost).
-But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation-reflection operators given in \secref{sec:orth}.
+But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation-reflection operators given in \secref{sec:od}.
 
-\section{Relativistic orthogonalization}
+\section{Relativistic orthogonalization}\label{sec:orth}
 
 ...Generalize G-S.
 
@@ -196,14 +212,23 @@ But in what follows we are going to develop \emph{coordinate-free forms} for the
 
 ...Construct the metric. Maybe comment on the signature here?
 
-\section{Vector-guided Lorentz transformations}
+\section{Vector-guided Lorentz transformations}\label{sec:lt}
 
 ...Consider an observer moving through the space with some 4-momentum. What does her coordinate system look like?
 
 FOR EXAMPLE: SHOW A FIGURE AND GIVE THE FORM FOR AN EXAMPLE IN O(1,1).
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
+
+Much of this is very mathematical and theoretical.
+However, the new parameterization of the Lorentz transformation in \secref{sec:lt} is useful and conceptually valuable.
+
+The hacks to fix the orthogonalization in \secref{sec:orth} are unsatisfying. Are there better solutions?
+
+Should we translate anything back into the summation notation? Is that worth thinking about?
 
 What about spaces like O(2,5)?
 
+\raggedright
+\printbibliography
 \end{document}
