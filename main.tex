@@ -61,7 +61,7 @@ Special relativity~\cite{sr} is a purely kinematic theory, which can be formulat
 The coordinate system can be varied not just by rotations and translations, but also by \emph{boosts}, in which the stationary observer (the zero-point of 3-velocity) is redefined.
 Most of the remarkable and counter-intuitive aspects of special relativity---time dilation, length contraction, twin paradox, and so on---flow from the fact that boost transformations preserve not the usual vector magnitudes and inner products, but instead magnitudes and inner products made with a \emph{non-positive-definite metric tensor}\footnote{For some, you can't call something a ``metric tensor'' if it isn't positive definite: How can you use a metric to define displacements if those displacements won't satisfy the triangle inequality? But that's where we are.}.
 General relativity~\cite{gr} is a dynamical theory in which the non-positive-definite spacetime metric becomes (in general) a function of space and time, and the resulting curvature of spacetime is related to the energy densities and stresses in the matter and fields.
-This \documentname{} is motivated partly by attempts to understand the geometric properties of spacetime with this strange metric, and confront a few of the pathologies that arise.
+This \documentname{} is motivated partly by attempts to understand the geometric properties of spacetime with strange metrics---we will focus on special relativity---and to confront a few of the pathologies that arise.
 
 For group theorists, $(3+1)$-dimensional special relativity is equivariant with respect to the group called the Lorentz group and denoted O(1,3).
 In $(d+1)$-dimensional spacetime the group would be O(1,$d$).
@@ -81,12 +81,12 @@ We do XXX and we do YYY. Make references to particular equations in particular s
 \paragraph{Prior work:}
 Some of the ideas discussed here have been looked at previously.
 In particular, orthogonalization in special relativity is addressed in~\cite{joot}.
-However, this previous work does not deal with the pathologies that can arise when orthogonalization is performed on arbitrary collections of vectors.
-A kind of coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals (HOGG CHECK THIS).
+However, that previous work does not deal with the pathologies that can arise when orthogonalization is performed on arbitrary collections of vectors.
+Coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals (HOGG CHECK THIS).
 
 \section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:od}
 
-Before we consider special and general relativity, it is worth reviewing how orthogonalizations are performed and projection and rotation operators are constructed in ordinary space with an ordinary metric.
+Before we consider special relativity, it is worth reviewing how orthogonalizations are performed and projection and rotation operators are constructed in ordinary space with an ordinary metric.
 In standard $d$-dimensional space, with the standard Euclidean metric (the identity), containing vectors governed by the standard orthogonal group O($d$), inner products (scalar products) of vectors are defined as follows:
 Given two column vectors $u,v\in\mathbb{R}^d$ (or, more specifically, $\mathbb{R}^{d\times1}$), the inner product $\inner{u}{v}\in\mathbb{R}$ is defined as
 \begin{align}
@@ -109,15 +109,14 @@ Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the ve
 However, all the different possible returned bases (under permutations of the $v_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
 
 If you have $n\leq d$ linearly independent vectors $v_j\in\mathbb{R}^d$ that span an $n$-dimensional subspace of the $d$-dimensional space, you can use this orthonormalization procedure to build a subspace projection operator $\Pi\in\mathbb{R}^{d\times d}$
-\begin{align}
+\begin{align}\label{eq:oproj}
     \Pi &= \sum_{j=1}^n \hat{u}_j\,\hat{u}_j^\top ~,
 \end{align}
 where the $\hat{u}_j$ are the orthogonal unit vectors\footnote{Note that because---for us---all vectors $u,v$ are column vectors, $u\,v^\top\in\mathbb{R}^{d\times d}$ while $u^\top v\in\mathbb{R}$.} delivered by the orthonormalization procedure applied to the $v_j$.
 This projection operator has the property that, for any vector $w\in\mathbb{R}^d$, the vector $\Pi\,w$ will lie in the subspace spanned by the $v_j$.
 One consequence of this line of reasoning is that if you have $n=d$ linearly independent vectors $v_j$, they will span the whole space, and the projection operator $\Pi$ will become the identity matrix.
-More properly for what follows, the projection operator will become \emph{the metric of the space}.
-That is, if you have an orthonormal basis of $d$ unit vectors $\hat{u}_j$, the $d\times d$ Euclidean metric of the space can be written as
-\begin{align}
+That is, if you have an orthonormal basis of $d$ unit vectors $\hat{u}_j$,
+\begin{align}\label{eq:oI}
     I &= \sum_{j=1}^d \hat{u}_j\,\hat{u}_j^\top = \sum_{j=1}^d \frac{u_j\,u_j^\top}{\inner{u_j}{u_j}} ~,
 \end{align}
 where we have written it in terms of both the normalized and un-normalized vectors, anticipating results to come.
@@ -266,6 +265,8 @@ The second comment is that we will still say that two vectors are ``orthogonal''
 where the inner product is defined as in \eqref{eq:inner}.
 This is great, but it leads to a strange consequence:
 Any lightlike vector $v$ is \emph{orthogonal to itself}.
+This is just one aspect of the oddness of orthogonality under the Lorentz metric:
+It is also the case that orthogonal vectors aren't generally at 90 degrees with respect to each other.
 
 The third comment is that linear dependence and independence carries over exactly from O($d$):
 A set of $n$ vectors $v_j\in\mathbb{R}^{d+1}$ are linearly independent if there is no non-trivial set of amplitudes $a_j\in\mathbb{R}$ such that $\sum_{j=1}^n a_n\,v_n = 0$
@@ -308,22 +309,55 @@ It is out of scope for us here, but there are methods to improve the stability o
 Another comment to make is that if you start with $n=d+1$ linearly independent vectors in $\mathbb{R}^{d+1}$, the outcome of the orthogonalization will be exactly one timelike vector and exactly $d$ spacelike vectors.
 Importantly for what follows, \emph{the algorithm-generated set of normalized unit vectors $\hat{u}_1,\hat{u}_2,\ldots,\hat{u}_{d+1}$ will form a coordinate basis in spacetime}, with one time axis vector and three orthogonal spatial axis vectors.
 
-HOGG...Construct projection operators.
+Now just like in O($d$) you can use the orthogonalization to make a subspace projection operator $\Pi\in\mathbb{R}^{(d+1)\times(d+1)}$
+\begin{align}\label{eq:rproj}
+    \Pi &= \sum_{j=1}^n \frac{\hat{u}_j\,\hat{u}_j^\top\Lambda}{\inner{\hat{u}_j}{\hat{u}_j}} = \sum_{j=1}^n \frac{u_j\,u_j^\top\Lambda}{\inner{u_j}{u_j}} ~,
+\end{align}
+where the $\hat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un-normalized orthogonal vectors; this differs from the result in \eqref{eq:oproj} in that we have to divide by an inner product $\inner{\hat{u}_j}{\hat{u}_j}$ to account for the sign of the inner product, and we have a right multiply of the metric $\Lambda$.
+But notice that \eqref{eq:rproj} reduces to \eqref{eq:oproj} when the metric is the identity (and thus all inner products are positive.
+This projection operator has the property that, for any vector $w\in\mathbb{R}^d$, the vector $\Pi\,w$ will lie in the subspace spanned by the original $v_j$ that were orthogonalized.
 
-HOGG...Construct the metric. Maybe comment one more time on the signature here?
+If you have a full set of $n=d+1$ linearly independent vectors $v_j$, they will span the whole $(d+1)$-dimensional space, and the projection operator $\Pi$ will become the identity.
+That is, if you have an orthonormal basis of $d+1$ unit vectors $\hat{u}_j$
+\begin{align}
+    I &= \sum_{j=1}^{d+1} \frac{\hat{u}_j\,\hat{u}_j^\top\Lambda}{\inner{\hat{u}_j}{\hat{u}_j}} = \sum_{j=1}^{d+1} \frac{u_j\,u_j^\top\Lambda}{\inner{u_j}{u_j}} ~,
+\end{align}
+where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\inner{\hat{u}_j}{\hat{u}_j}=\pm 1$.
+In quantum-mechanical bra--ket notation, this expression for the identity becomes a standard formula in quantum mechanics:
+\begin{align}
+    I &= \sum_{j=1}^d \ketbra{\hat{u}_j}{\hat{u}_j}
+    \\
+    \ket{\hat{u}_j} &\equiv \hat{u}_j
+    \\
+    \bra{\hat{u}_j} &\equiv \frac{1}{\inner{\hat{u}_j}{\hat{u}_j}}\,\hat{u}_j^\top\Lambda ~,
+\end{align}
+where we have taken some liberties in defining the bra $\bra{\hat{u}_j}$, and we remind you that $\inner{\hat{u}_j}{\hat{u}_j}=\pm 1$.
+HOGG: SHOULD WE COMPLETE THE FOLLOWING SENTENCE? In Einstein summation notation, the expression for the identity becomes...
 
-HOGG...Remind the reader of the Einstein summation version, the bra--ket version, but use the linear-algebra version.
+Because the metric is its own inverse, if we right-multiply by the metric, we make a simple expression for the metric $\Lambda$ in terms of the basis vectors:
+\begin{align}
+    \Lambda &= \sum_{j=1}^{d+1} \frac{\hat{u}_j\,\hat{u}_j^\top}{\inner{\hat{u}_j}{\hat{u}_j}} = \sum_{j=1}^{d+1} \frac{u_j\,u_j^\top}{\inner{u_j}{u_j}} ~.
+\end{align}
+This expression is beautifully independent of the signature of the metric (mentioned in \secref{sec:notation}); it works for either signature.
 
 \section{Vector-guided Lorentz transformations}\label{sec:lt}
 
-HOGG...Consider two observers moving through spacetime with 4-momenta $p_1,p_2$.
-What do their coordinate systems look like?
-What are their time axes?
-What are their spatial axes?
+All this work with unit vectors in special relativity is in the service of making coordinate-free expressions for arbitrary Lorentz transformations.
+Consider two observers moving through spacetime.
+One (unprime) is moving with 4-momentum $p$ and the other (prime) is moving with 4-momentum $p'$.
+Each of these observers has a rest frame, and if $\inner{p}{p'}\neq 0$, those two reference frames are different.
+What are the Lorentz transformations between the two reference frames?
+That is, how do I construct transforms $Q\in$~O(1,$d$) that boost $p$ to make it parallel to $p'$, and vice versa?
 
-HOGG...Construct the LT from $p_1, p_2$.
+This problem looks similar to the problem in which we found rotations in O($d$) that align vectors in \secref{sec:od}.
+We first perform two orthonormalizations, one for unprime and one for prime.
+Then we build a Lorentz transformation operator $Q$ in much the same way as we built the rotation-reflection operator previously.
 
-HOGG...Show what you would have written in Einstein summation notation and in bra-ket notation.
+HOGG...FIRST write down the general LT in terms of unit vectors.
+
+HOGG...NOW Construct the particular LT we want from $p, p'$.
+
+HOGG...MAYBE Show what you would have written in Einstein summation notation and in bra-ket notation.
 
 HOGG: FOR EXAMPLE: SHOW A FIGURE AND GIVE THE FORM FOR AN EXAMPLE IN O(1,1).
 
