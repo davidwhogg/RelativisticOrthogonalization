@@ -9,12 +9,14 @@
 % To-do
 % -----
 % - Wrong title.
+% - Finish introduction including contributions and prior work.
 % - Search for all HOGG, SOLE, \cite{} and fix them.
 % - Stronger literature searches.
 % - Do we say v_1,v_2,\ldots,v_n or do we say v_j, 1\leq j\leq n? Decide and flow it through (and add it to style notes).
 % - Discuss the concept of a non-rotated frame. The decomposition between boost and rotation. So there is boost, rotation, time-reversal, and reflection: That's a four-part decomposition.
 % - Discuss the fermi coordinates maybe?
 % - We name-check Ricci calculus at the beginning but never return to it. should we? Hogg says no.
+% - Put boxes around the figures.
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -95,8 +97,16 @@ HOGG...Why are we working on all this? Machine-learning angle.
 
 HOGG...Why are we working on all this? Coordinate-free angle.
 
-\paragraph{Our contribution:}
-We do XXX and we do YYY. Make references to particular equations in particular sections.
+\paragraph{Our contributions:}
+In this \documentname, we make a few new contributions to the discussion of special relativity:
+\begin{itemize}
+\item
+HOGG: We orthogonalize.
+\item
+HOGG: We construct the LT.
+\item
+HOGG: We develop a full analogy with Euclidean geometry.
+\end{itemize}
 
 \paragraph{Prior work:}
 Some of the ideas discussed here have been looked at previously.
@@ -181,14 +191,14 @@ For example: Imagine that we have two complete orthonormal bases in $\mathbb{R}^
 We can now imagine a rotation-reflection operator $Q$ that rotates and reflects any $d$-vector $\Evec{w}$ in the same way that these two bases are rotated and reflected with respect to one another.
 This particular operator $Q$ can be constructed by the following coordinate-free outer-product construction:
 \begin{align}
-    Q &= \sum_{j=1}^d \Ehat{u}'_j\,\Ehat{u}_j^\top ~.
+    Q &= \sum_{j=1}^d \Ehat{u}'_j\,\Ehat{u}_j^\top ~.\label{eq:rotationoperator}
 \end{align}
 That is, rotations and reflections can be specified directly using orthonormal bases, with no explicit reference to any angles.
 In this sense, this form could be thought of as a ``vector-guided'' rotation matrix:
 It is constructed directly from the vectors.
 
 Here's an irrelevant aside:
-If your background is quantum mechanics, then you probably use bra--ket notation.
+If your background is quantum mechanics, then you probably use bra--ket (braket and ketbra) notation.
 For you an inner product is written as a braket $\braket{\Evec{u}}{\Evec{v}}$, and an outer product is written as a ketbra $\ketbra{\Evec{u}}{\Evec{v}}$.
 In this notation, the rotation operator $Q$ can be written 
 \begin{align}
@@ -228,7 +238,7 @@ In $3\plus1$ this is
 There is another possible signature---with $-1$ in the first position and $+1$ thereafter.
 In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature.
 Indeed, this is one of the main reasons to pursue the coordinate-free representations pursued here:
-The coordinate-free representations don't care about the signature of your metric, or any other aspects of your coordinate system.\footnote{It is precisely because the choice of signature doesn't matter that physicists will constantly argue about it. We don't know many physicists who don't have a strong opinion about the signature.}
+The coordinate-free representations don't care about the signature of your metric, or any other aspects of your coordinate system.\footnote{It is precisely because the choice of signature doesn't matter that physicists will constantly argue about it. We don't know many physicists who don't have a strong opinion about the signature. We ourselves have no strong opinion, and our expressions are agnostic to the signature.}
 
 We are going to consider vectors $\Lvec{u}, \Lvec{v}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
 We will call these vectors \emph{$(d\plus1)$-vectors}, and typeset them sanserif with hats (arrows or carrots, depending).
@@ -247,7 +257,7 @@ Contravariant and covariant components are related as follows:
 \end{align}
 where the $\Lambda^{\mu\nu}$ are the components of the metric $\Lambda$.
 The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (\cite{summation}; it is a subset of the Ricci calculus~\cite{ricci}): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
-In quantum-mechanics (bra--ket) notation, a covariant vector is like a bra $\bra{\Lvec{v}}$, and a contravariant vector is like a ket $\ket{\Lvec{v}}$,
+In quantum-mechanics (braket) notation, a covariant vector is like a bra $\bra{\Lvec{v}}$, and a contravariant vector is like a ket $\ket{\Lvec{v}}$,
 an inner product is a braket $\braket{\Lvec{u}}{\Lvec{v}}$, and an outer product (to appear below) is a ketbra $\ketbra{\Lvec{u}}{\Lvec{v}}$.
 
 In linear algebra notation, if we think of $\Lvec{u}$ and $\Lvec{v}$ as being column vectors in $\mathbb{R}^{d+1}$ (or, to be extremely specific, $\mathbb{R}^{(d+1)\times 1}$), then we can write this same inner product as
@@ -303,7 +313,7 @@ In this case, the Lorentz transformations form a one-dimensional family; they ar
     \begin{bmatrix}\gamma & \beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix}  ~\mbox{or}~
     \begin{bmatrix}-\gamma & -\beta\,\gamma \\ -\beta\,\gamma & -\gamma\end{bmatrix} \label{eq:o11}
     \\
-    \gamma &\equiv \frac{1}{\sqrt{1 - \beta^2}} ~ \mbox{and} ~ -1 < \beta < 1
+    \gamma &\equiv \frac{1}{\sqrt{1 - \beta^2}} ~ \mbox{and} ~ -1 < \beta < 1 ~.\nonumber
 \end{align}
 In this simple case, $\beta$ is the dimensionless velocity of the boost, and $\gamma$ is the Lorentz factor.
 The four choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), reversing space (after the boost), and reversing both.\footnote{%
@@ -389,13 +399,13 @@ That is, if you have an orthonormal basis of $d+1$ unit vectors $\Lhat{u}_j$
     I_{d\plus1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\Lambda}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\Lambda}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~,
 \end{align}
 where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
-In quantum-mechanical bra--ket notation, this expression for the identity becomes a standard formula in quantum mechanics:
+In quantum-mechanics (braket) notation, this expression for the identity becomes a standard formula in quantum mechanics:
 \begin{align}
     I_{d\plus1} &= \sum_{j=1}^d \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
     \\
-    \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j
+    \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j\label{eq:Lket}
     \\
-    \bra{\Lhat{u}_j} &\equiv \frac{1}{\inner{\Lhat{u}_j}{\Lhat{u}_j}}\,\Lhat{u}_j^\top\Lambda ~,
+    \bra{\Lhat{u}_j} &\equiv \frac{1}{\inner{\Lhat{u}_j}{\Lhat{u}_j}}\,\Lhat{u}_j^\top\Lambda ~,\label{eq:Lbra}
 \end{align}
 where we have taken some liberties in defining the bra $\bra{\Lhat{u}_j}$, and we remind you that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
 
@@ -415,26 +425,23 @@ Each of these two observers has a rest frame, and if $\Lvec{u}-\Lvec{u}'\neq 0$,
 What are the Lorentz transformations between the two frames?
 That is, how do I construct transforms $Q\in$~O($1,d$) that boost $u$ to make it parallel to $u'$, and vice versa?
 
-HOGG: We first perform two orthonormalizations, one for unprime and one for prime.
-Then we build a Lorentz transformation operator $Q$ in much the same way as we built the rotation-reflection operator previously.
-The issue is that order matters, and we need the timelike vectors to be paired.
-So we start with the $(d\plus1)$-vector velocities in each case.
-The result will align the timelike unit vectors such that $\inner{\Lhat{u}'_i}{\Lhat{u}'_i} = \inner{\Lhat{u}_i}{\Lhat{u}_i}$ for all $i$.
-
-HOGG: With aligned orthonormalizations in hand, this problem looks similar to the problem in which we found rotations in O($d$) that align vectors in \secref{sec:od}.
-The Lorentz transformation is
+The answer is that we augment the $(d\plus1)$-velocity $\Lvec{u}$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}_2,\Lvec{v}_3,\ldots,\Lvec{v}_{d+1}$, and we augment the $(d\plus1)$-velocity $\Lvec{u}'$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}'_2,\Lvec{v}'_3,\ldots,\Lvec{v}'_{d+1}$.
+If you want the Lorentz transformation to have no rotation or reflections, you can set $\Lvec{v}'_k=\Lvec{v}_k$ for all $k>1$.
+Then you orthogonalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonromal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthogonalize the primed vectors, with the input order $\Lvec{u}',\Lvec{v}'_2,\ldots,\Lvec{v}'_{d+1}$, to get orthonromal basis vectors $\Lhat{u}'_1,\Lhat{u}'_2,\ldots,\Lhat{u}'_{d+1}$.
+Armed with these orthonormal basis vectors, the Lorentz transformation $Q$ that boosts from the unprimed frame to the primed frame is simply
 \begin{align}
-    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\Lambda}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~ \mbox{provided that} ~ \inner{\Lhat{u}'_i}{\Lhat{u}'_i} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,
+    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\Lambda}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~ \mbox{provided that} ~ \inner{\Lhat{u}'_j}{\Lhat{u}'_j} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,\label{eq:LT}
 \end{align}
-where the $\inner{\Lhat{u}_j}{\Lhat{u}_j}$ takes care of the sign issues between timelike and spacelike $\Lhat{u}_j$.
+where the inner products $\inner{\Lhat{u}_j}{\Lhat{u}_j}$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$.
+This expression is the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
 
-HOGG...FIRST write down the general LT in terms of unit vectors.
-HOGG: Note that you have to match up the timelike and spacelike vectors.
-HOGG: Note that you should probably start with a timelike vector.
-
-HOGG...NOW Construct the particular LT we want from $\Lvec{u}, \Lvec{u}'$.
-
-HOGG...MAYBE Show what you would have written in Einstein summation notation and in bra-ket notation.
+A few comments about this expression $\eqref{eq:LT}$ for the Lorentz Transformation $Q$ could be the following:
+The orthogonalization returns one timelike and three spacelike vectors;
+provided that these are ordered such that they match; that is, provided that $\inner{\Lhat{u}_k}{\Lhat{u}_k}=\inner{\Lhat{u}'_k}{\Lhat{u}'_k}$ for all $k$, the construction of $Q$ given by \eqref{eq:LT} will be a valid Lorentz transformation.
+If the inputs are ordered such that the first input vector ($v_1$ in the orthogonalization procedure) is timelike, the orthogonalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
+If the first input vector is a $(d\plus1)$-vector velocity $\Lvec{u}$, then the the first output vector $\Lhat{u}_1$ will be identical to the input vector $\Lvec{u}$, since velocities in $(d\plus1)$ have unit magnitude.
+The expression \eqref{eq:LT} is independent of the signature choice (see \secref{sec:notation}).
+Finally, direct calculation will show that the expression \eqref{eq:LT} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transformation.
 
 \begin{figure}[t]
 \includegraphics[width=0.33\textwidth]{L_v.png}%
@@ -450,12 +457,23 @@ The black points transform to the red points under the action of the operator $Q
 The grey points in between are presented to guide the eye; 
 note that they trace out not segments of circles (compare to \figref{fig:Euclid}) but instead segments of hyperbolae.\label{fig:Lorentz}}
 \end{figure}
-This is all demonstrated in \figref{fig:Lorentz}...
+This expression \eqref{eq:LT} is a coordinate-free expression for the Lorentz Transformation, in terms of coordinate basis $(d\plus1)$-vectors.
+This is the main contribution of this \documentname.
+\figref{fig:Lorentz} illustrates the orthogonalizations and the action of the Lorentz transformation so constructed in $(1\plus1)$.
+
+In quantum mechanics (braket and ketbra) notation, the expression for the Lorentz tranformation becomes
+\begin{align}
+    Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~ \mbox{provided that} ~ \braket{\Lhat{u}'_j}{\Lhat{u}'_j} = \braket{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,\label{eq:LT}
+\end{align}
+where we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
+
+In detail, Lorentz transformations can be thought of as compositions of boost, time-reversal, spatial rotation, and spatial reflection operators.
+HOGG: HOW does this manifest in this new construction?
 
 \section{Discussion}\label{sec:discussion}
 
 HOGG: Much of this is very mathematical and theoretical.
-However, the new parameterization of the Lorentz transformation in \secref{sec:lt} is useful and conceptually valuable.
+However, the new parameterization \eqref{eq:LT} of the Lorentz transformation given in \secref{sec:lt} is useful and conceptually valuable.
 
 HOGG: The hacks to fix the orthogonalization in \secref{sec:orth} are unsatisfying. Are there better solutions?
 
