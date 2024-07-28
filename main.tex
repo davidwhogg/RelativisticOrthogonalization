@@ -5,6 +5,7 @@
 % - Use $d\plus1$ for an in-text or wordy d+1, and $d+1$ for an in-equation or mathy $d+1$.
 % - Don't put hyphens in timelike, spacelike, lightlike (null).
 % - Typeset d-vectors and (d+1)-vectors using the macros, not by hand.
+% - Use "~~" to make large separations in math but almost always use "~".
 
 % To-do
 % -----
@@ -56,6 +57,25 @@
 \newcommand{\secref}[1]{Section~\ref{#1}}
 \newcommand{\figref}[1]{Figure~\ref{#1}}
 
+% figure boxes and figure layout
+\usepackage[framemethod=tikz]{mdframed}
+\usetikzlibrary{shadows}
+\definecolor{captiongray}{HTML}{555555}
+\mdfsetup{%
+  innertopmargin=2ex,
+  innerbottommargin=1.8ex,
+  linecolor=captiongray,
+  linewidth=0.5pt,
+  roundcorner=1pt,
+  shadow=false,
+  %shadowcolor=black!05,
+  %hadowsize=4pt
+}
+\newlength{\figurewidth}
+\setlength{\figurewidth}{0.315\textwidth}
+\setlength{\floatsep}{1ex}
+\setlength{\textfloatsep}{1ex}
+
 \title{\bfseries Relativistic orthogonalization and coordinate-free Lorentz transformations}
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
@@ -69,9 +89,9 @@
     Special and general relativity in $d\plus1$ dimensions (our macroscopic Universe is $3\plus1$) can be thought of as metric theories with a metric that isn't positive definite, such that timelike, spacelike, and lightlike (null) vectors have positive, negative, and zero magnitudes.
     These spaces violate of a lot of the intuitions we have about subspaces, inner products, and orthogonality.
     The concept of orthogonalization (Gram--Schmidt, for example) carries over to Lorentz space (Minkowski space), but there are pathologies in which it is possible for the procedure to produce a lightlike vector and thus bork.
-    We describe how to avoid this and successfully orthogonalize any $d\plus1$ linearly independent input vectors; every successful such orthogonalization produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense).
+    We describe how to avoid this and successfully orthogonalize any $d+1$ linearly independent input vectors; every successful such orthogonalization produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense).
     We use these orthogonalizations to construct coordinate-free representations of Lorentz transformations that fix or align particular vectors or subspaces.
-    That is, we effectively present \emph{a new parameterization of the Lorentz transformations} for all $d\plus1$.
+    That is, we effectively present \emph{a new parameterization of the Lorentz transformations} for all Lorentz spaces $d\plus1$.
     As in many areas of physics, important aspects of relativity get simpler when we think of the theory in terms of vectors and coordinate-free forms built therefrom.
 \end{abstract}
 
@@ -93,9 +113,12 @@ In the context of group theory, the word ``equivariant'' means the following:
 If you rotate, reflect, or boost the space, all of the predictions of the theory rotate, reflect, and boost appropriately to match.
 What group theorists call ``equivariance'', physicists call ``covariance'' or ``symmetry''.
 
-HOGG...Why are we working on all this? Machine-learning angle.
-
-HOGG...Why are we working on all this? Coordinate-free angle.
+In some sense, the discovery of special relativity was the beginning of the discovery that physics can be stated in a coordinate-free form.
+That is, one does not need to specify a coordinate system in order to explain the physical behavior of a system.
+Sometimes a coordinate system is useful.
+But it is often not \emph{required}.
+In the special relativity literature, the Lorentz transformations are almost always expressed in a particular coordinate system, aligned with the boost direction (see, eg \cite{foo})
+Here we develop completely coordinate-free expressions for these operators in special relativity; our expressions depend on the change of velocity between the two frames, but not on the coordinate system in which this is expressed.
 
 \paragraph{Our contributions:}
 In this \documentname, we make a few new contributions to the discussion of special relativity:
@@ -132,9 +155,9 @@ We sequentially construct orthogonal vectors $\Evec{u}_1,\Evec{u}_2,\ldots,\Evec
 \begin{align}
     \Evec{u}_1 &\leftarrow \Evec{v}_1 \label{eq:ogs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~ \Evec{u}_j &\leftarrow \Evec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Evec{v}_j}{\Evec{u}_k}}{\inner{\Evec{u}_k}{\Evec{u}_k}}\,\Evec{u}_k \label{eq:ogs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Evec{u}_j &\leftarrow \Evec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Evec{v}_j}{\Evec{u}_k}}{\inner{\Evec{u}_k}{\Evec{u}_k}}\,\Evec{u}_k \label{eq:ogs2}
     \\
-    \mbox{then for each $j$ ($1\leq j\leq n$):} ~ \Ehat{u}_j &\leftarrow \frac{1}{\sqrt{\inner{\Evec{u}_j}{\Evec{u}_j}}}\,\Evec{u}_j ~. \label{eq:ogs3}
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Ehat{u}_j &\leftarrow \frac{1}{\sqrt{\inner{\Evec{u}_j}{\Evec{u}_j}}}\,\Evec{u}_j ~. \label{eq:ogs3}
 \end{align}
 Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$ into a different order, the orthogonalization will return different specific basis unit vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$.
 However, all the different possible returned bases (under permutations of the $\Evec{v}_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
@@ -193,9 +216,10 @@ This particular operator $Q$ can be constructed by the following coordinate-free
 \begin{align}
     Q &= \sum_{j=1}^d \Ehat{u}'_j\,\Ehat{u}_j^\top ~.\label{eq:rotationoperator}
 \end{align}
-That is, rotations and reflections can be specified directly using orthonormal bases, with no explicit reference to any angles.
+That is, rotations and reflections can be specified directly using orthonormal bases, with no explicit reference to any angles or coordinates.
 In this sense, this form could be thought of as a ``vector-guided'' rotation matrix:
-It is constructed directly from the vectors.
+It is constructed directly from the vectors, and independent of how those vectors are represented.
+It is therefore coordinate-free.
 
 Here's an irrelevant aside:
 If your background is quantum mechanics, then you probably use bra--ket (braket and ketbra) notation.
@@ -207,15 +231,17 @@ In this notation, the rotation operator $Q$ can be written
 which looks just like a change-of-basis operator in quantum mechanics (see, for example,~\cite{quantumtextbook}).
 
 \begin{figure}[t]
-\includegraphics[width=0.33\textwidth]{E_v.png}%
-\includegraphics[width=0.33\textwidth]{E_vp.png}%
-\includegraphics[width=0.33\textwidth]{E_Q.png}
+\begin{mdframed}
+\includegraphics[width=\figurewidth]{E_v.png}%
+\includegraphics[width=\figurewidth]{E_vp.png}%
+\includegraphics[width=\figurewidth]{E_Q.png}
 \caption{A demonstration of orthogonalization and rotation in Euclidean 2-dimensional space O(2).
     \textsl{Left:} Two 2-vectors $\Evec{v}_1, \Evec{v}_2$ and the corresponding orthonormal 2-vectors $\Ehat{u}_1, \Ehat{u}_2$ obtained by the orthogonalization procedure.
 \textsl{Middle:} A different two vectors $\Evec{v}'_1, \Evec{v}'_2$ and the corresponding orthonormal vectors $\Ehat{u}'_1, \Ehat{u}'_2$.
 \textsl{Right:} The action of the rotation operator $Q$ generated from the orthonomal pairs $\Ehat{u}_1, \Ehat{u}_2$ and $\Ehat{u}'_1, \Ehat{u}'_2$.
 The black points rotate to the red points under the action of the operator $Q$.
 The grey points in between are presented to guide the eye.\label{fig:Euclid}}
+\end{mdframed}
 \end{figure}
 The result of orthogonalization of two pairs of 2-vectors in O(2) ($d=2$) is shown in \figref{fig:Euclid}.
 Also shown in \figref{fig:Euclid} is the action of the rotation operator $Q$ derived from the basis vectors generated by those two orthogonalizations.
@@ -239,6 +265,7 @@ There is another possible signature---with $-1$ in the first position and $+1$ t
 In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature.
 Indeed, this is one of the main reasons to pursue the coordinate-free representations pursued here:
 The coordinate-free representations don't care about the signature of your metric, or any other aspects of your coordinate system.\footnote{It is precisely because the choice of signature doesn't matter that physicists will constantly argue about it. We don't know many physicists who don't have a strong opinion about the signature. We ourselves have no strong opinion, and our expressions are agnostic to the signature.}
+The signature of the metric will only come up in our definitions of ``timelike'' \eqref{eq:timelike}, ``lightlike'' \eqref{eq:lightlike}, and ``spacelike'' \eqref{eq:spacelike} below.
 
 We are going to consider vectors $\Lvec{u}, \Lvec{v}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
 We will call these vectors \emph{$(d\plus1)$-vectors}, and typeset them sanserif with hats (arrows or carrots, depending).
@@ -247,7 +274,7 @@ Old-school relativists tend to write the relativistic inner product $\inner{\Lve
 \begin{align}
     \inner{\Lvec{u}}{\Lvec{v}} &= \Lvec{u}^\mu\,\Lvec{v}_\mu = \Lvec{v}^\mu\,\Lvec{u}_\mu ~,
 \end{align}
-where $\mu$ is a component index\footnote{In this \documentname{}, greek indexes like $\mu$, $\nu$ will be indexes over vector components (going from 1 to 4 in $3\plus1$, for example), and roman indexes like $i$, $j$ will be indexes over vectors or other things.} going from 1 to $d\plus1$, and the repeated index is (implicitly) summed.
+where $\mu$ is a component index\footnote{In this \documentname{}, greek indexes like $\mu$, $\nu$ will be indexes over vector components (going from 1 to 4 in $3\plus1$, for example), and roman indexes like $i$, $j$ will be indexes over vectors or other things.} going from 1 to $d+1$, and the repeated index is (implicitly) summed.
 The $\Lvec{u}^\mu$ is a contravariant vector component and the $\Lvec{v}_\mu$ is a covariant vector component.
 Contravariant and covariant components are related as follows:
 \begin{align}
@@ -324,12 +351,13 @@ But in what follows we are going to develop \emph{coordinate-free forms} for the
 
 Finally we remark that---because the metric is non-positive-definite---a nonzero $(d\plus1)$-vector $\Lvec{v}$ can come in three forms, \emph{timelike}, \emph{spacelike}, or \emph{lightlike} (sometimes \emph{null}):
 \begin{align}
-    \Lvec{v} ~ \mbox{is timelike}  &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} > 0 \\
-    \Lvec{v} ~ \mbox{is lightlike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} = 0 \\
-    \Lvec{v} ~ \mbox{is spacelike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} < 0 ~.
+    \Lvec{v} ~ \mbox{is timelike}  &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} > 0 \label{eq:timelike}\\
+    \Lvec{v} ~ \mbox{is lightlike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} = 0 \label{eq:lightlike}\\
+    \Lvec{v} ~ \mbox{is spacelike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} < 0 ~.\label{eq:spacelike}
 \end{align}
-(Technically, these definitions depend on the signature you chose for your metric; you would use the opposite language if you chose the opposite signature; see \secref{sec:notation}.)
-Because Lorentz transformations $Q\in$~O($1,d$) preserve inner products, you can't Lorentz transform a vector from any one of these three categories to any other of these categories; the category is a Lorentz invariant property of the $(d\plus1)$-vector.
+Technically, these definitions depend on the signature you chose for your metric; you would use the opposite language if you chose the opposite signature.
+This is the only point in this \documentname{} that depends on the signature; everything else is agnostic to signature.
+Because Lorentz transformations $Q\in$~O($1,d$) preserve inner products, you can't Lorentz transform a vector from any one of these three categories (timelike, lightlike, or spacelike) to any other of these categories; the category is a Lorentz invariant property of the $(d\plus1)$-vector.
 
 \section{Relativistic orthogonalization}\label{sec:orth}
 
@@ -352,15 +380,15 @@ If these vectors are randomly generated, then with high probability the straight
 \begin{align}
     \Lvec{u}_1 &\leftarrow \Lvec{v}_1 \label{eq:rgs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~ \Lvec{u}_j &\leftarrow \Lvec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Lvec{v}_j}{\Lvec{u}_k}}{\inner{\Lvec{u}_k}{\Lvec{u}_k}}\,\Lvec{u}_k \label{eq:rgs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Lvec{u}_j &\leftarrow \Lvec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Lvec{v}_j}{\Lvec{u}_k}}{\inner{\Lvec{u}_k}{\Lvec{u}_k}}\,\Lvec{u}_k \label{eq:rgs2}
     \\
-    \mbox{then for each $j$ ($1\leq j\leq n$):} ~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\inner{\Lvec{u}_j}{\Lvec{u}_j}|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\inner{\Lvec{u}_j}{\Lvec{u}_j}|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
 \end{align}
 where we had to insert an absolute value inside the square-root operation because negative inner products will appear.
 We're done. \emph{Ta-da!}
 But we aren't really done, because the iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if the procedure accidentally produces a lightlike vector $\Lvec{u}_j$ for some $j$.
 
-In principle (and in practice if your context is adversarial), the orthogonalization procedure in \eqref{eq:rgs1} and \eqref{eq:rgs2} can produce a lightlike vector.
+In principle (and in practice if your context is adversarial), the orthogonalization procedure in \eqref{eq:rgs2} can produce a lightlike vector.
 If you start with $n$ linearly independent $(d\plus1)$-vectors $\Lvec{v}_j$, ($1\leq j\leq n$), begin the orthogonalization procedure, and then at some $j$ produce a lightlike $\Lvec{u}_j$, here are the strategies:
 \begin{enumerate}
 \item If all your input vectors $\Lvec{v}_j$ are lightlike, then by construction, $\Lvec{u}_1$ will be lightlike.
@@ -401,7 +429,7 @@ That is, if you have an orthonormal basis of $d+1$ unit vectors $\Lhat{u}_j$
 where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
 In quantum-mechanics (braket) notation, this expression for the identity becomes a standard formula in quantum mechanics:
 \begin{align}
-    I_{d\plus1} &= \sum_{j=1}^d \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
+    I_{d\plus1} &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
     \\
     \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j\label{eq:Lket}
     \\
@@ -419,23 +447,24 @@ This expression is beautifully independent of the signature of the metric (menti
 
 All this work with orthonormal $(d\plus1)$-vectors in special relativity is in the service of making a coordinate-free expression for the Lorentz transformation.
 Consider two observers moving through spacetime.
-One (unprime) is moving with $(d\plus1)$-velocity $\Lvec{u}$ and the other (prime) is moving with $(d\plus1)$-velocity $\Lvec{u}'$.
-It is a property of any $(d\plus1)$-velocity that it is timelike, and that it has norm 1 (it is a unit vector), so we could have called these two $(d\plus1)$-vector velocities $\Lhat{u}$ and $\Lhat{u}'$.
+One (unprime) is moving with $(d\plus1)$-vector velocity $\Lvec{u}$ and the other (prime) is moving with $(d\plus1)$-vector velocity $\Lvec{u}'$.
+It is a property of any $(d\plus1)$-vector velocity that it is timelike, and that it has norm 1 (it is a unit vector), so we could have called these two $(d\plus1)$-vector velocities $\Lhat{u}$ and $\Lhat{u}'$.
 Each of these two observers has a rest frame, and if $\Lvec{u}-\Lvec{u}'\neq 0$, those two rest frames are different.
 What are the Lorentz transformations between the two frames?
 That is, how do I construct transforms $Q\in$~O($1,d$) that boost $u$ to make it parallel to $u'$, and vice versa?
 
-The answer is that we augment the $(d\plus1)$-velocity $\Lvec{u}$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}_2,\Lvec{v}_3,\ldots,\Lvec{v}_{d+1}$, and we augment the $(d\plus1)$-velocity $\Lvec{u}'$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}'_2,\Lvec{v}'_3,\ldots,\Lvec{v}'_{d+1}$.
-If you want the Lorentz transformation to have no rotation or reflections, you can set $\Lvec{v}'_k=\Lvec{v}_k$ for all $k>1$.
+The answer is that we augment the $(d\plus1)$-vector velocity $\Lvec{u}$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}_2,\Lvec{v}_3,\ldots,\Lvec{v}_{d+1}$, and we augment the $(d\plus1)$-vector velocity $\Lvec{u}'$ with $d$ additional $(d\plus1)$-vectors $\Lvec{v}'_2,\Lvec{v}'_3,\ldots,\Lvec{v}'_{d+1}$.
+If you want the Lorentz transformation to have no rotation or reflections, you can set $\Lvec{v}'_k=\Lvec{v}_k$ for all $k\geq 2$.
 Then you orthogonalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonromal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthogonalize the primed vectors, with the input order $\Lvec{u}',\Lvec{v}'_2,\ldots,\Lvec{v}'_{d+1}$, to get orthonromal basis vectors $\Lhat{u}'_1,\Lhat{u}'_2,\ldots,\Lhat{u}'_{d+1}$.
 Armed with these orthonormal basis vectors, the Lorentz transformation $Q$ that boosts from the unprimed frame to the primed frame is simply
 \begin{align}
-    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\Lambda}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~ \mbox{provided that} ~ \inner{\Lhat{u}'_j}{\Lhat{u}'_j} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,\label{eq:LT}
+    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\Lambda}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'_j}{\Lhat{u}'_j} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,\label{eq:LT}
 \end{align}
 where the inner products $\inner{\Lhat{u}_j}{\Lhat{u}_j}$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$.
-This expression is the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
+This expression is coordinate-free.
+It is also the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
 
-A few comments about this expression $\eqref{eq:LT}$ for the Lorentz Transformation $Q$ could be the following:
+A few comments about expression $\eqref{eq:LT}$ for the Lorentz Transformation $Q$ could be the following:
 The orthogonalization returns one timelike and three spacelike vectors;
 provided that these are ordered such that they match; that is, provided that $\inner{\Lhat{u}_k}{\Lhat{u}_k}=\inner{\Lhat{u}'_k}{\Lhat{u}'_k}$ for all $k$, the construction of $Q$ given by \eqref{eq:LT} will be a valid Lorentz transformation.
 If the inputs are ordered such that the first input vector ($v_1$ in the orthogonalization procedure) is timelike, the orthogonalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
@@ -444,9 +473,10 @@ The expression \eqref{eq:LT} is independent of the signature choice (see \secref
 Finally, direct calculation will show that the expression \eqref{eq:LT} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transformation.
 
 \begin{figure}[t]
-\includegraphics[width=0.33\textwidth]{L_v.png}%
-\includegraphics[width=0.33\textwidth]{L_vp.png}%
-\includegraphics[width=0.33\textwidth]{L_Q.png}
+\begin{mdframed}
+\includegraphics[width=\figurewidth]{L_v.png}%
+\includegraphics[width=\figurewidth]{L_vp.png}%
+\includegraphics[width=\figurewidth]{L_Q.png}
 \caption{A demonstration of orthogonalization and rotation in Lorentz $1\plus1$-dimensional space O(1,1).
 The time coordinate (the first coordinate) is plotted on the vertical axis and the space coordinate (the second coordinate) is plotted on the horizontal axis.
 \textsl{Left:} Two $(1\plus1)$-vectors $\Lvec{v}_1, \Lvec{v}_2$ and the corresponding orthonormal vectors $\Lhat{u}_1, \Lhat{u}_2$ obtained by the orthogonalization procedure.
@@ -456,6 +486,7 @@ Note that orthonormal vectors in $1\plus1$ neither look orthogonal nor normalize
 The black points transform to the red points under the action of the operator $Q$.
 The grey points in between are presented to guide the eye; 
 note that they trace out not segments of circles (compare to \figref{fig:Euclid}) but instead segments of hyperbolae.\label{fig:Lorentz}}
+\end{mdframed}
 \end{figure}
 This expression \eqref{eq:LT} is a coordinate-free expression for the Lorentz Transformation, in terms of coordinate basis $(d\plus1)$-vectors.
 This is the main contribution of this \documentname.
@@ -463,12 +494,23 @@ This is the main contribution of this \documentname.
 
 In quantum mechanics (braket and ketbra) notation, the expression for the Lorentz tranformation becomes
 \begin{align}
-    Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~ \mbox{provided that} ~ \braket{\Lhat{u}'_j}{\Lhat{u}'_j} = \braket{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,\label{eq:LT}
+    Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \braket{\Lhat{u}'_j}{\Lhat{u}'_j} = \braket{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,
 \end{align}
 where we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 
-In detail, Lorentz transformations can be thought of as compositions of boost, time-reversal, spatial rotation, and spatial reflection operators.
-HOGG: HOW does this manifest in this new construction?
+In detail, any Lorentz transformation can be thought of as being a composition of a boost, a time-reversal, a spatial rotation, and a spatial reflection.
+Often when we discuss Lorentz transformations, we want transformations that are boost only.
+The procedure above delivers a boost-only transformation when the two lists of $(d\plus1)$-vectors to be orthogonalized are identical except for the first elements, which are both timelike.
+Spatial rotations and reflections can be introduced by modifying the two lists of $(d\plus1)$-vectors that follow the first (timelike) elements.
+The full discussion of all these options is beyond our scope here.
+
+The oddest kind of Lorentz transformation is one that reverses time time direction.
+We don't recommend making such transformations, but they are permitted here.
+These can be constructed by multiplying one of the input $(d+1)$-vector velocities (either $\Lvec{u}$ or $\Lvec{u}'$) by $-1$ before starting the orthogonalization.
+
+Finally, a user of this method for constructing the Lorentz transformation, a user who has two $(d\plus1)$-vector velocities $\Lvec{u}$ and $\Lvec{u}'$ and just wants a transformation $Q$, might ask: ``What should I use for the additional $(d\plus1)$-vectors $\Lvec{v}_2$ through $\Lvec{v}_{d+1}$?
+Our advice, if nothing else is natural, is to use the $d$ spatial unit vectors $\Lhat{u}_2$ through $\Lhat{u}_{d+1}$ that point along the $d$ spatial coordinate axes in one of the original two frames.
+That will always work, and never produce any lightlike vector in the orthogonalization procedure.
 
 \section{Discussion}\label{sec:discussion}
 
