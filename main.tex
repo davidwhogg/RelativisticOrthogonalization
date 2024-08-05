@@ -9,24 +9,19 @@
 
 % To-do
 % -----
-% - Wrong title?
-% - This paper is relevant, maybe? https://arxiv.org/abs/1103.1072
-% - This paper is relevant, maybe? If only to criticize? https://arxiv.org/abs/2312.12969
-% - Finish introduction including contributions and prior work.
-% - Search for all HOGG, SOLE, \cite{} and fix them.
 % - Stronger literature searches.
-% - Do we say v_1,v_2,\ldots,v_n or do we say v_j, 1\leq j\leq n? Decide and flow it through (and add it to style notes).
-% - Discuss the concept of a non-rotated frame. The decomposition between boost and rotation. So there is boost, rotation, time-reversal, and reflection: That's a four-part decomposition.
-% - Discuss the fermi coordinates maybe?
-% - We name-check Ricci calculus at the beginning but never return to it. should we? Hogg says no.
-% - Put boxes around the figures.
+% - This paper is relevant, maybe? https://arxiv.org/abs/1103.1072
+% - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
+% - Should we prove things? SOLE, do you have opinions? HOGG would love to put in some Definitions, Proofs, and Lemmas!
+% - Search for all HOGG, SOLE, \cite{} and fix them.
+% - This paper is too long! It only says a few things. Try to tighten it up.
+% - Where to submit? Maybe European Journal of Physics? (Open Access) or American Journal of Physics? (Maybe higher impact?)
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage{biblatex}
-\addbibresource{sr.bib}
-\graphicspath{{./notebooks/}}
+
+% linx
+\usepackage[hidelinks]{hyperref}
 
 % math definitions
 \newcommand{\metric}{\mathsf{H}}
@@ -37,6 +32,7 @@
 \newcommand{\Ehat}[1]{{\mathbf{\hat{#1}}}} % d-vector unit vector
 \newcommand{\Lvec}[1]{\upvec{\mathsf{#1}}} % (d+1)-vector
 \newcommand{\Lhat}[1]{\hat{\mathsf{#1}}} % (d+1)-vector unit vector
+\newcommand{\Lblank}[1]{\mathsf{#1}} % (d+1)-vector unit vector
 \newcommand{\inner}[2]{\langle{#1}\,,{#2}\rangle}
 \newcommand{\bra}[1]{\langle\,{#1}\,|}
 \newcommand{\ket}[1]{|\,{#1}\,\rangle}
@@ -61,6 +57,8 @@
 \newcommand{\figref}[1]{Figure~\ref{#1}}
 
 % figure boxes and figure layout
+\usepackage{graphicx}
+\graphicspath{{./notebooks/}}
 \usepackage[framemethod=tikz]{mdframed}
 \usetikzlibrary{shadows}
 \definecolor{captiongray}{HTML}{555555}
@@ -79,22 +77,27 @@
 \setlength{\floatsep}{1ex}
 \setlength{\textfloatsep}{1ex}
 
-\title{\bfseries Relativistic orthogonalization and coordinate-free Lorentz transformations}
+% delete me:
+\usepackage{xcolor}
+\newcommand{\SOLE}[1]{\textcolor{purple}{\textsl{SOLE says: {#1}}}}
+\newcommand{\HOGG}[1]{\textcolor{violet}{\textsl{HOGG says: {#1}}}}
+
+\title{\bfseries Relativistic orthonormalization and coordinate-free Lorentz transformations}
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{incomplete draft as of 2024 August 03}
+\date{draft as of 2024 August 04}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
 
 \begin{abstract}\noindent
-    Special and general relativity in $d\plus1$ dimensions (our macroscopic Universe is $3\plus1$) can be thought of as metric theories with a metric that isn't positive definite, such that timelike, spacelike, and lightlike (null) vectors have positive, negative, and zero magnitudes.
-    These spaces violate of a lot of the intuitions we have about subspaces, inner products, and orthogonality.
-    The concept of orthogonalization (Gram--Schmidt, for example) carries over to Lorentz space (Minkowski space), but there are pathologies in which it is possible for the procedure to produce a lightlike vector and thus bork.
+    Special and general relativity in $d\plus1$ spacetime dimensions (our macroscopic Universe is $3\plus1$) can be thought of as metric theories with a metric that isn't positive definite, such that timelike, spacelike, and lightlike (null) vectors have positive, negative, and zero magnitudes.
+    These spacetimes violate of a lot of the intuitions we have about subspaces, inner products, and orthogonality.
+    The concept of orthonormalization (Gram--Schmidt, for example) carries over to Lorentz space (Minkowski space), but there are pathologies in which it is possible for the procedure to produce a lightlike vector and thus bork.
     We describe how to avoid this and successfully orthogonalize any $d+1$ linearly independent input vectors; every successful such orthogonalization produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense).
     We use this orthogonalization to construct coordinate-free representations of Lorentz transformations that fix or align particular vectors or subspaces.
-    That is, we effectively present \emph{a new parameterization of the Lorentz transformations} for all Lorentz spaces $d\plus1$ (or even $d\plus s$).
+    That is, we effectively present \emph{a new parameterization of all possible Lorentz transformations} for all $d\plus1$ spacetimes (or even $d\plus s$).
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -119,27 +122,30 @@ In some sense, the discovery of special relativity was the beginning of the disc
 That is, one does not need to specify a coordinate system in order to explain the physical behavior of a system.
 Sometimes a coordinate system is useful.
 But it is usually not \emph{required}.
-In the special relativity literature, the Lorentz transformations are almost always expressed in a particular coordinate system, aligned with the boost direction (see, eg \cite{foo})
+In the special-relativity literature, the Lorentz transformations are almost always expressed in a particular coordinate system, aligned with the boost direction (see, eg, \cite{french, zakamska} or just about any other textbook on the subject)
 Here we develop completely coordinate-free expressions for these operators in special relativity; our expressions depend on the change of velocity between the two frames, but not on the coordinate system in which this is expressed.
 
 \paragraph{Our contributions:}
-In this \documentname, we make a few new contributions to the discussion of special relativity:
+In this \documentname, we make two new contributions to the discussion of special relativity:
 \begin{itemize}
 \item
-HOGG: We orthogonalize, and make recommendations to avoid pathologies.
+We deliver (in \secref{sec:orth}) the relativistic (Minkowski or Lorentz or space-time) generalization of Gram--Schmidt orthonormalization.
+The only substantive differences between Lorentz orthonormalization and the standard Euclidean orthonormalization are that the inner product of a vector with itself can be negative (!), and that, even if the input vectors are linearly independent, it is possible to get zero-norm vectors after orthogonalization.
+Both of these issues flow from the fact that the metric is not positive-definite.
+We deliver recommendations to avoid or respond to any zero-norm vectors that appear in the orthogonalization.
 \item
-HOGG: We construct the LT as a sum of outer products.
-\item
-HOGG: We develop a full analogy with Euclidean geometry.
+We use the output of orthonormalization to produce (in \secref{sec:lt}) a new parameterization or new form for the Lorentz transformation, which transforms the coordinates of events between two reference frames.
+This new form is coordinate-free, created directly out of the coordinate-basis unit vectors describing the two frames.
+It is analogous to the coordinate-free form for a Euclidean rotation matrix, but with modifications to account for the non-positive-definite properties of the metric.
 \end{itemize}
 
 \paragraph{Prior work:}
 Some of the ideas discussed here have been looked at previously.
 In particular, orthogonalization in special relativity is addressed in~\cite{joot}.
 However, that previous work does not deal with the pathologies that can arise when orthogonalization is performed on arbitrary collections of vectors.
-Coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals (HOGG CHECK THIS).
+Coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals (\HOGG{CHECK THIS}).
 
-\section{Orthogonalization, projection, and rotation in O($d$)}\label{sec:od}
+\section{Review of operations in Euclidean spaces}\label{sec:od}
 
 Before we consider special relativity, it is worth reviewing how an orthogonalization is performed, and how projection and rotation operators are constructed, in ordinary Euclidean space with an ordinary Euclidean metric.
 In standard $d$-dimensional space, with the standard Euclidean metric (the identity), containing vectors governed by the standard orthogonal group O($d$), inner products (scalar products) of vectors are defined as follows:
@@ -148,7 +154,7 @@ Given two column vectors $\Evec{u},\Evec{v}\in\mathbb{R}^d$ (or, more specifical
     \inner{\Evec{u}}{\Evec{v}} &\equiv \Evec{u}^\top \Evec{v} = \Evec{v}^\top \Evec{u} ~.
 \end{align}
 Two vectors $\Evec{u},\Evec{v}$ are considered orthogonal if their inner product vanishes, or $\inner{\Evec{u}}{\Evec{v}}=0$.
-In Euclidean space, we will call these vectors \emph{$d$-vectors} and typeset them bold.
+In Euclidean space, we will call these vectors ``$d$-vectors'' and typeset them bold.
 
 Imagine that we are given a collection of $n\leq d$ linearly independent $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$,
 and we want to construct orthonormal basis vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$ that span the linear subspace spanned by the vectors $\Evec{v}_j$.
@@ -185,8 +191,8 @@ They are coordinate-free in the sense that they are stated just in terms of the 
 Or, equivalently, we didn't have to specify my coordinate system when we constructed them; we only had to specify the vectors that span the subspace.
 
 These aren't the only kinds of operators that can be written in this coordinate-free form.
-It is also possible to write any rotation-reflection operator $R$ in a coordinate-free form.
-First a definition: A matrix $R\in\mathbb{R}^{d\times d}$ is a rotation-reflection operator in the orthogonal group O($d$) if the operator preserves all inner products (scalar products).
+It is also possible to write any rotation--reflection operator $R$ in a coordinate-free form.
+First a definition: A matrix $R\in\mathbb{R}^{d\times d}$ is a rotation--reflection operator in the orthogonal group O($d$) if the operator preserves all inner products (scalar products).
 That is,
 \begin{equation}
     R \in \mbox{O($d$)} ~ \mbox{if and only if} ~ \inner{\Evec{u}}{\Evec{v}}=\inner{R\,\Evec{u}}{R\,\Evec{v}} ~ \mbox{for all $\Evec{u},\Evec{v}$ in $\mathbb{R}^d$} ~.\label{eq:orth1}
@@ -195,7 +201,7 @@ This, in turn, will be true if and only if $R$ is a square root of the identity:
 \begin{equation}
     R \in \mbox{O($d$)} ~ \mbox{if and only if} ~ R^\top R=I_d ~.\label{eq:orth2}
 \end{equation}
-We call $R$ a rotation-reflection operator because the group encompasses all rotations, all reflections, and all combinations of rotations and reflections.
+We call $R$ a rotation--reflection operator because the group encompasses all rotations, all reflections, and all combinations of rotations and reflections.
 
 For example, the simplest (interesting) orthogonal space is $O(2)$. In this case the operators form a one-dimensional family; they are all of the form
 \begin{align}
@@ -213,7 +219,7 @@ Now how do we construct general coordinate-free forms for the operators $R$?
 Usually they are given in terms of sines and cosines of rotation angles, plus sign flips, as they are in \eqref{eq:o2}.
 However, there are coordinate-free forms.
 For example: Imagine that we have two complete orthonormal bases in $\mathbb{R}^d$, $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_d$ and $\Ehat{u}'_1,\Ehat{u}'_2,\ldots,\Ehat{u}'_d$.
-We can now imagine a rotation-reflection operator $R$ that rotates and reflects any $d$-vector $\Evec{w}$ in the same way that these two bases are rotated and reflected with respect to one another.
+We can now imagine a rotation--reflection operator $R$ that rotates and reflects any $d$-vector $\Evec{w}$ in the same way that these two bases are rotated and reflected with respect to one another.
 This particular operator $R$ can be constructed by the following coordinate-free outer-product construction:
 \begin{align}
     R &= \sum_{j=1}^d \Ehat{u}'_j\,\Ehat{u}_j^\top ~.\label{eq:rotationoperator}
@@ -222,16 +228,16 @@ That is, rotations and reflections can be specified directly using orthonormal b
 In this sense, this form could be thought of as a ``vector-guided'' rotation matrix:
 It is constructed directly from the vectors, and independent of how those vectors are represented.
 It is therefore coordinate-free.
-In case it is unfamiliar, this form \eqref{eq:rotationoperator} for transformation operators is advocated for and used in, eg, \cite{kusse}.
+In case it is unfamiliar, this form \eqref{eq:rotationoperator} for transformation operators is advocated for and used in, eg, \HOGG{Sole can you help here? I can't find any clear textbook use of this form for the rotation operator. If this is novel, which it most certainly is not, then we can prove something here?}
 
 Here's an irrelevant aside:
-If your background is quantum mechanics, then you probably use bra--ket (braket and ketbra) notation.
+If your background is quantum mechanics, then you probably use bra--ket (braket and ketbra) notation \cite{dirac}.
 For you an inner product is written as a braket $\braket{\Evec{u}}{\Evec{v}}$, and an outer product is written as a ketbra $\ketbra{\Evec{u}}{\Evec{v}}$.
-In this notation, the rotation-reflection operator $R$ can be written 
+In this notation, the rotation--reflection operator $R$ can be written 
 \begin{align}
     R &= \sum_{j=1}^d \ketbra{\Ehat{u}'_j}{\Ehat{u}_j} ~,
 \end{align}
-which looks just like a change-of-basis operator in quantum mechanics (see, for example,~\cite{quantumtextbook}).
+which looks like a change-of-basis operator in quantum mechanics.
 
 \begin{figure}[t]
 \begin{mdframed}
@@ -255,7 +261,7 @@ There is a history of notation in special and general relativity.
 Here we deliver a translation from traditional Einstein summation notation, and traditional language about boost, to a more linear-algebra-oriented notation.
 After this Section, we will be using exclusively the linear-algebra notation, which is simpler (for us).
 
-In Lorentz or Minkowski space, we think of there being a metric $\metric$ (often called $g_{\mu\nu}$), which is a $(d\plus1)\times(d\plus1)$ matrix that is \emph{not} positive definite.
+In Lorentz or Minkowski space, we think of there being a metric $\metric$ (often called $g^{\mu\nu}$ or $\eta^{\mu\nu}$ or $\eta$), which is a $(d\plus1)\times(d\plus1)$ matrix that is \emph{not} positive definite.
 The metric $\metric$ is diagonal with $+1$ in the first position and $-1$ repeated on all the remaining $d$ diagonal elements.
 In $3\plus1$ this is
 \begin{align}\label{eq:sig}
@@ -266,27 +272,28 @@ In $3\plus1$ this is
 \end{align}
 There is another possible signature---with $-1$ in the first position and $+1$ thereafter.
 In this \documentname{} we choose the signature illustrated in \eqref{eq:sig}; nothing significant in our discussion changes if you choose the opposite signature.
-Indeed, this is one of the main reasons to pursue the coordinate-free representations pursued here:
+Indeed, this is one of the main reasons to pursue a coordinate-free formulation of special relativity:
 The coordinate-free representations don't care about the signature of your metric, or any other aspects of your coordinate system.\footnote{It is precisely because the choice of signature doesn't matter that physicists will constantly argue about it. We don't know many physicists who don't have a strong opinion about the signature. We ourselves have no strong opinion, and our expressions are agnostic to the signature.}
 The signature of the metric will only come up in our definitions of ``timelike'' \eqref{eq:timelike}, ``lightlike'' \eqref{eq:lightlike}, and ``spacelike'' \eqref{eq:spacelike} below.
 
-The metric we have described is the metric for $d\plus 1$.
+The metric we have described is the metric for $d\plus 1$ spacetime.
 In $d\plus s$ the diagonal of the metric has $s$ values set to $+1$ and $d$ values set to $-1$ (or the opposite for the opposite signature).
 
-We are going to consider vectors $\Lvec{u}, \Lvec{v}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
-We will call these vectors \emph{$(d\plus1)$-vectors}, and typeset them sanserif with hats (arrows or carets, depending).
+We are going to consider vectors $\Lvec{u}, \Lvec{v}, \Lvec{w}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
+We will call these vectors ``$(d\plus1)$-vectors'', and typeset them sanserif with hats (arrows or carets, depending).
 
 Old-school relativists tend to write the relativistic inner product $\inner{\Lvec{u}}{\Lvec{v}}\in\mathbb{R}$ (the scalar product or Minkowski inner product) between two $(d\plus1)$-vectors $\Lvec{u}$ and $\Lvec{v}$ as
 \begin{align}
-    \inner{\Lvec{u}}{\Lvec{v}} &= \Lvec{u}^\mu\,\Lvec{v}_\mu = \Lvec{v}^\mu\,\Lvec{u}_\mu ~,
+    \inner{\Lvec{u}}{\Lvec{v}} &= \Lblank{u}^\mu\,\Lblank{v}_\mu = \Lblank{v}^\mu\,\Lblank{u}_\mu ~,
 \end{align}
-where $\mu$ is a component index\footnote{In this \documentname{}, greek indexes like $\mu$, $\nu$ will be indexes over vector components (going from 1 to 4 in $3\plus1$, for example), and roman indexes like $i$, $j$ will be indexes over vectors or other things.} going from 1 to $d+1$, and the repeated index is (implicitly) summed.
-The $\Lvec{u}^\mu$ is a contravariant vector component and the $\Lvec{v}_\mu$ is a covariant vector component.
+where $\mu$ is a component index (such that $\Lblank{u}_\mu$ is the $\mu$th component of $\Lvec{u}$) with $1\leq\mu\leq d+1$, and the repeated index is (implicitly) summed\footnote{%
+In these expressions, greek indexes like $\mu$, $\nu$ are be indexes over vector components (going from 1 to 4 in $3\plus1$, for example), and (later) roman indexes like $i$, $j$, $k$ will be indexes over vectors or other things.} .
+The $\Lblank{u}^\mu$ is a contravariant vector component and the $\Lblank{v}_\mu$ is a covariant vector component.
 Contravariant and covariant components are related as follows:
 \begin{align}
-    \Lvec{u}^\mu &= \metric^{\mu\nu}\,\Lvec{u}_\nu \equiv \sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lvec{u}_\nu
+    \Lblank{u}^\mu &= \metric^{\mu\nu}\,\Lblank{u}_\nu \equiv \sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lblank{u}_\nu
     \\
-    \inner{\Lvec{u}}{\Lvec{v}} &= \Lvec{u}^\mu\,\Lvec{v}_\mu = \metric^{\mu\nu}\,\Lvec{u}_\mu\,\Lvec{v}_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lvec{u}_\mu\,\Lvec{v}_\nu
+    \inner{\Lvec{u}}{\Lvec{v}} &= \Lblank{u}^\mu\,\Lblank{v}_\mu = \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu
 \end{align}
 where the $\metric^{\mu\nu}$ are the components of the metric $\metric$.
 The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (\cite{summation}; it is a subset of the Ricci calculus~\cite{ricci}): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
@@ -302,7 +309,7 @@ We are going to use this notation going forward, not the Einstein summation nota
 What, physically, are the $(d\plus1)$-vectors of special relativity?
 Events in spacetime are represented by one time coordinate and three spatial coordinates (a position); they are things that happened at some place and time.
 The displacement $\Lvec{s}$ between two events is a $(d\plus1)$-vector.
-In $d\plus1$ there are generalizations of many standard $d$-vectors to which you are accustomed.
+In $d\plus1$ spacetime there are generalizations of many standard $d$-vectors to which you are accustomed.
 For example,
 the $(d\plus1)$-vector velocity $\Lvec{u}$ is a timelike vector with $\inner{\Lvec{u}}{\Lvec{u}}=1$ (a unit vector), where the spatial part of $\Lvec{u}$ (the last $d$ components) is proportional to what is traditionally the $d$-vector velocity.
 In $d=3$ spatial dimensions the $(3\plus1)$-vector velocity $\Lvec{u}$ is given by
@@ -317,8 +324,8 @@ and the $\beta_k$ are the components of a dimensionless 3-vector velocity $\Evec
 Explicit calculation demonstrates that $\inner{\Lvec{u}}{\Lvec{u}}=1$ for all settings of $\Evec{v}/c$.
 Another $(d\plus1)$-vector example is the $(d\plus1)$-vector momentum $\Lvec{p}$ of a particle.
 This is a timelike vector with $\inner{\Lvec{p}}{\Lvec{p}}=m^2\,c^4$, where $m$ is the rest mass of the particle.
-The $(d\plus1)$-vector momentum has the energy $E$ of the particle as its first component (the time component), and $c$ times the standard $d$-vector momentum $\Evec{p}$ in its remaining $d$ components.\footnote{%
-If you write out the inner product $\inner{\Lvec{p}}{\Lvec{p}}$ for the $(d\plus1)$-vector momentum $\Lvec{p}$ and rearrange, you get $$E^2 + |\Evec{p}|^2\,c^2 = m^2\,c^4~,$$ where $\Evec{p}$ is the $d$-vector (spatial) momentum. In the rest frame, this becomes $E=m\,c^2$. This is the equation that made Einstein famous.}
+The $(d\plus1)$-vector momentum has the energy $E$ of the particle as its first component (the time component), and $c$ times the Euclidean $d$-vector momentum $\Evec{p}$ in its remaining $d$ components.\footnote{%
+If you write out the inner product $\inner{\Lvec{p}}{\Lvec{p}}$ for the $(d\plus1)$-vector momentum $\Lvec{p}$, you get $$E^2 - \inner{\Evec{p}}{\Evec{p}}\,c^2 = m^2\,c^4~,$$ where $\Evec{p}$ is the $d$-vector (spatial) momentum. In the rest frame, this becomes $E=m\,c^2$. This is the equation that made Einstein famous.}
 
 When you change reference frames, a Lorentz transformation is applied.
 Under the Lorentz transformation, the components of all of the $(d\plus1)$-vectors will change, but all the inner products among them (and with themselves) will remain the same.
@@ -326,7 +333,7 @@ Under the Lorentz transformation, the components of all of the $(d\plus1)$-vecto
 In standard special-relativity lore, Lorentz transformations are taught as \emph{boost transformations} in which the assignment of the stationary observer is changed and the time and space axes change accordingly.
 For our purposes, the Lorentz transformations also include spatial rotations, spatial reflections, and even time reflections (gasp!):
 That is, for our purposes, an operator $Q$ is a valid Lorentz transformation if it is a member of the Lorentz group O($1,d$).
-To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is in O($1,d$)---if it preserves all inner products (scalar products). 
+To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is an operator in the group O($1,d$)---if it preserves all inner products (scalar products). 
 That is,
 \begin{equation}
     Q \in \mbox{O($1,d$)} ~ \mbox{if and only if} ~ \inner{\Lvec{u}}{\Lvec{v}}=\inner{Q\,\Lvec{u}}{Q\,\Lvec{v}} ~ \mbox{for all $\Lvec{u},\Lvec{v}$ in $\mathbb{R}^{d+1}$} ~.\label{eq:lore1}
@@ -337,8 +344,9 @@ This, in turn, will be true if and only if $Q$ leaves the metric unchanged:
 \end{equation}
 This is our (surprising, perhaps) definition of the Lorentz transformation $Q$.
 Note how similar the Lorentz-group statements \eqref{eq:lore1} and \eqref{eq:lore2} are to the orthogonal-group statements \eqref{eq:orth1} and \eqref{eq:orth2}.
+In a sense, group elements $Q$ are square roots of the metric $\metric$.
 
-For example, the simplest Lorentz space is O($1,1$) or $1\plus1$ ($d=1$).
+For example, the simplest non-trivial Lorentz space is O($1,1$) or $1\plus1$ ($d=1$).
 In this case, the Lorentz transformations form a one-dimensional family; they are all of the form
 \begin{align}
     Q &= \begin{bmatrix}\gamma & \beta\,\gamma \\ \beta\,\gamma & \gamma\end{bmatrix} ~\mbox{or}~
@@ -349,11 +357,11 @@ In this case, the Lorentz transformations form a one-dimensional family; they ar
     \gamma &\equiv \frac{1}{\sqrt{1 - \beta^2}} ~ \mbox{and} ~ -1 < \beta < 1 ~.\nonumber
 \end{align}
 In this simple case, $\beta$ is the dimensionless velocity of the boost, and $\gamma$ is the Lorentz factor.
-The four choices in \eqref{eq:o11} correspond to even parity, reversing time (after the boost), reversing space (after the boost), and reversing both.\footnote{%
+The four choices in \eqref{eq:o11} correspond to even parity, reversing time, reversing space, and reversing both.\footnote{%
 Many physicists would not permit reversals of time or space among the Lorentz transformations.
 These reversals appear inevitably when we define the set of Lorentz transformations to be all the operators $Q$ such that $\metric=Q^\top\metric\,Q$, as we do.
 So we depart here slightly from standard practice by being maximally inclusive.}
-But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation-reflection operators given in \secref{sec:od}.
+But in what follows we are going to develop \emph{coordinate-free forms} for the Lorentz transformations, in analogy to the coordinate-free forms for the rotation--reflection operators given in \secref{sec:od}.
 
 Finally we remark that---because the metric is non-positive-definite---a nonzero $(d\plus1)$-vector $\Lvec{v}$ can come in three forms, \emph{timelike}, \emph{spacelike}, or \emph{lightlike} (sometimes \emph{null}):
 \begin{align}
@@ -411,15 +419,16 @@ If you start with $n$ linearly independent $(d\plus1)$-vectors $\Lvec{v}_j$, ($1
 These rules aren't extremely satisfying, because (unless you are extremely careful) they involve changing things like the orientation of the coordinate system.
 We conjecture that there are better possible rules.
 
-HOGG SAY: I think if we start with one timelike first and $n-1$ linearly independent spacelike afterwards, nothing ever borks.
-So just do that! MAYBE?
+\HOGG{I think if we start with one timelike first and $n-1$ linearly independent spacelike afterwards, nothing ever borks.
+So just do that! Maybe? And can we prove this?}
 
 One comment to make is that orthogonalization is not necessarily numerically stable.
 That is, a set of vectors can be formally linearly independent, but only barely, or not at all at finite precision.
-It is out of scope for us here, but there are methods to improve the stability of orthogonalizations (SOLE WHAT TO CITE?); these will be generalizable to the Lorentz space.
+It is out of scope for us here, but there are methods to improve the stability of orthogonalizations (\HOGG{SOLE WHAT TO CITE?}); these will be generalizable to the Lorentz space.
 
 Another comment to make is that if you start with $n=d+1$ linearly independent $(d\plus1)$-vectors, the outcome of the orthogonalization will be exactly one timelike vector and exactly $d$ spacelike vectors.
 Importantly for what follows, \emph{the algorithm-generated set of normalized unit vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$ will form a coordinate basis in spacetime}, with one timelike (time) axis unit vector and $d$ orthogonal spacelike (spatial) axis unit vectors.
+\HOGG{Sole: Should we prove this?}
 
 Now just like in O($d$) you can use the orthogonalization to make a subspace projection operator.
 If you have $n\leq d+1$ linearly independent $(d\plus1)$-vectors that span a subspace $\mathscr{T}$, then you can orthogonalize them and construct the subspace projection operator $\Pi_\mathscr{T}$
@@ -430,15 +439,15 @@ where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un
 But notice that \eqref{eq:rproj} reduces to \eqref{eq:oproj} when the metric is the identity (and thus all inner products are positive.
 This projection operator has the property that, for any $(d\plus1)$-vector $w$, the vector $\Pi_\mathscr{T}\,w$ will lie in the subspace $\mathscr{T}$ spanned by the $n$ original $(d\plus1)$-vectors $v_j$ that were orthogonalized.
 
-If you have a full set of $n=d+1$ linearly independent $(d\plus1)$-vectors $v_j$, they will span the whole $(d\plus1)$-dimensional space, and the projection operator $\Pi_\mathscr{T}$ will become the identity $I_{d\plus1}$.
+If you have a full set of $n=d+1$ linearly independent $(d\plus1)$-vectors $v_j$, they will span the whole $(d\plus1)$-dimensional space, and the projection operator $\Pi_\mathscr{T}$ will become the identity $I_{d+1}$.
 That is, if you have an orthonormal basis of $d+1$ unit vectors $\Lhat{u}_j$
 \begin{align}
-    I_{d\plus1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~,
+    I_{d+1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~,
 \end{align}
 where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
 In quantum-mechanics (braket) notation, this expression for the identity becomes a standard formula in quantum mechanics:
 \begin{align}
-    I_{d\plus1} &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
+    I_{d+1} &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
     \\
     \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j\label{eq:Lket}
     \\
@@ -501,7 +510,7 @@ This expression \eqref{eq:LT} is a coordinate-free expression for the Lorentz Tr
 This is the main contribution of this \documentname.
 \figref{fig:Lorentz} illustrates the orthogonalization and the action of the Lorentz transformation so constructed in $(1\plus1)$.
 
-In quantum mechanics (braket and ketbra) notation, the expression for the Lorentz transformation becomes
+In quantum mechanics notation, the expression for the Lorentz transformation becomes
 \begin{align}
     Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \braket{\Lhat{u}'_j}{\Lhat{u}'_j} = \braket{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} ~,
 \end{align}
@@ -520,24 +529,46 @@ These can be constructed by multiplying one of the input $(d+1)$-vector velociti
 Finally, a user of this method for constructing the Lorentz transformation, a user who has two $(d\plus1)$-vector velocities $\Lvec{u}$ and $\Lvec{u}'$ and just wants a transformation $Q$, might ask: ``What should I use for the additional $(d\plus1)$-vectors $\Lvec{v}_2$ through $\Lvec{v}_{d+1}$?
 Our advice, if nothing else is natural, is to use the $d$ spatial unit vectors $\Lhat{u}_2$ through $\Lhat{u}_{d+1}$ that point along the $d$ spatial coordinate axes in one of the original two frames.
 That will always work, and never produce any lightlike vector in the orthogonalization procedure.
+It will also lead to a transformation $Q$ that is pure boost.
 
 \section{Discussion}\label{sec:discussion}
 
-HOGG: Much of this is very mathematical and theoretical.
-However, the new parameterization \eqref{eq:LT} of the Lorentz transformation given in \secref{sec:lt} is useful and conceptually valuable.
+We have established a set of rules or guidelines for successful orthonormalization of ($d\plus1$)-vectors in $d\plus1$ spacetimes---or even ($d\plus s$)-vectors in $d\plus s$ spacetimes---and we have used the produced orthonormal vectors to construct Lorentz transformations.
+These constructions of Lorentz transformations are explicitly coordinate free; they depend only on the input vectors, and not on the coordinate system in which they are represented.
+Importantly, our formalism can produce any Lorentz transformation, including arbitrary compositions of boosts, time reversals, spatial rotations, and spatial reflections.
+Much of this discussion is very mathematical and theoretical.
+However, it is numerically useful, in the sense that the produced formalism is easy to code and use in a computation.
+Also, it is worth noting that the new parameterization \eqref{eq:LT} of the Lorentz transformation is universal, and far simpler to state than the most general coordinate-based (that is, not coordinate-free) expressions for the Lorentz transformation (see, eg, \cite{haber}).
 
-HOGG: The hacks to fix the orthogonalization in \secref{sec:orth} are unsatisfying. Are there better solutions?
+We have a very inclusive definition of the Lorentz transformation (more inclusive than \cite{haber}, for example \HOGG{CHECK THIS}); for us any operator $Q$ is a Lorentz transformation if $Q^\top\metric\,Q=\metric$, where $\metric$ is the spacetime metric.
+Thus, for us, Lorentz transformations include all arbitrary compositions of boost, time reversal, rotation, and spatial reflection.
+Our parameterization covers all of these, naturally.
+That is, our parameterization generates all possible elements of the group O($1,d$).
+Others might restrict LTs to a smaller set; in which case there are additional constraints beyond our definitions \eqref{eq:lore1} and \eqref{eq:lore2}; this would, in turn, restrict the orthonormal vector inputs to our expression \eqref{eq:LT} for the Lorentz transformation.
 
-HOGG: Comment on numerical stability: This is an issue in general, but when $d\approx 3$, it isn't a big issue. See ``Modified Gram-Schmidt''.
+This contribution is technical, in the sense that we aren't advocating any particular \emph{use} of the orthonormalization or the Lorentz transformations; we are assuming that the reader needs these.
+Most uses of Lorentz tansformations are \emph{alibi} (in the Weyl \cite{weyl} sense of alias or alibi).
+That is, the Lorentz transformation is usually used to understand how the same events look in different coordinate systems, and not how to move or \emph{change} events.
+The captions of \figref{fig:Euclid} and \figref{fig:Lorentz} use suggestively alibi language; for this we apologize.
 
-Everything in this \documentname{}, including the orthogonalization procedure and the outer-product form for the Lorentz transformation, is written for $d\plus1$ spaces, governed by the group O($1,d$).
+The biggest limitation of this work, for us, is that we find unsatisfying our bulleted list of hacks (in \secref{sec:orth}) to fix the orthogonalization when null vectors arise.
+We imagine that there might be better solutions.
+If your contexts are very predictable, that is, when you have $n$ independent ($d\plus1$)-vectors and you can always guarantee that one of them is timelike, then you can order the vectors in such a way that no null vector is ever produced.
+But if your context isn't this predictable, we don't have a cleaner solution at present.
+
+Everything in this \documentname{}, including the orthogonalization procedure and the outer-product form for the Lorentz transformation, is written for $d\plus1$ spacetimes, governed by the group O($1,d$).
 However, everything also applies in more general $d\plus s$ spaces, governed by O($s,d$).
 These kinds of spaces can arise in string-like theories that compactify to $3\plus 1$ for the purposes of our macroscopic world.
-SOLE PLZ CHECK:
-Our conjecture is that the only difference between $d\plus1$ and $d\plus s$ is that, as $d$ and $s$ both get large, the probability of generating null vectors in the orthogonalization procedure will increase.
-This is because the space for null vectors increases---it has dimensionality $\min(s,d)$---that increase of dimensionality increases the chances of obtaining null vectors, both in principle and in practice because of numerical issues.
+\HOGG{Sole: PLZ CHECK the following:}
+Our conjecture is that the only difference between $d\plus1$ spacetime and $d\plus s$ is that, as $d$ and $s$ both get large, the probability of generating null vectors in the orthogonalization procedure will increase:
+As the space for null vectors increases, the chances of accidentally obtaining null vectors also increases, both in principle and in practice (because of numerical issues).
 
-All the code used to make the figures for this \documentname{} is available under an open-source license at HOGG: URL HERE.
+Speaking of numerical issues, as $d+s$ gets large, the orthonormalization can get numerically unstable, especially in adversarial situations.
+Most relativity work is at $d+s\leq 4$ so this shouldn't be much of a problem.
+However, an easy improvement to numerical stability is to move from Gram--Schmidt to Modified Gram--Schmidt \cite{modifiedgramschmidt}.
+That move can be made here too, without significant modification.
+
+All the code used to make the figures for this \documentname{} is available under an open-source license at \url{https://github.com/davidwhogg/RelativisticOrthogonalization}.
 
 \paragraph{Acknowledgements:}
 It is a pleasure to thank
@@ -548,5 +579,6 @@ This research was supported in part by XXX YYY.
 The Flatiron Institute is a division of the Simons Foundation.
 
 \raggedright
-\printbibliography
+\bibliographystyle{IEEEtran}
+\bibliography{sr}
 \end{document}
