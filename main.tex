@@ -2,7 +2,6 @@
 
 % Style Notes
 % -----------
-% - USE mdframed BOXES FOR IMPORTANT RESULTS!
 % - Use $d\plus1$ for an in-text or wordy d+1, and $d+1$ for an in-equation or mathy $d+1$.
 % - Don't put hyphens in timelike, spacelike, lightlike (null).
 % - Typeset d-vectors and (d+1)-vectors using the macros, not by hand.
@@ -17,6 +16,7 @@
 % - Change the plotting so there are no more PRIMES. We use u and v, not primes.
 % - Should we shorten Lorentz transform to LT?
 % - Stronger literature searches.
+% - USE mdframed BOXES FOR IMPORTANT RESULTS??
 % - This paper is relevant, maybe? https://arxiv.org/abs/1103.1072
 % - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
 % - Should we prove things? SOLE, do you have opinions? HOGG would love to put in some Definitions, Proofs, and Lemmas!
@@ -502,12 +502,10 @@ The first answer is that one can augment the ($d\plus1$)-vector velocity $\Lhat{
 If you want the Lorentz transform to have no rotation or reflections, you can set $\Lvec{u}_k=\Lvec{v}_k$ for all $k\geq 2$.
 Then you orthonormalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthonormalize the primed vectors, with the input order $\Lvec{v},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{v}_1,\Lhat{v}_2,\ldots,\Lhat{v}_{d+1}$.
 Armed with these orthonormal basis vectors, the Lorentz transform $Q$ that boosts from the unprimed frame to the primed frame is simply
-\begin{mdframed}
 \begin{align}
   Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{v}_j}{\Lhat{u}_j} ~~ \mbox{iff} ~~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{v}_j^\top\metric\,\Lhat{v}_j = \pm 1 ~ \mbox{for all $j$} \label{eq:LTQM} ~, \\
   & \tag{\footnotesize Lorentz transform $Q$ given two orthonormal bases $\Lhat{u}_1,\ldots,\Lhat{u}_{d+1}$ and $\Lhat{v}_1,\ldots,\Lhat{v}_{d+1}$}
 \end{align}
-\end{mdframed}
 where we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 This expression is the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
 
@@ -552,13 +550,11 @@ These can be constructed by multiplying one of the input ($d\plus1$)-vector velo
 The second answer to our question---how to construct the Lorentz transform $Q$ starting with two input ($d\plus1$)-vector velocities $\Lhat{u}$ and $\Lhat{v}$---is to write down the minimal Lorentz transform that transforms $\Lhat{u}$ to $\Lhat{v}$.
 This is analogous to the rotation matrix expression \eqref{eq:vecs2rot} developed above.
 The Lorentz generalization of that expression is the following:
-\begin{mdframed}
 \begin{align}
     Q &= \ketbra{\Lhat{v}}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{v}} + \braket{\Lhat{u}}{\Lhat{v}}\,\proj_{1+1} + \proj_{d-1} ~~ \mbox{iff} ~~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} = \pm 1 \label{eq:vecs2LT} \\
     \tag{\footnotesize minimal Lorentz transform $Q$ given two unit vectors $\Lhat{u}$ and $\Lhat{v}$} \\
     \proj_{1+1} &= \frac{\left(\ketbra{\Lhat{u}}{\Lhat{u}} + \ketbra{\Lhat{v}}{\Lhat{v}}\right) - \braket{\Lhat{u}}{\Lhat{v}}\,\left(\ketbra{\Lhat{u}}{\Lhat{v}} + \ketbra{\Lhat{v}}{\Lhat{u}}\right)}{1 - \braket{\Lhat{u}}{\Lhat{v}}^2} ~,
 \end{align}
-\end{mdframed}
 where $\proj_{1+1}$ is the projection operator into the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$,
 and $\proj_{d-1} = I_{d+1} - \proj_{1+1}$ is the complementary projection operator.
 This Lorentz transform boosts from $\Lhat{u}$ to $\Lhat{v}$, but it does not modify any ($d\plus1$)-vector that is orthogonal to the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
