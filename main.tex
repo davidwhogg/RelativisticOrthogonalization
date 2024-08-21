@@ -2,6 +2,7 @@
 
 % Style Notes
 % -----------
+% - USE mdframed BOXES FOR IMPORTANT RESULTS!
 % - Use $d\plus1$ for an in-text or wordy d+1, and $d+1$ for an in-equation or mathy $d+1$.
 % - Don't put hyphens in timelike, spacelike, lightlike (null).
 % - Typeset d-vectors and (d+1)-vectors using the macros, not by hand.
@@ -243,7 +244,7 @@ It is therefore coordinate-free.
 In case it is unfamiliar, this form \eqref{eq:rotationoperator} for transformation operators is advocated for and used in, eg, \HOGG{Sole can you help here? I can't find any clear textbook use of this form for the rotation operator. If this is novel, which it most certainly is not, then we can prove something here?}
 
 If your background is quantum mechanics, then you probably use bra--ket (braket and ketbra) notation \cite{dirac}.
-For you an inner product $\Evec{u}^\top\Evec{v}$ is written as a braket $\braket{\Evec{u}}{\Evec{v}}$, and an outer product $\Evec{u}\,\Evec{v}^\top$ is written as a ketbra $\ketbra{\Evec{u}}{\Evec{v}}$.
+For you an inner product of unit vectors (basis vectors) $\Ehat{u}^\top\Ehat{v}$ is written as a braket $\braket{\Ehat{u}}{\Ehat{v}}$, and an outer product of unit vectors $\Ehat{u}\,\Ehat{v}^\top$ is written as a ketbra $\ketbra{\Ehat{u}}{\Ehat{v}}$.
 In this notation, the identity $I_d$ and the rotation--reflection operator $R$ can be written 
 \begin{align}
     I_d &= \sum_{j=1}^d \ketbra{\Ehat{u}_j}{\Ehat{u}_j} \\
@@ -501,11 +502,14 @@ The answer is that we augment the ($d\plus1$)-vector velocity $\Lvec{u}$ with $d
 If you want the Lorentz transformation to have no rotation or reflections, you can set $\Lvec{v}'_k=\Lvec{v}_k$ for all $k\geq 2$.
 Then you orthogonalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthogonalize the primed vectors, with the input order $\Lvec{u}',\Lvec{v}'_2,\ldots,\Lvec{v}'_{d+1}$, to get orthonormal basis vectors $\Lhat{u}'_1,\Lhat{u}'_2,\ldots,\Lhat{u}'_{d+1}$.
 Armed with these orthonormal basis vectors, the Lorentz transformation $Q$ that boosts from the unprimed frame to the primed frame is simply
+\begin{mdframed}
+Lorentz transformation built from two orthonormal bases $\Lhat{u}_1\ldots\Lhat{u}_{d+1}$ and $\Lhat{u}'_1\ldots\Lhat{u}'_{d+1}$:
 \begin{align}
     Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'_j}{\Lhat{u}'_j} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} \label{eq:LT}\\
-  &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \braket{\Lhat{u}'_j}{\Lhat{u}'_j} = \braket{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} \label{eq:LTQM},
+  &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \Lhat{u}_j'^\top\metric\,\Lhat{u}_j' = \Lhat{u}_j^\top\metric\,\Lhat{u}_j ~ \mbox{for all $j$} \label{eq:LTQM},
 \end{align}
-where the inner products $\inner{\Lhat{u}_j}{\Lhat{u}_j}$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$,
+\end{mdframed}
+where the inner products $\inner{\Lhat{u}_j}{\Lhat{u}_j}={\Lhat{u}_j}^\top\Lhat{u}_j$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$,
 and we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 These expressions are coordinate-free.
 They are also the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator} and \eqref{eq:rotationoperatorQM}.
