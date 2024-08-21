@@ -8,12 +8,13 @@
 % - Use "~~" sparingly to make large separations in an equation but almost always use "~".
 % - Use \metric and \proj and everything else we have defined.
 % - We call it "orthonormalization" not "orthogonalization".
-% - Use bras and kets only for unit vectors in d+1.
+% - Use bras and kets only for unit vectors in d+1; ie, not for non-normalized vectors, and not for Euclidean space.
 % - It's a Lorentz transform or a transformation operator. Audit!
 
 % To-do
 % -----
 % - Change the plotting so there are no more PRIMES. We use u and v, not primes.
+% - I am concerned about going from u1, u2, ... to uhat1, uhat2, ... maybe we should use different letters?
 % - Should we shorten Lorentz transform to LT?
 % - Stronger literature searches.
 % - USE mdframed BOXES FOR IMPORTANT RESULTS??
@@ -564,7 +565,7 @@ The problem was introduced with two timelike unit vectors, $\Lhat{u}$ and $\Lhat
 In fact, this expression works for timelike or spacelike vectors.
 The only condition is that they be normalized, and that they either be both timelike or both spacelike.
 Timelike and spacelike cannot be mixed.
-When the two vectors are timelike, the expression \eqref{eq:vecs2LT} produces a pure boost (and possibly also a time reversal (\HOGG{Check!});
+When the two vectors are timelike, the expression \eqref{eq:vecs2LT} produces a pure boost (and possibly also a time reversal; \HOGG{Check!});
 when the two vectors are spacelike, the expression produces both a spatial rotation and a boost in general.
 We found the expression by explicitly orthogonalizing and constructing \eqref{eq:LTQM} for the case in which the transform acts only in the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
 Expression \eqref{eq:LTQM} is less general than expression \eqref{eq:vecs2LT}, because it cannot produce spatial reflections.
@@ -587,7 +588,7 @@ That is, our parameterization generates all possible elements of the group O($1,
 Others might restrict LTs to a smaller set; in which case there are additional constraints beyond our definitions \eqref{eq:lore1} and \eqref{eq:lore2}; this would, in turn, restrict the orthonormal vector inputs to our expression \eqref{eq:LTQM} for the Lorentz transform.
 
 This contribution is technical, in the sense that we aren't advocating any particular \emph{use} of the orthonormalization or the Lorentz transforms; we are assuming that the reader needs these.
-Most uses of Lorentz tansformations are \emph{alibi} (in the Weyl \cite{weyl} sense of alias or alibi).
+Most uses of Lorentz tansformations are \emph{alias} (in the Weyl \cite{weyl} sense of alias or alibi).
 That is, the Lorentz transform is usually used to understand how the same events look in different coordinate systems, and not how to move or \emph{change} events.
 The captions of \figref{fig:Euclid} and \figref{fig:Lorentz} use suggestively alibi language; for this we apologize.
 
@@ -614,7 +615,7 @@ All the code used to make the figures for this \documentname{} is available unde
 It is a pleasure to thank
   Roger Blandford (Stanford), and
   Ben Blum-Smith (JHU)
-for very valuable discussions.
+for valuable discussions.
 This research was supported in part by XXX YYY.
 The Flatiron Institute is a division of the Simons Foundation.
 
