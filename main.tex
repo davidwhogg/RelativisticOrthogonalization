@@ -8,14 +8,12 @@
 % - Typeset d-vectors and (d+1)-vectors using the macros, not by hand.
 % - Use "~~" sparingly to make large separations in an equation but almost always use "~".
 % - Use \metric and \proj and everything else we have defined.
-% - We call it "orthonormalization" not "orthogonalization" (audit this and fix it).
+% - We call it "orthonormalization" not "orthogonalization".
 
 % To-do
 % -----
-% - Should we move to foregrounding the QM notation, which is pretty good?
 % - Note that <u|u> is *always positive* for the Lorentz case. So we need timelike(u)??
-% - Note that braket and ketbra notation should only ever be used for UNIT VECTORS.
-% - The Lorentz orthonormalization simplifies in QM notation because you lose the absolute value signs??
+% - HOGG: Note that braket and ketbra notation should only ever be used for UNIT (d+1) VECTORS -- remove this notation from the Euclidean part as well.
 % - Stronger literature searches.
 % - This paper is relevant, maybe? https://arxiv.org/abs/1103.1072
 % - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
@@ -41,7 +39,6 @@
 \newcommand{\Lvec}[1]{\upvec{\mathsf{#1}}} % (d+1)-vector
 \newcommand{\Lhat}[1]{\hat{\mathsf{#1}}} % (d+1)-vector unit vector
 \newcommand{\Lblank}[1]{\mathsf{#1}} % (d+1)-vector unit vector
-\newcommand{\inner}[2]{\langle{#1}\,,{#2}\rangle}
 \newcommand{\bra}[1]{\langle\,{#1}\,|}
 \newcommand{\ket}[1]{|\,{#1}\,\rangle}
 \newcommand{\braket}[2]{\langle\,{#1}\,|\,{#2}\,\rangle}
@@ -157,11 +154,11 @@ Coordinate-free Lorentz transformations are developed in~\cite{wagner}, but with
 
 Before we consider special relativity, it is worth reviewing how an orthogonalization is performed, and how projection and rotation operators are constructed, in ordinary Euclidean space with an ordinary Euclidean metric.
 In standard $d$-dimensional space, with the standard Euclidean metric (the identity), containing vectors governed by the standard orthogonal group O($d$), inner products (scalar products) of vectors are defined as follows:
-Given two column vectors $\Evec{u},\Evec{v}\in\mathbb{R}^d$ (or, more specifically, $\mathbb{R}^{d\times1}$), the inner product $\inner{\Evec{u}}{\Evec{v}}\in\mathbb{R}$ is defined as
+Given two column vectors $\Evec{u},\Evec{v}\in\mathbb{R}^d$ (or, more specifically, $\mathbb{R}^{d\times1}$), the inner product (or scalar product) is defined as
 \begin{align}
-    \inner{\Evec{u}}{\Evec{v}} &\equiv \Evec{u}^\top \Evec{v} = \Evec{v}^\top \Evec{u} ~.
+    \Evec{u}^\top \Evec{v} &= \Evec{v}^\top \Evec{u} ~.
 \end{align}
-Two vectors $\Evec{u},\Evec{v}$ are considered orthogonal if their inner product vanishes, or $\inner{\Evec{u}}{\Evec{v}}=0$.
+Two vectors $\Evec{u},\Evec{v}$ are considered orthogonal if their inner product vanishes, or $\Evec{u}^\top\Evec{v}=0$.
 In Euclidean space, we will call these vectors ``$d$-vectors'' and typeset them bold.
 
 Imagine that we are given a collection of $n\leq d$ linearly independent $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$,
@@ -171,14 +168,14 @@ We sequentially construct orthogonal vectors $\Evec{u}_1,\Evec{u}_2,\ldots,\Evec
 \begin{align}
     \Evec{u}_1 &\leftarrow \Evec{v}_1 \label{eq:ogs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Evec{u}_j &\leftarrow \Evec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Evec{v}_j}{\Evec{u}_k}}{\inner{\Evec{u}_k}{\Evec{u}_k}}\,\Evec{u}_k \label{eq:ogs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Evec{u}_j &\leftarrow \Evec{v}_j - \sum_{k=1}^{j-1} \frac{\Evec{v}_j^\top\Evec{u}_k}{\Evec{u}_k^\top\Evec{u}_k}\,\Evec{u}_k \label{eq:ogs2}
     \\
-    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Ehat{u}_j &\leftarrow \frac{1}{\sqrt{\inner{\Evec{u}_j}{\Evec{u}_j}}}\,\Evec{u}_j ~. \label{eq:ogs3}
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Ehat{u}_j &\leftarrow \frac{1}{\sqrt{\Evec{u}_j^\top\Evec{u}_j}}\,\Evec{u}_j ~. \label{eq:ogs3}
 \end{align}
 Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$ into a different order, the orthogonalization will return different specific basis unit vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$.
 However, all the different possible returned bases (under permutations of the $\Evec{v}_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
 
-The reader might be concerned that the orthogonalization involves division by forms like $\sqrt{\inner{\Evec{u}}{\Evec{u}}}$.
+The reader might be concerned that the orthogonalization involves division by forms like $\sqrt{\Evec{u}^\top\Evec{u}}$.
 Provided that the input vectors are nonzero and linearly independent, this divisor will never vanish.
 That situation will change when we consider the relativistic case in \secref{sec:orth}.
 
@@ -190,13 +187,13 @@ where the $\Ehat{u}_j$ are the orthogonal unit vectors\footnote{Note that becaus
 This projection operator has the property that, for any vector $\Evec{w}\in\mathbb{R}^d$, the vector $\proj_\mathscr{S}\,\Evec{w}$ will lie in the subspace spanned by the $\Evec{v}_j$.
 The projection operator $\proj_{\mathscr{S}^\perp}$ into the complementary subspace $\mathscr{S}^\perp$ is then just
 \begin{align}\label{eq:oprojcomp}
-    \proj_{\mathscr{S}^\perp} = I_d - \proj_\mathscr{S} ~,
+    \proj_{\mathscr{S}^\perp} &= I_d - \proj_\mathscr{S} ~,
 \end{align}
 where $I_d$ is the $d\times d$ identity.
 One consequence of this line of reasoning is that if you have $n=d$ linearly independent vectors $\Evec{v}_j$, they will span the whole space, and the projection operator $\proj_\mathscr{S}$ will become the identity $I_d$.
 That is, if you have an orthonormal basis of $d$ unit vectors $\Ehat{u}_j$, then
 \begin{align}\label{eq:oI}
-    I_d &= \sum_{j=1}^d \Ehat{u}_j\,\Ehat{u}_j^\top = \sum_{j=1}^d \frac{\Evec{u}_j\,\Evec{u}_j^\top}{\inner{\Evec{u}_j}{\Evec{u}_j}} ~,
+    I_d &= \sum_{j=1}^d \Ehat{u}_j\,\Ehat{u}_j^\top = \sum_{j=1}^d \frac{\Evec{u}_j\,\Evec{u}_j^\top}{\Evec{u}_j^\top\Evec{u}_j} ~,
 \end{align}
 where we have written it in terms of both the normalized and un-normalized vectors, anticipating results to come.
 Physicists might call these forms for $\proj_\mathscr{S}$ and $I_d$ \emph{coordinate-free}:
@@ -208,7 +205,7 @@ It is also possible to write any rotation--reflection operator $R$ in a coordina
 First a definition: A matrix $R\in\mathbb{R}^{d\times d}$ is a rotation--reflection operator in the orthogonal group O($d$) if the operator preserves all inner products (scalar products).
 That is,
 \begin{equation}
-    R \in \mbox{O($d$)} ~ \mbox{if and only if} ~ \inner{\Evec{u}}{\Evec{v}}=\inner{R\,\Evec{u}}{R\,\Evec{v}} ~ \mbox{for all $\Evec{u},\Evec{v}$ in $\mathbb{R}^d$} ~.\label{eq:orth1}
+    R \in \mbox{O($d$)} ~ \mbox{if and only if} ~ \Evec{u}^\top\Evec{v}=(R\,\Evec{u})^\top(R\,\Evec{v}) ~ \mbox{for all $\Evec{u},\Evec{v}$ in $\mathbb{R}^d$} ~.\label{eq:orth1}
 \end{equation}
 This, in turn, will be true if and only if $R$ is a square root of the identity:
 \begin{equation}
@@ -252,14 +249,15 @@ In this notation, the identity $I_d$ and the rotation--reflection operator $R$ c
 \end{align}
 which are famous kinds of expressions in quantum mechanics.
 
-Finally, there is an even simpler expression for the minimal rotation operator\ldots
-\HOGG{Now give the even simpler formula for the minimal rotation given $\Ehat{u}$ and $\Ehat{u}'$.
+Finally, there is an even simpler expression for the rotation operator $R$ that rotates a vector through the angle betweeen unit vector $\Ehat{u}$ and unit vector $\Ehat{v}$ in the plane defined by $\Ehat{u}$ and $\Ehat{v}$; that is, the minimal rotation operator that takes $\Ehat{u}$ to $\Ehat{v}$.
+This is
 \begin{align}
-    R &= \Ehat{u}'\,\Ehat{u}^\top - \Ehat{u}\,\Ehat{u}'^\top + \inner{\Ehat{u}}{\Ehat{u}'}\,\proj_{2} + \proj_{d-2} \\
-      &= \ketbra{\Ehat{u}'}{\Ehat{u}} - \ketbra{\Ehat{u}}{\Ehat{u}'} + \braket{\Ehat{u}}{\Ehat{u}'}\,\proj_{2} + \proj_{d-2} ~,
+    R &= \Ehat{v}\,\Ehat{u}^\top - \Ehat{u}\,\Ehat{v}^\top + (\Ehat{u}^\top\Ehat{v})\,\proj_{2} + \proj_{d-2} \\
+    &= \ketbra{\Ehat{v}}{\Ehat{u}} - \ketbra{\Ehat{u}}{\Ehat{v}} + \braket{\Ehat{u}}{\Ehat{v}}\,\proj_2 + \proj_{d-2} \\
+    \proj_2 &= \frac{[\Ehat{u}\,\Ehat{u}^\top + \Ehat{v}\,\Ehat{v}^\top] - (\Ehat{u}^\top\Ehat{v})\,[\Ehat{u}\,\Ehat{v}^\top + \Ehat{v}\,\Ehat{u}^\top]}{1 - (\Ehat{u}^\top\Ehat{v})^2} ~,
 \end{align}
-where whatever.
-This involves the projection operator formula and its complement as well.}
+where $\proj_2$ is the projection operator that projects onto the subspace spanned by $\Ehat{u}$ and $\Ehat{v}$, and $\proj_{d-2} = I_d - \proj_2$ is the complementary projection operator.
+This is a useful expression when you aren't given two complete coordinate bases, but instead just the two directions that define the endpoints of the rotation; it will be very useful in the relativistic case below.
 
 \begin{figure}[t]
 \begin{mdframed}
@@ -304,9 +302,9 @@ In $d\plus s$ the diagonal of the metric has $s$ values set to $+1$ and $d$ valu
 We are going to consider vectors $\Lvec{u}, \Lvec{v}, \Lvec{w}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
 We will call these vectors ``($d\plus1$)-vectors'', and typeset them sanserif with hats (arrows or carets, depending).
 
-Old-school relativists tend to write the relativistic inner product $\inner{\Lvec{u}}{\Lvec{v}}\in\mathbb{R}$ (the scalar product or Minkowski inner product) between two ($d\plus1$)-vectors $\Lvec{u}$ and $\Lvec{v}$ as
+Old-school relativists tend to write the relativistic inner product (the scalar product or Minkowski inner product) between two ($d\plus1$)-vectors $\Lvec{u}$ and $\Lvec{v}$ as
 \begin{align}
-    \inner{\Lvec{u}}{\Lvec{v}} &= \Lblank{u}^\mu\,\Lblank{v}_\mu = \Lblank{v}^\mu\,\Lblank{u}_\mu ~,
+    \Lblank{u}^\mu\,\Lblank{v}_\mu &= \Lblank{v}^\mu\,\Lblank{u}_\mu ~,
 \end{align}
 where $\mu$ is a component index (such that $\Lblank{u}_\mu$ is the $\mu$th component of $\Lvec{u}$) with $1\leq\mu\leq d+1$, and the repeated index is (implicitly) summed\footnote{%
 In these expressions, greek indexes like $\mu$, $\nu$ are be indexes over vector components (going from 1 to 4 in $3\plus1$, for example), and (later) roman indexes like $i$, $j$, $k$ will be indexes over vectors or other things.} .
@@ -315,7 +313,7 @@ Contravariant and covariant components are related as follows:
 \begin{align}
     \Lblank{u}^\mu &= \metric^{\mu\nu}\,\Lblank{u}_\nu \equiv \sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lblank{u}_\nu
     \\
-    \inner{\Lvec{u}}{\Lvec{v}} &= \Lblank{u}^\mu\,\Lblank{v}_\mu = \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu
+    \Lblank{u}^\mu\,\Lblank{v}_\mu &= \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu \equiv \sum_{\mu=1}^{d+1}\sum_{\nu=1}^{d+1} \metric^{\mu\nu}\,\Lblank{u}_\mu\,\Lblank{v}_\nu
 \end{align}
 where the $\metric^{\mu\nu}$ are the components of the metric $\metric$.
 The implicit summations on the left of the ``$\equiv$'' signs are guided by the rules of what's called Einstein summation notation (\cite{summation}; it is a subset of the Ricci calculus~\cite{ricci}): Indexes can appear exactly once or exactly twice (and no more) and when they appear twice, one must be up and one must be down, and they are summed from 1 to $d+1$.
@@ -324,7 +322,7 @@ an inner product is a braket $\braket{\Lvec{u}}{\Lvec{v}}$, and an outer product
 
 In linear algebra notation, if we think of $\Lvec{u}$ and $\Lvec{v}$ as being column vectors in $\mathbb{R}^{d+1}$ (or, to be extremely specific, $\mathbb{R}^{(d+1)\times 1}$), then we can write this same inner product as
 \begin{align}\label{eq:inner}
-    \inner{\Lvec{u}}{\Lvec{v}} &\equiv \Lvec{u}^\top\metric\,\Lvec{v} = \Lvec{v}^\top\metric\,\Lvec{u} ~.
+    \Lvec{u}^\top\metric\,\Lvec{v} &= \Lvec{v}^\top\metric\,\Lvec{u} ~.
 \end{align}
 We are going to use this notation going forward, not the Einstein summation notation.
 
@@ -333,7 +331,7 @@ Events in spacetime are represented by one time coordinate and three spatial coo
 The displacement $\Lvec{s}$ between two events is a ($d\plus1$)-vector.
 In $d\plus1$ spacetime there are generalizations of many standard $d$-vectors to which you are accustomed.
 For example,
-the ($d\plus1$)-vector velocity $\Lvec{u}$ is a timelike vector with $\inner{\Lvec{u}}{\Lvec{u}}=1$ (a unit vector), where the spatial part of $\Lvec{u}$ (the last $d$ components) is proportional to what is traditionally the $d$-vector velocity.
+the ($d\plus1$)-vector velocity $\Lvec{u}$ is a timelike vector with $\Lvec{u}^\top\metric\,\Lvec{u}=1$ (a unit vector), where the spatial part of $\Lvec{u}$ (the last $d$ components) is proportional to what is traditionally the $d$-vector velocity.
 In $d=3$ spatial dimensions the $(3\plus1)$-vector velocity $\Lvec{u}$ is given by
 \begin{align}
     \Lvec{u}^\top &= \begin{bmatrix} \gamma & \gamma\,\beta_x & \gamma\,\beta_y & \gamma\,\beta_z \end{bmatrix} \\
@@ -343,11 +341,11 @@ In $d=3$ spatial dimensions the $(3\plus1)$-vector velocity $\Lvec{u}$ is given 
 where the transpose on $\Lvec{u}$ is a reminder that ($d\plus1$)-vectors are really column vectors,
 $c$ is the speed of light in a vacuum (or the speed of lightlike or null trajectories),
 and the $\beta_k$ are the components of a dimensionless 3-vector velocity $\Evec{v}/c$.
-Explicit calculation demonstrates that $\inner{\Lvec{u}}{\Lvec{u}}=1$ for all settings of $\Evec{v}/c$.
+Explicit calculation demonstrates that $\Lvec{u}^\top\metric\,\Lvec{u}=1$ for all settings of $\Evec{v}/c$.
 Another ($d\plus1$)-vector example is the ($d\plus1$)-vector momentum $\Lvec{p}$ of a particle.
-This is a timelike vector with $\inner{\Lvec{p}}{\Lvec{p}}=m^2\,c^4$, where $m$ is the rest mass of the particle.
-The ($d\plus1$)-vector momentum has the energy $E$ of the particle as its first component (the time component), and $c$ times the Euclidean $d$-vector momentum $\Evec{p}$ in its remaining $d$ components.\footnote{%
-If you write out the inner product $\inner{\Lvec{p}}{\Lvec{p}}$ for the ($d\plus1$)-vector momentum $\Lvec{p}$, you get $$E^2 - \inner{\Evec{p}}{\Evec{p}}\,c^2 = m^2\,c^4~,$$ where $\Evec{p}$ is the $d$-vector (spatial) momentum. In the rest frame, this becomes $E=m\,c^2$. This is the equation that made Einstein famous.}
+This is a timelike vector with $\Lvec{p}^\top\metric\,\Lvec{p}=m^2\,c^4$, where $m$ is the rest mass of the particle.
+The ($d\plus1$)-vector momentum has the energy $E / c$ of the particle as its first component (the time component), and the Euclidean $d$-vector momentum $\Evec{p}$ in its remaining $d$ components.\footnote{%
+If you write out the inner product $\Lvec{p}^\top\metric\,\Lvec{p}$ for the ($d\plus1$)-vector momentum $\Lvec{p}$, you get $$E^2 - \Evec{p}^\top\Evec{p}\,c^2 = m^2\,c^4~,$$ where $\Evec{p}$ is the $d$-vector (spatial) momentum. In the rest frame, this becomes $E=m\,c^2$. This is the equation that made Einstein famous.}
 
 When you change reference frames, a Lorentz transformation is applied.
 Under the Lorentz transformation, the components of all of the ($d\plus1$)-vectors will change, but all the inner products among them (and with themselves) will remain the same.
@@ -358,7 +356,7 @@ That is, for our purposes, an operator $Q$ is a valid Lorentz transformation if 
 To be more specific, an operator $Q$ (which can be thought of as a $(d+1)\times(d+1)$ matrix) is a Lorentz transformation---is an operator in the group O($1,d$)---if it preserves all inner products (scalar products). 
 That is,
 \begin{equation}
-    Q \in \mbox{O($1,d$)} ~ \mbox{if and only if} ~ \inner{\Lvec{u}}{\Lvec{v}}=\inner{Q\,\Lvec{u}}{Q\,\Lvec{v}} ~ \mbox{for all $\Lvec{u},\Lvec{v}$ in $\mathbb{R}^{d+1}$} ~.\label{eq:lore1}
+    Q \in \mbox{O($1,d$)} ~ \mbox{if and only if} ~ \Lvec{u}^\top\metric\,\Lvec{v}=(Q\,\Lvec{u})^\top\metric\,(Q\,\Lvec{v}) ~ \mbox{for all $\Lvec{u},\Lvec{v}$ in $\mathbb{R}^{d+1}$} ~.\label{eq:lore1}
 \end{equation}
 This, in turn, will be true if and only if $Q$ leaves the metric unchanged:
 \begin{equation}
@@ -387,9 +385,9 @@ But in what follows we are going to develop \emph{coordinate-free forms} for the
 
 Finally we remark that---because the metric is non-positive-definite---a nonzero ($d\plus1$)-vector $\Lvec{v}$ can come in three forms, \emph{timelike}, \emph{spacelike}, or \emph{lightlike} (sometimes \emph{null}):
 \begin{align}
-    \Lvec{v} ~ \mbox{is timelike}  &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} > 0 \label{eq:timelike}\\
-    \Lvec{v} ~ \mbox{is lightlike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} = 0 \label{eq:lightlike}\\
-    \Lvec{v} ~ \mbox{is spacelike} &~ \mbox{if} ~ \inner{\Lvec{v}}{\Lvec{v}} < 0 ~.\label{eq:spacelike}
+    \Lvec{v} ~ \mbox{is timelike}  &~ \mbox{if} ~ \Lvec{v}^\top\metric\,\Lvec{v} > 0 \label{eq:timelike}\\
+    \Lvec{v} ~ \mbox{is lightlike} &~ \mbox{if} ~ \Lvec{v}^\top\metric\,\Lvec{v} = 0 \label{eq:lightlike}\\
+    \Lvec{v} ~ \mbox{is spacelike} &~ \mbox{if} ~ \Lvec{v}^\top\metric\,\Lvec{v} < 0 ~.\label{eq:spacelike}
 \end{align}
 Technically, these definitions depend on the signature you chose for your metric; you would use the opposite language if you chose the opposite signature.
 This is the only point in this \documentname{} that depends on the signature; everything else is agnostic to signature.
@@ -399,7 +397,7 @@ Because Lorentz transformations $Q\in$~O($1,d$) preserve inner products, you can
 
 In Lorentz space we will still say that two ($d\plus1$)-vectors are ``orthogonal'' if their inner product is zero.
 \begin{align}
-    \Lvec{u},\Lvec{v} ~ \mbox{are orthogonal if and only if} ~ \inner{\Lvec{u}}{\Lvec{v}}=0 ~,
+    \Lvec{u},\Lvec{v} ~ \mbox{are orthogonal if and only if} ~ \Lvec{u}^\top\metric\,\Lvec{v}=0 ~,
 \end{align}
 where the inner product is defined as in \eqref{eq:inner}.
 This is great, but it leads to a strange consequence:
@@ -416,9 +414,9 @@ If these vectors are randomly generated, then with high probability the straight
 \begin{align}
     \Lvec{u}_1 &\leftarrow \Lvec{v}_1 \label{eq:rgs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Lvec{u}_j &\leftarrow \Lvec{v}_j - \sum_{k=1}^{j-1} \frac{\inner{\Lvec{v}_j}{\Lvec{u}_k}}{\inner{\Lvec{u}_k}{\Lvec{u}_k}}\,\Lvec{u}_k \label{eq:rgs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Lvec{u}_j &\leftarrow \Lvec{v}_j - \sum_{k=1}^{j-1} \frac{\Lvec{v}_j^\top\metric\,\Lvec{u}_k}{\Lvec{u}_k^\top\metric\,\Lvec{u}_k}\,\Lvec{u}_k \label{eq:rgs2}
     \\
-    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\inner{\Lvec{u}_j}{\Lvec{u}_j}|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
+    \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\Lvec{u}_j^\top\metric\,\Lvec{u}_j|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
 \end{align}
 where we had to insert an absolute value inside the square-root operation because negative inner products will appear.
 We're done. \emph{Ta-da!}
@@ -455,36 +453,36 @@ Importantly for what follows, \emph{the algorithm-generated set of normalized un
 Now just like in O($d$) you can use the orthonormalization to make a subspace projection operator.
 If you have $n\leq d+1$ linearly independent ($d\plus1$)-vectors that span a subspace $\mathscr{T}$, then you can orthogonalize them and construct the subspace projection operator $\proj_\mathscr{T}$
 \begin{align}\label{eq:rproj}
-    \proj_\mathscr{T} &= \sum_{j=1}^n \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^n \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~,
+    \proj_\mathscr{T} &= \sum_{j=1}^n \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^n \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~,
 \end{align}
-where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un-normalized orthogonal vectors; this differs from the result in \eqref{eq:oproj} in that we have to divide by an inner product $\inner{\Lhat{u}_j}{\Lhat{u}_j}$ to account for the sign of the inner product, and we have a right multiply of the metric $\metric$.
+where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un-normalized orthogonal vectors; this differs from the result in \eqref{eq:oproj} in that we have to divide by an inner product $\Lhat{u}_j^\top\metric\,\Lhat{u}_j$ to account for the sign of the inner product, and we have a right multiply of the metric $\metric$.
 But notice that \eqref{eq:rproj} reduces to \eqref{eq:oproj} when the metric is the identity (and thus all inner products are positive.
 This projection operator has the property that, for any ($d\plus1$)-vector $w$, the vector $\proj_\mathscr{T}\,w$ will lie in the subspace $\mathscr{T}$ spanned by the $n$ original ($d\plus1$)-vectors $v_j$ that were orthogonalized.
 Again, the projection operator $\proj_{\mathscr{T}^\perp}$ into the complementary subspace $\mathscr{T}^\perp$ is then just
 \begin{align}\label{eq:lprojcomp}
-    \proj_{\mathscr{T}^\perp} = I_{d+1} - \proj_\mathscr{T} ~,
+    \proj_{\mathscr{T}^\perp} &= I_{d+1} - \proj_\mathscr{T} ~,
 \end{align}
 where $I_{d+1}$ is the $(d+1)\times(d+1)$ identity.
 
 If you have a full set of $n=d+1$ linearly independent ($d\plus1$)-vectors $v_j$, they will span the whole ($d\plus1$)-dimensional space, and the projection operator $\proj_\mathscr{T}$ will become the identity $I_{d+1}$.
 That is, if you have an orthonormal basis of $d+1$ unit vectors $\Lhat{u}_j$, then
 \begin{align}
-    I_{d+1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~,
+    I_{d+1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~,
 \end{align}
-where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
+where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\Lhat{u}_j^\top\metric\,\Lhat{u}_j=\pm 1$.
 In quantum-mechanics (braket) notation, this expression for the identity becomes a standard formula in quantum mechanics:
 \begin{align}
     I_{d+1} &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}_j}{\Lhat{u}_j}
     \\
     \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j\label{eq:Lket}
     \\
-    \bra{\Lhat{u}_j} &\equiv \frac{1}{\inner{\Lhat{u}_j}{\Lhat{u}_j}}\,\Lhat{u}_j^\top\metric ~,\label{eq:Lbra}
+    \bra{\Lhat{u}_j} &\equiv \frac{1}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j}\,\Lhat{u}_j^\top\metric ~,\label{eq:Lbra}
 \end{align}
-where we have taken some liberties in defining the bra $\bra{\Lhat{u}_j}$, and we remind you that $\inner{\Lhat{u}_j}{\Lhat{u}_j}=\pm 1$.
+where we have taken some liberties in defining the bra $\bra{\Lhat{u}_j}$, and we remind you that $\Lhat{u}_j^\top\metric\,\Lhat{u}_jX)=\pm 1$.
 
 Because the metric is its own inverse, if we right-multiply by the metric, we make a simple expression for the metric $\metric$ in terms of the basis vectors:
 \begin{align}
-    \metric &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top}{\inner{\Lvec{u}_j}{\Lvec{u}_j}} ~.
+    \metric &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~.
 \end{align}
 This expression is beautifully independent of the signature of the metric (mentioned in \secref{sec:notation}); it works for either signature.
 
@@ -503,20 +501,20 @@ If you want the Lorentz transformation to have no rotation or reflections, you c
 Then you orthogonalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthogonalize the primed vectors, with the input order $\Lvec{u}',\Lvec{v}'_2,\ldots,\Lvec{v}'_{d+1}$, to get orthonormal basis vectors $\Lhat{u}'_1,\Lhat{u}'_2,\ldots,\Lhat{u}'_{d+1}$.
 Armed with these orthonormal basis vectors, the Lorentz transformation $Q$ that boosts from the unprimed frame to the primed frame is simply
 \begin{mdframed}
-Lorentz transformation built from two orthonormal bases $\Lhat{u}_1\ldots\Lhat{u}_{d+1}$ and $\Lhat{u}'_1\ldots\Lhat{u}'_{d+1}$:
+Lorentz transformation $Q$ given two orthonormal bases $\Lhat{u}_1\ldots\Lhat{u}_{d+1}$ and $\Lhat{u}'_1\ldots\Lhat{u}'_{d+1}$:
 \begin{align}
-    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\metric}{\inner{\Lhat{u}_j}{\Lhat{u}_j}} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'_j}{\Lhat{u}'_j} = \inner{\Lhat{u}_j}{\Lhat{u}_j} ~ \mbox{for all $j$} \label{eq:LT}\\
-  &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \Lhat{u}_j'^\top\metric\,\Lhat{u}_j' = \Lhat{u}_j^\top\metric\,\Lhat{u}_j ~ \mbox{for all $j$} \label{eq:LTQM},
+    Q &= \sum_{j=1}^{d+1} \frac{\Lhat{u}'_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} ~~ \mbox{provided that} ~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{u}_j'^\top\metric\,\Lhat{u}_j' ~ \mbox{for all $j$} \label{eq:LT}\\
+  &= \sum_{j=1}^{d+1} \ketbra{\Lhat{u}'_j}{\Lhat{u}_j} ~~ \mbox{provided that} ~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{u}_j'^\top\metric\,\Lhat{u}_j' ~ \mbox{for all $j$} \label{eq:LTQM},
 \end{align}
 \end{mdframed}
-where the inner products $\inner{\Lhat{u}_j}{\Lhat{u}_j}={\Lhat{u}_j}^\top\Lhat{u}_j$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$,
+where the inner products $\Lhat{u}_j^\top\metric\,\Lhat{u}_j={\Lhat{u}_j}^\top\Lhat{u}_j$ (which are all either $+1$ or $-1$) take care of the sign issues between timelike and spacelike $\Lhat{u}_j$,
 and we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 These expressions are coordinate-free.
 They are also the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator} and \eqref{eq:rotationoperatorQM}.
 
 A few comments about expression $\eqref{eq:LT}$ for the Lorentz Transformation $Q$ could be the following:
 The orthonormalization returns one timelike and three spacelike vectors;
-provided that these are ordered such that they match; that is, provided that $\inner{\Lhat{u}_k}{\Lhat{u}_k}=\inner{\Lhat{u}'_k}{\Lhat{u}'_k}$ for all $k$, the construction of $Q$ given by \eqref{eq:LT} will be a valid Lorentz transformation.
+provided that these are ordered such that they match; that is, provided that $\Lhat{u}_k^\top\metric\,\Lhat{u}_k=\Lhat{u}_k'^\top\metric\,\Lhat{u}'_k$ for all $k$, the construction of $Q$ given by \eqref{eq:LT} will be a valid Lorentz transformation.
 If the inputs are ordered such that the first input vector ($v_1$ in the orthonormalization procedure) is timelike, the orthonormalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
 If the first input vector is a ($d\plus1$)-vector velocity $\Lvec{u}$, then the the first output vector $\Lhat{u}_1$ will be identical to the input vector $\Lvec{u}$, since velocities in $(d\plus1)$ have unit magnitude.
 The expression \eqref{eq:LT} is independent of the signature choice (see \secref{sec:notation}).
@@ -557,11 +555,15 @@ Our advice, if nothing else is natural, is to use the $d$ spatial unit vectors $
 That will always work, and never produce any lightlike vector in the orthonormalization procedure.
 It will also lead to a transformation $Q$ that is pure boost.
 
-\HOGG{Now give the even simpler formula for the minimal LT given $\Lvec{u}$ and $\Lvec{u}'$.
+\HOGG{Now give the even simpler formula for the minimal LT given $\Lvec{u}$ and $\Lvec{v}$.
+\begin{mdframed}
+Minimal Lorentz transformation $Q$ given two unit vectors $\Lhat{u}$ and $\Lhat{v}$:
 \begin{align}
-    Q &= \frac{1}{\inner{\Lhat{u}}{\Lhat{u}}}\,[\Lhat{u}'\,\Lhat{u}^\top\metric - \Lhat{u}\,\Lhat{u}'^\top\metric + \inner{\Lhat{u}}{\Lhat{u}'}\,\proj_{1+1}] + \proj_{d-1} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'}{\Lhat{u}'} = \inner{\Lhat{u}}{\Lhat{u}} \\
-      &= \ketbra{\Lhat{u}'}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{u}'} + \braket{\Lhat{u}}{\Lhat{u}'}\,\proj_{1+1} + \proj_{d-1} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'}{\Lhat{u}'} = \inner{\Lhat{u}}{\Lhat{u}} ~,
+    Q &= \frac{\Lhat{v}\,\Lhat{u}^\top\metric - \Lhat{u}\,\Lhat{v}^\top\metric + (\Lhat{u}^\top\metric\,\Lhat{v})\,\proj_{1+1}}{\Lhat{u}^\top\metric\,\Lhat{u}} + \proj_{d-1} ~~ \mbox{provided that} ~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} \\
+    &= \ketbra{\Lhat{v}}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{v}} + \braket{\Lhat{u}}{\Lhat{v}}\,\proj_{1+1} + \proj_{d-1} ~~ \mbox{provided that} ~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} \\
+    \proj_{1+1} &= \frac{[\ketbra{\Lhat{u}}{\Lhat{u}} - \ketbra{\Lhat{v}}{\Lhat{v}}] - \braket{\Lhat{u}}{\Lhat{v}}\,[\ketbra{\Lhat{u}}{\Lhat{v}} + \ketbra{\Lhat{v}}{\Lhat{u}}]}{1 - \braket{\Lhat{u}}{\Lhat{v}}^2}
 \end{align}
+\end{mdframed}
 where whatever. Draw analogies to Euclidean expressions and note differences.}
 
 \section{Discussion}\label{sec:discussion}
