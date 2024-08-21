@@ -12,6 +12,9 @@
 % To-do
 % -----
 % - Should we move to foregrounding the QM notation, which is pretty good?
+% - Note that <u|u> is *always positive* for the Lorentz case. So we need timelike(u)??
+% - Note that braket and ketbra notation should only ever be used for UNIT VECTORS.
+% - The Lorentz orthonormalization simplifies in QM notation because you lose the absolute value signs??
 % - Stronger literature searches.
 % - This paper is relevant, maybe? https://arxiv.org/abs/1103.1072
 % - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
@@ -457,7 +460,7 @@ where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un
 But notice that \eqref{eq:rproj} reduces to \eqref{eq:oproj} when the metric is the identity (and thus all inner products are positive.
 This projection operator has the property that, for any ($d\plus1$)-vector $w$, the vector $\proj_\mathscr{T}\,w$ will lie in the subspace $\mathscr{T}$ spanned by the $n$ original ($d\plus1$)-vectors $v_j$ that were orthogonalized.
 Again, the projection operator $\proj_{\mathscr{T}^\perp}$ into the complementary subspace $\mathscr{T}^\perp$ is then just
-\begin{align}\label{eq:oprojcomp}
+\begin{align}\label{eq:lprojcomp}
     \proj_{\mathscr{T}^\perp} = I_{d+1} - \proj_\mathscr{T} ~,
 \end{align}
 where $I_{d+1}$ is the $(d+1)\times(d+1)$ identity.
@@ -553,7 +556,7 @@ It will also lead to a transformation $Q$ that is pure boost.
 \HOGG{Now give the even simpler formula for the minimal LT given $\Lvec{u}$ and $\Lvec{u}'$.
 \begin{align}
     Q &= \frac{1}{\inner{\Lhat{u}}{\Lhat{u}}}\,[\Lhat{u}'\,\Lhat{u}^\top\metric - \Lhat{u}\,\Lhat{u}'^\top\metric + \inner{\Lhat{u}}{\Lhat{u}'}\,\proj_{1+1}] + \proj_{d-1} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'}{\Lhat{u}'} = \inner{\Lhat{u}}{\Lhat{u}} \\
-      &= \ketbra{\Lhat{u}'}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{u}'} + \frac{\braket{\Lhat{u}}{\Lhat{u}'}}{\braket{\Lhat{u}}{\Lhat{u}}}\,\proj_{1+1} + \proj_{d-1} ~~ \mbox{provided that} ~ \braket{\Lhat{u}'}{\Lhat{u}'} = \braket{\Lhat{u}}{\Lhat{u}} ~,
+      &= \ketbra{\Lhat{u}'}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{u}'} + \braket{\Lhat{u}}{\Lhat{u}'}\,\proj_{1+1} + \proj_{d-1} ~~ \mbox{provided that} ~ \inner{\Lhat{u}'}{\Lhat{u}'} = \inner{\Lhat{u}}{\Lhat{u}} ~,
 \end{align}
 where whatever. Draw analogies to Euclidean expressions and note differences.}
 
