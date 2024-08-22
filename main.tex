@@ -101,8 +101,8 @@
 \begin{abstract}\noindent % don't use \plus or other macros in the abstract
     Special and general relativity in $d+1$ spacetime dimensions (our macroscopic Universe is $3+1$) can be thought of as metric theories with a metric that isn't positive definite, such that timelike, spacelike, and lightlike (null) vectors have positive, negative, and zero magnitudes.
     The concept of orthonormalization carries over to Lorentz space (Minkowski space), but there are pathologies in which it is possible for the orthonormalization procedure to produce a lightlike vector and thus bork.
-    We describe how to avoid this and successfully orthonormalize any $d+1$ linearly independent input vectors; every successful such orthonormalization produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense), which together form a coordinate basis for the spacetime.
-    We use these orthonormal bases to construct representations of Lorentz transforms that fix or align particular vectors or subspaces.
+    We describe how to avoid these and successfully orthonormalize any $d+1$ linearly independent input vectors; every successful such orthonormalization in $d+1$ produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense), which together form a coordinate basis for the spacetime.
+    We use these orthonormal bases to construct representations of Lorentz transforms that align particular vectors.
     We present a new coordinate-free parameterization of all possible Lorentz transforms for all $d\plus1$ spacetimes (or even $d\plus s$).
 \end{abstract}
 
@@ -163,18 +163,18 @@ Given two column vectors $\Evec{u},\Evec{v}\in\mathbb{R}^d$ (or, more specifical
 Two vectors $\Evec{u},\Evec{v}$ are considered orthogonal if their inner product vanishes, or $\Evec{u}^\top\Evec{v}=0$.
 In Euclidean space, we will call these vectors ``$d$-vectors'' and typeset them bold.
 
-Imagine that we are given a collection of $n\leq d$ linearly independent $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$,
+Imagine that we are given a collection of $n\leq d$ linearly independent $d$-vectors $\Evec{a}_1,\Evec{a}_2,\ldots,\Evec{a}_n$,
 and we want to construct orthonormal basis vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$ that span the linear subspace spanned by the vectors $\Evec{v}_j$.
 We can perform this orthonormalization by the Gram--Schmidt process \cite{gramschmidt}:
 We sequentially construct orthogonal vectors $\Evec{u}_1,\Evec{u}_2,\ldots,\Evec{u}_n$ and normalize them into orthogonal unit vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$ by the following algorithm:
 \begin{align}
-    \Evec{u}_1 &\leftarrow \Evec{v}_1 \label{eq:ogs1}
+    \Evec{u}_1 &\leftarrow \Evec{a}_1 \label{eq:ogs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Evec{u}_j &\leftarrow \Evec{v}_j - \sum_{k=1}^{j-1} \frac{\Evec{v}_j^\top\Evec{u}_k}{\Evec{u}_k^\top\Evec{u}_k}\,\Evec{u}_k \label{eq:ogs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Evec{u}_j &\leftarrow \Evec{a}_j - \sum_{k=1}^{j-1} \frac{\Evec{a}_j^\top\Evec{u}_k}{\Evec{u}_k^\top\Evec{u}_k}\,\Evec{u}_k \label{eq:ogs2}
     \\
     \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Ehat{u}_j &\leftarrow \frac{1}{\sqrt{\Evec{u}_j^\top\Evec{u}_j}}\,\Evec{u}_j ~. \label{eq:ogs3}
 \end{align}
-Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the $d$-vectors $\Evec{v}_1,\Evec{v}_2,\ldots,\Evec{v}_n$ into a different order, the orthonormalization will return different specific basis unit vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$.
+Note that the procedure in \eqref{eq:ogs2} is order-dependent: If you put the $d$-vectors $\Evec{a}_1,\Evec{a}_2,\ldots,\Evec{a}_n$ into a different order, the orthonormalization will return different specific basis unit vectors $\Ehat{u}_1,\Ehat{u}_2,\ldots,\Ehat{u}_n$.
 However, all the different possible returned bases (under permutations of the $\Evec{v}_j$) will span the same $n$-dimentional linear subspace of the $d$-dimentional space.
 
 The reader might be concerned that the orthonormalization involves division by forms like $\sqrt{\Evec{u}^\top\Evec{u}}$.
@@ -185,14 +185,14 @@ If you have $n\leq d$ linearly independent $d$-vectors $\Evec{v}_j$ that span an
 \begin{align}\label{eq:oproj}
     \proj_\mathscr{S} &= \sum_{j=1}^n \Ehat{u}_j\,\Ehat{u}_j^\top ~,
 \end{align}
-where the $\Ehat{u}_j$ are the orthogonal unit vectors\footnote{Note that because---for us---all vectors $\Evec{u},\Evec{v}$ are column vectors, $\Evec{u}\,\Evec{v}^\top\in\mathbb{R}^{d\times d}$ while $\Evec{u}^\top \Evec{v}\in\mathbb{R}$.} delivered by the orthonormalization procedure applied to the $\Evec{v}_j$.
-This projection operator has the property that, for any vector $\Evec{w}\in\mathbb{R}^d$, the vector $\proj_\mathscr{S}\,\Evec{w}$ will lie in the subspace spanned by the $\Evec{v}_j$.
+where the $\Ehat{u}_j$ are the orthogonal unit vectors\footnote{Note that because---for us---all vectors $\Evec{u},\Evec{v}$ are column vectors, $\Evec{u}\,\Evec{v}^\top\in\mathbb{R}^{d\times d}$ while $\Evec{u}^\top \Evec{v}\in\mathbb{R}$.} delivered by the orthonormalization procedure applied to the $\Evec{a}_j$.
+This projection operator has the property that, for any vector $\Evec{b}\in\mathbb{R}^d$, the vector $\proj_\mathscr{S}\,\Evec{b}$ will lie in the subspace spanned by the $\Evec{a}_j$.
 The projection operator $\proj_{\mathscr{S}^\perp}$ into the complementary subspace $\mathscr{S}^\perp$ is then just
 \begin{align}\label{eq:oprojcomp}
     \proj_{\mathscr{S}^\perp} &= I_d - \proj_\mathscr{S} ~,
 \end{align}
 where $I_d$ is the $d\times d$ identity.
-One consequence of this line of reasoning is that if you have $n=d$ linearly independent vectors $\Evec{v}_j$, they will span the whole space, and the projection operator $\proj_\mathscr{S}$ will become the identity $I_d$.
+One consequence of this line of reasoning is that if you have $n=d$ linearly independent vectors $\Evec{a}_j$, they will span the whole space, and the projection operator $\proj_\mathscr{S}$ will become the identity $I_d$.
 That is, if you have an orthonormal basis of $d$ unit vectors $\Ehat{u}_j$, then
 \begin{align}\label{eq:oI}
     I_d &= \sum_{j=1}^d \Ehat{u}_j\,\Ehat{u}_j^\top ~.
@@ -252,7 +252,8 @@ This is a useful expression when you aren't given two complete coordinate bases,
 \includegraphics[width=\figurewidth]{E_v.png}%
 \includegraphics[width=\figurewidth]{E_vp.png}%
 \includegraphics[width=\figurewidth]{E_Q.png}
-\caption{A demonstration of orthonormalization and rotation in Euclidean 2-dimensional space O($2$).
+\caption{\HOGG{This needs to go to a, b, u, v, and no primes:}
+A demonstration of orthonormalization and rotation in Euclidean 2-dimensional space O($2$).
     \textsl{Left:} Two 2-vectors $\Evec{v}_1, \Evec{v}_2$ and the corresponding orthonormal 2-vectors $\Ehat{u}_1, \Ehat{u}_2$ obtained by the orthonormalization procedure.
 \textsl{Middle:} A different two vectors $\Evec{v}'_1, \Evec{v}'_2$ and the corresponding orthonormal vectors $\Ehat{u}'_1, \Ehat{u}'_2$.
 \textsl{Right:} The action of the rotation operator $R$ generated from the orthonomal pairs $\Ehat{u}_1, \Ehat{u}_2$ and $\Ehat{u}'_1, \Ehat{u}'_2$.
@@ -287,7 +288,7 @@ The signature of the metric will only come up in our definitions of ``timelike''
 The metric we have described is the metric for $d\plus 1$ spacetime.
 In $d\plus s$ the diagonal of the metric has $s$ values set to $+1$ and $d$ values set to $-1$ (or the opposite for the opposite signature).
 
-We are going to consider vectors $\Lvec{u}, \Lvec{v}, \Lvec{w}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
+We are going to consider vectors $\Lvec{a}, \Lvec{b}, \Lvec{u}, \Lvec{v}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
 We will call these vectors ``($d\plus1$)-vectors'', and typeset them sanserif with hats (arrows or carets, depending).
 
 Old-school relativists tend to write the relativistic inner product (the scalar product or Minkowski inner product) between two ($d\plus1$)-vectors $\Lvec{u}$ and $\Lvec{v}$ as
@@ -397,15 +398,15 @@ As for normalized, we will say that a ($d\plus1$)-vector is ``normalized'' or is
 Note that lightlike vectors cannot be normalized.
 
 We will still have linear dependence and independence exactly as in Euclidean space.
-That is, $n$ ($d\plus1$)-vectors $\Lvec{v}_j$ are linearly independent if there is no non-trivial set of $n$ coefficients $\alpha_j\in\mathbb{R}$ such that $\sum_{j=1}^n \alpha_j\,\Lvec{v}_j = 0$.
+That is, $n$ ($d\plus1$)-vectors $\Lvec{a}_j$ are linearly independent if there is no non-trivial set of $n$ coefficients $\alpha_j\in\mathbb{R}$ such that $\sum_{j=1}^n \alpha_j\,\Lvec{a}_j = 0$.
 
 How does orthonormalization work in relativity?
-Start with $n\leq d+1$ linearly independent ($d\plus1$)-vectors $\Lvec{v}_1,\Lvec{v}_2,\ldots,\Lvec{v}_n$.
+Start with $n\leq d+1$ linearly independent ($d\plus1$)-vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$.
 If these vectors are randomly generated, then with high probability the straightforward generalization of Gram--Schmidt will work:
 \begin{align}
-    \Lvec{u}_1 &\leftarrow \Lvec{v}_1 \label{eq:rgs1}
+    \Lvec{u}_1 &\leftarrow \Lvec{a}_1 \label{eq:rgs1}
     \\
-    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Lvec{u}_j &\leftarrow \Lvec{v}_j - \sum_{k=1}^{j-1} \frac{\Lvec{v}_j^\top\metric\,\Lvec{u}_k}{\Lvec{u}_k^\top\metric\,\Lvec{u}_k}\,\Lvec{u}_k \label{eq:rgs2}
+    \mbox{then for each $j$ ($2\leq j\leq n$) in order:} ~~ \Lvec{u}_j &\leftarrow \Lvec{a}_j - \sum_{k=1}^{j-1} \frac{\Lvec{a}_j^\top\metric\,\Lvec{u}_k}{\Lvec{u}_k^\top\metric\,\Lvec{u}_k}\,\Lvec{u}_k \label{eq:rgs2}
     \\
     \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\Lvec{u}_j^\top\metric\,\Lvec{u}_j|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
 \end{align}
@@ -414,17 +415,17 @@ We're done. \emph{Ta-da!}
 But we aren't really done, because the iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if the procedure accidentally produces a lightlike vector $\Lvec{u}_j$ for some $j$.
 
 In principle (and in practice if your context is adversarial), the orthonormalization procedure in \eqref{eq:rgs2} can produce a lightlike vector.
-If you start with $n$ linearly independent ($d\plus1$)-vectors $\Lvec{v}_j$, ($1\leq j\leq n$), begin the orthonormalization procedure, and then at some $j$ produce a lightlike $\Lvec{u}_j$, here are the strategies:
+If you start with $n$ linearly independent ($d\plus1$)-vectors $\Lvec{a}_j$, ($1\leq j\leq n$), begin the orthonormalization procedure, and then at some $j$ produce a lightlike $\Lvec{u}_j$, here are the strategies:
 \begin{enumerate}
-\item If all your input vectors $\Lvec{v}_j$ are lightlike, then by construction, $\Lvec{u}_1$ will be lightlike.
-    Replace the first two input vectors $\Lvec{v}_1,\Lvec{v}_2$ with two (possibly randomly constructed) independent linear combinations of the $\Lvec{v}_1$ and $\Lvec{v}_2$.
+\item If all your input vectors $\Lvec{a}_j$ are lightlike, then by construction, $\Lvec{u}_1$ will be lightlike.
+    Replace the first two input vectors $\Lvec{a}_1,\Lvec{a}_2$ with two (possibly randomly constructed) independent linear combinations of the $\Lvec{a}_1$ and $\Lvec{a}_2$.
     Re-start the orthonormalization.
     With high probability the orthonormalization will succeed.
     \item If not every one of your input vectors is lightlike, but the first one is, then by construction ${u}_1$ will be lightlike.
     Reorder the vectors such that the first vector is not lightlike and re-start the orthonormalization.
     With high probability the orthonormalization will succeed.
     \item If none of your input vectors is lightlike, but a lightlike $\Lvec{u}_j$ is appearing, reorder the input vectors and re-start the orthonormalization.
-    \item If all of the above fails, replace the $n$ input vectors $\Lvec{v}_j$ with a randomly generated set of $n$ indepdent linear combinations of the original $n$ input vectors.
+    \item If all of the above fails, replace the $n$ input vectors $\Lvec{a}_j$ with a randomly generated set of $n$ indepdent linear combinations of the original $n$ input vectors.
     With high probability orthonormalization will succeed on this new set of inputs (and, by construction, it will span the same subspace as the original input vectors).
 \end{enumerate}
 These rules aren't extremely satisfying, because (unless you are extremely careful) they involve changing things like the orientation of the coordinate system.
@@ -446,25 +447,31 @@ If you have $n\leq d+1$ linearly independent ($d\plus1$)-vectors that span a sub
 \begin{align}\label{eq:rproj}
     \proj_\mathscr{T} &= \sum_{j=1}^n \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^n \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~,
 \end{align}
-where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $u_j$ are the un-normalized orthogonal vectors; this differs from the result in \eqref{eq:oproj} in that we have to divide by an inner product $\Lhat{u}_j^\top\metric\,\Lhat{u}_j$ to account for the sign of the inner product, and we have a right multiply of the metric $\metric$.
+where the $\Lhat{u}_j$ are the orthogonal unit vectors, and the $\Lvec{u}_j$ are the un-normalized orthogonal vectors; this differs from the result in \eqref{eq:oproj} in that we have to divide by an inner product $\Lhat{u}_j^\top\metric\,\Lhat{u}_j$ to account for the sign of the inner product, and we have a right multiply of the metric $\metric$.
 But notice that \eqref{eq:rproj} reduces to \eqref{eq:oproj} when the metric is the identity (and thus all inner products are positive.
-This projection operator has the property that, for any ($d\plus1$)-vector $w$, the vector $\proj_\mathscr{T}\,w$ will lie in the subspace $\mathscr{T}$ spanned by the $n$ original ($d\plus1$)-vectors $v_j$ that were orthonormalized.
+This projection operator has the property that, for any ($d\plus1$)-vector $\Lvec{b}$, the ($d\plus1$)-vector $\proj_\mathscr{T}\,\Lvec{b}$ will lie in the subspace $\mathscr{T}$ spanned by the $n$ original ($d\plus1$)-vectors $\Lvec{a}_j$ that were orthonormalized.
 Again, the projection operator $\proj_{\mathscr{T}^\perp}$ into the complementary subspace $\mathscr{T}^\perp$ is then just
 \begin{align}\label{eq:lprojcomp}
     \proj_{\mathscr{T}^\perp} &= I_{d+1} - \proj_\mathscr{T} ~,
 \end{align}
 where $I_{d+1}$ is the $(d+1)\times(d+1)$ identity.
 
-If you have a full set of $n=d+1$ linearly independent ($d\plus1$)-vectors $v_j$, they will span the whole ($d\plus1$)-dimensional space, and the projection operator $\proj_\mathscr{T}$ will become the identity $I_{d+1}$.
+If you have a full set of $n=d+1$ linearly independent ($d\plus1$)-vectors $\Lvec{a}_j$, they will span the whole ($d\plus1$)-dimensional space, and the projection operator $\proj_\mathscr{T}$ will become the identity $I_{d+1}$.
 That is, if you have an orthonormal basis of $d+1$ unit vectors $\Lhat{u}_j$, then
 \begin{align}
     I_{d+1} &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top\metric}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} \label{eq:Lidentity} ~,
 \end{align}
 where we have written it in terms of both the normalized and un-normalized orthogonal vectors; note that $\Lhat{u}_j^\top\metric\,\Lhat{u}_j=\pm 1$.
 
+Because the metric is its own inverse, if we right-multiply by the metric, we make a simple expression for the metric $\metric$ in terms of the basis vectors:
+\begin{align}
+    \metric &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~.
+\end{align}
+This expression is beautifully independent of the signature of the metric; it works for either signature.
+
 If your background is quantum mechanics, then you probably use bra--ket and ket--bra notation \cite{dirac}.
 For you, an inner product of unit vectors (basis vectors) ought to be written as a bra--ket $\braket{\Lhat{u}}{\Lhat{v}}$, and an outer product of unit vectors ought to be written as a ket--bra $\ketbra{\Lhat{u}}{\Lhat{v}}$.
-In quantum-mechanics (braket) notation, a covariant vector (plus some decorations) becomes a bra $\bra{\Lvec{v}}$, and a contravariant vector becomes a ket $\ket{\Lvec{v}}$
+In quantum-mechanics (braket) notation, a covariant vector (plus some decorations) becomes a bra $\bra{\Lhat{v}}$, and a contravariant vector becomes a ket $\ket{\Lhat{v}}$
 \begin{align}
     \ket{\Lhat{u}_j} &\equiv \Lhat{u}_j \label{eq:Lket}\\
     \bra{\Lhat{u}_j} &\equiv \frac{1}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j}\,\Lhat{u}_j^\top\metric ~,\label{eq:Lbra} ~,
@@ -477,38 +484,32 @@ With these definitions, the expression for the identity \eqref{eq:Lidentity} bec
 We'll use this simplifying bra--ket notation below.
 Note that even though the inner product $\Lhat{u}^\top\metric\,\Lhat{u}$ can be either $+1$ or $-1$, with these definitions, the bra--ket $\braket{\Lhat{u}}{\Lhat{u}}$ is always $+1$, whether $\Lhat{u}$ is timelike or spacelike.
 
-Because the metric is its own inverse, if we right-multiply by the metric, we make a simple expression for the metric $\metric$ in terms of the basis vectors:
-\begin{align}
-    \metric &= \sum_{j=1}^{d+1} \frac{\Lhat{u}_j\,\Lhat{u}_j^\top}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} = \sum_{j=1}^{d+1} \frac{\Lvec{u}_j\,\Lvec{u}_j^\top}{\Lvec{u}_j^\top\metric\,\Lvec{u}_j} ~.
-\end{align}
-This expression is beautifully independent of the signature of the metric (mentioned in \secref{sec:notation}); it works for either signature.
-
 \section{Vector-guided Lorentz transforms}\label{sec:lt}
 
 All this work with orthonormal ($d\plus1$)-vectors in special relativity is in the service of making a coordinate-free expression for the Lorentz transform.
 Consider two observers moving through spacetime.
 One (unprime) is moving with ($d\plus1$)-vector velocity $\Lhat{u}$ and the other (prime) is moving with ($d\plus1$)-vector velocity $\Lhat{v}$.
-It is a property of any ($d\plus1$)-vector velocity that it is timelike, and we have typeset them as unit vectors because it is also true that any ($d\plus1$)-vector velocity that it has norm 1 (it is a unit vector)
+It is a property of any ($d\plus1$)-vector velocity that it is timelike, and we have typeset them as unit vectors because it is also true that any ($d\plus1$)-vector velocity has norm 1 (it is a unit vector)
 Each of these two observers has a rest frame, and if $\Lhat{u}-\Lhat{v}\neq 0$, those two rest frames are different.
 What are the Lorentz transforms between the two frames?
 That is, how do I construct transforms $Q\in\mbox{O($1,d$)}$ that boost $\Lhat{u}$ to make it parallel to $\Lhat{v}$, and vice versa?
 
 There are two answers.
-The first answer is that one can augment the ($d\plus1$)-vector velocity $\Lhat{u}$ with $d$ additional ($d\plus1$)-vectors $\Lvec{u}_2,\Lvec{u}_3,\ldots,\Lvec{u}_{d+1}$, and we augment the ($d\plus1$)-vector velocity $\Lhat{v}$ with $d$ additional ($d\plus1$)-vectors $\Lvec{v}_2,\Lvec{v}_3,\ldots,\Lvec{v}_{d+1}$.
-If you want the Lorentz transform to have no rotation or reflections, you can set $\Lvec{u}_k=\Lvec{v}_k$ for all $k\geq 2$.
-Then you orthonormalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthonormalize the primed vectors, with the input order $\Lvec{v},\Lvec{v}_2,\ldots,\Lvec{v}_{d+1}$, to get orthonormal basis vectors $\Lhat{v}_1,\Lhat{v}_2,\ldots,\Lhat{v}_{d+1}$.
+The first answer is that one can augment the ($d\plus1$)-vector velocity $\Lhat{u}$ with $d$ additional ($d\plus1$)-vectors $\Lvec{a}_2,\Lvec{a}_3,\ldots,\Lvec{a}_{d+1}$, and we augment the ($d\plus1$)-vector velocity $\Lhat{v}$ with $d$ additional ($d\plus1$)-vectors $\Lvec{b}_2,\Lvec{b}_3,\ldots,\Lvec{b}_{d+1}$.
+If you want the Lorentz transform to have no rotation or reflections, you can set $\Lvec{a}_k=\Lvec{b}_k$ for all $k\geq 2$.
+Then you orthonormalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{a}_2,\ldots,\Lvec{a}_{d+1}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$, and you orthonormalize the primed vectors, with the input order $\Lvec{v},\Lvec{b}_2,\ldots,\Lvec{b}_{d+1}$, to get orthonormal basis vectors $\Lhat{v}_1,\Lhat{v}_2,\ldots,\Lhat{v}_{d+1}$.
 Armed with these orthonormal basis vectors, the Lorentz transform $Q$ that boosts from the unprimed frame to the primed frame is simply
 \begin{align}
   Q &= \sum_{j=1}^{d+1} \ketbra{\Lhat{v}_j}{\Lhat{u}_j} ~~ \mbox{iff} ~~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{v}_j^\top\metric\,\Lhat{v}_j = \pm 1 ~ \mbox{for all $j$} \label{eq:LTQM} ~, \\
   & \tag{\footnotesize Lorentz transform $Q$ given two orthonormal bases $\Lhat{u}_1,\ldots,\Lhat{u}_{d+1}$ and $\Lhat{v}_1,\ldots,\Lhat{v}_{d+1}$}
 \end{align}
-where we have defined the bras and kets as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
+where we have defined the kets and bras as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 This expression is the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
 
 A few comments about expression $\eqref{eq:LTQM}$ for the Lorentz transform $Q$ could be the following:
 The orthonormalization always returns one timelike and three spacelike vectors;
 provided that these are ordered such that they match, that is, provided that $\Lhat{u}_k^\top\metric\,\Lhat{u}_k=\Lhat{v}_k^\top\metric\,\Lhat{v}_k$ for all $k$, the construction of $Q$ given by \eqref{eq:LTQM} will be a valid Lorentz transform.
-If the inputs are ordered such that the first input vector ($\Lvec{v}_1$ in the orthonormalization procedure) is timelike, the orthonormalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
+If the inputs are ordered such that the first input vector ($\Lvec{a}_1$ in the orthonormalization procedure) is timelike, the orthonormalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
 If the first input vector is a ($d\plus1$)-vector velocity $\Lhat{u}$ (that is, timelike and unit norm), then the the first output vector $\Lhat{u}_1$ will be identical to the input vector $\Lhat{u}$.
 The expression \eqref{eq:LTQM} is coordinate free and independent of the signature choice.
 Finally, direct calculation will show that the expression \eqref{eq:LTQM} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transform.
@@ -518,7 +519,8 @@ Finally, direct calculation will show that the expression \eqref{eq:LTQM} for $Q
 \includegraphics[width=\figurewidth]{L_v.png}%
 \includegraphics[width=\figurewidth]{L_vp.png}%
 \includegraphics[width=\figurewidth]{L_Q.png}
-\caption{A demonstration of orthonormalization and rotation in Lorentz $1\plus1$-dimensional space O($1,1$).
+\caption{\HOGG{This needs to switch to a, b, u, v and no primes!}
+A demonstration of orthonormalization and rotation in Lorentz $1\plus1$-dimensional space O($1,1$).
 The time coordinate (the first coordinate) is plotted on the vertical axis and the space coordinate (the second coordinate) is plotted on the horizontal axis.
 \textsl{Left:} Two ($1\plus1$)-vectors $\Lvec{v}_1, \Lvec{v}_2$ and the corresponding orthonormal vectors $\Lhat{u}_1, \Lhat{u}_2$ obtained by the orthonormalization procedure.
 Note that orthonormal vectors in $1\plus1$ neither look orthogonal nor normalized to the eye; the diagonal lightlike (null) lines are plotted to show that orthogonal ($1\plus1$)-vectors are reflected across null lines.
@@ -541,7 +543,7 @@ The full discussion of all these options is beyond our scope here.
 
 The oddest kind of Lorentz transform is one that reverses the time direction.
 We don't recommend making such transforms, but they are permitted here.
-These can be constructed by multiplying one of the input ($d\plus1$)-vector velocities (either $\Lvec{u}$ or $\Lvec{v}$) by $-1$ before starting the orthonormalization.
+These can be constructed by multiplying one of the input ($d\plus1$)-vector velocities (either $\Lhat{u}$ or $\Lhat{v}$) by $-1$ before starting the orthonormalization.
 
 The second answer to our question---how to construct the Lorentz transform $Q$ starting with two input ($d\plus1$)-vector velocities $\Lhat{u}$ and $\Lhat{v}$---is to write down the minimal Lorentz transform that transforms $\Lhat{u}$ to $\Lhat{v}$.
 This is analogous to the minimal Euclidean rotation matrix expression \eqref{eq:vecs2rot} developed above.
@@ -569,7 +571,7 @@ Direct calculation will show that the expression \eqref{eq:vecs2LT} for $Q$ sati
 
 Finally, connecting this to standard teaching practice, we make the remark that if $\Lhat{u}$ is the ($d\plus1$)-vector velocity of the ``lab frame'' and $\Lhat{v}$ is the ($d\plus1$)-vector velocity of the ``rocket frame'' then the expression \eqref{eq:vecs2LT} delivers the pure boost Lorentz transform that changes between these frames.
 These are the standard Lorentz transforms that are sought and used in the introductory textbooks on the subject.
-The use of the transform can be seen as something that changes ($d\plus1$) vectors (``alibi'' in the Weyl \cite{weyl} sense),
+The use of the transform can be seen as something that changes ($d\plus1$) vectors (``alibi'' in the Weyl sense \cite{weyl}),
 or it can be seen as something that changes the coordinate system in which those vectors are represented (``alias'' in the Weyl sense).
 In the alibi sense, $Q$ boosts (as a rocket might) events and ($d\plus1$)-vectors from the lab frame to the rocket frame.
 In the alias sense, $Q$ shows how events and ($d\plus1$)-vectors appearing in the rocket frame will appear when described in the lab frame.
@@ -606,7 +608,7 @@ These kinds of spaces can arise in string-like theories that compactify to $3\pl
 Our conjecture is that the only difference between $d\plus1$ spacetime and $d\plus s$ is that, as $d$ and $s$ both get large, the probability of generating null vectors in the orthonormalization procedure will increase:
 As the space for null vectors increases, the chances of accidentally obtaining null vectors also increases, both in principle and in practice (because of numerical issues).
 
-Speaking of numerical issues, as $d+s$ gets large, the orthonormalization can get numerically unstable, especially in adversarial situations.
+Speaking of numerical issues, as the sum $d+s$ gets large, the orthonormalization can get numerically unstable, especially in adversarial situations.
 Most relativity work is at $d+s\leq 4$ (or conceivably 10, 11, or 26 if you are a string theorist) so numerical stability shouldn't be much of a problem.
 However, an easy improvement to stability might be to move from Gram--Schmidt to Modified Gram--Schmidt \cite{modifiedgramschmidt}.
 That move can be made here too, without significant work.
