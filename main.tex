@@ -2,6 +2,7 @@
 
 % Style Notes
 % -----------
+% - The audience is a faculty member who teaches SR to first-year undergraduates.
 % - Use $d\plus1$ for an in-text or wordy d+1, and $d+1$ for an in-equation or mathy $d+1$.
 % - Don't put hyphens in timelike, spacelike, lightlike (null).
 % - Typeset d-vectors and (d+1)-vectors using the macros, not by hand.
@@ -13,6 +14,8 @@
 
 % To-do
 % -----
+% - https://laurenthoeltgen.name/post/gram-schmidt/ ? The first paragraphs of this (slow to load) paper give historical references.
+% - G-S for Lorentz is NOT NEW: G-S is defined in every inner product space. We are just re-stating it.
 % - This paper makes many assertions. Are these conjectures? Or should we prove them. HOGG would love to learn from SOLE how to prove things here.
 % - Should we shorten Lorentz transform to LT?
 % - Stronger literature searches.
@@ -88,7 +91,7 @@
 \newcommand{\SOLE}[1]{\textcolor{purple}{\textsl{SOLE says: {#1}}}}
 \newcommand{\HOGG}[1]{\textcolor{violet}{\textsl{HOGG says: {#1}}}}
 
-\title{\bfseries Relativistic orthonormalization and coordinate-free Lorentz transforms}
+\title{\bfseries A coordinate-free parameterization of all Lorentz transforms in all spacetimes}
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
@@ -98,11 +101,10 @@
 \maketitle
 
 \begin{abstract}\noindent % don't use \plus or other macros in the abstract
-    Special and general relativity in $d+1$ spacetime dimensions (our macroscopic Universe is $3+1$) can be thought of as metric theories with a metric that isn't positive definite, such that timelike, spacelike, and lightlike (null) vectors have positive, negative, and zero magnitudes.
-    The concept of orthonormalization carries over to Lorentz space (Minkowski space), but there are pathologies in which it is possible for the orthonormalization procedure to produce a lightlike vector and thus bork.
-    We describe how to avoid these and successfully orthonormalize any $d+1$ linearly independent input vectors; every successful such orthonormalization in $d+1$ produces one timelike and $d$ spacelike unit vectors, all orthogonal (in the Lorentz sense), which together form a coordinate basis for the spacetime.
-    We use these orthonormal bases to construct representations of Lorentz transforms that align particular vectors.
-    We present a new coordinate-free parameterization of all possible Lorentz transforms for all $d\plus1$ spacetimes (or even $d\plus s$).
+    Special and general relativity in $d+s$ spacetime dimensions (our macroscopic Universe is $3+1$) are metric theories with a metric that isn't positive definite, such that timelike, lightlike (null), and spacelike vectors have positive, zero, and negative inner products with themselves.
+    Orthonormalization of vectors works in these theories; it can be used to make a coordinate basis ($d+s$ orthoogonal unit vectors, $s$ timelike and $d$ spacelike) out of (almost) any collection of $d+s$ linearly independent input vectors.
+    Given two such bases, the Lorentz transform that goes from one of the two bases to the other can be constructed with a simple outer-product form.
+    We thereby present a new coordinate-free parameterization of all possible Lorentz transforms for all $d+s$ spacetimes.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -123,6 +125,8 @@ In the context of group theory, the word ``equivariant'' means the following:
 If you rotate, reflect, or boost the space, all of the predictions of the theory rotate, reflect, and boost appropriately to match.
 What group theorists call ``equivariance'', physicists call ``covariance'' or ``symmetry''.
 
+\SOLE{We should explain how our work on machine learning got us into this.}
+
 In some sense, the discovery of special relativity was the beginning of the discovery that physics can be stated in a coordinate-free form.
 That is, one does not need to specify a coordinate system in order to explain the physical behavior of a system.
 Sometimes a coordinate system is useful.
@@ -133,10 +137,8 @@ Here we develop completely coordinate-free expressions for these operators in sp
 \paragraph{Our contributions:}
 \begin{itemize}
 \item
-We deliver (in \secref{sec:orth}) the relativistic (Minkowski or Lorentz or space-time) generalization of Gram--Schmidt orthonormalization.
-The only substantive differences between Lorentz orthonormalization and the standard Euclidean orthonormalization are that the inner product of a vector with itself can be negative (!), and that, even if the input vectors are linearly independent, it is possible to get zero-norm vectors after orthonormalization.
-Both of these issues flow from the fact that the metric is not positive-definite.
-We deliver recommendations to avoid or respond to any zero-norm vectors that appear in the course of the orthonormalization procedure.
+We spell out the relationship between orthonormalization, projection, and rotation in Euclidean space and their relativistic equivalents (equivalents in Minkowski or Lorentz spacetime).
+The only substantial differences are the inclusion of the metric tensor $\metric$ in relevant places, and that the orthonormalization procedure won't work if the first input vector is lightlike (null).
 \item
 We use the output of orthonormalization to produce (in \secref{sec:lt}) a new parameterization or new form for the Lorentz transform, which transforms the coordinates of events between two reference frames.
 This new form is coordinate-free, created directly out of the coordinate-basis unit vectors describing the two frames.
@@ -146,6 +148,7 @@ We additionally deliver (in \secref{sec:lt}) a more restricted coordinate-free f
 \end{itemize}
 
 \paragraph{Prior work:}
+\SOLE{NOTE that everything here is actually classically known and understood; this is just a different perspective and approach.}
 Some of the ideas discussed here have been looked at previously.
 In particular, orthonormalization in special relativity is addressed in~\cite{joot}.
 However, that previous work does not deal with the pathologies that can arise when orthonormalization is performed on arbitrary collections of vectors.
@@ -235,6 +238,7 @@ That is, rotations and reflections can be specified directly using orthonormal b
 In this sense, this form could be thought of as a ``vector-guided'' rotation matrix:
 It is constructed directly from the vectors, and independent of how those vectors are represented.
 It is therefore coordinate-free.
+% HOGG: CHANGE minimal to minimum-angle here and elsewhere.
 In case it is unfamiliar, this form \eqref{eq:rotationoperator} for transformation operators is advocated for and used in, eg, \HOGG{Sole can you help here? I can't find any clear textbook use of this form for the rotation operator. If this is novel, which it most certainly is not, then we can prove something here?}
 
 Finally, there is an even simpler expression for the rotation operator $R$ that rotates a vector through the angle betweeen unit vector $\Ehat{u}$ and unit vector $\Ehat{v}$ in the plane defined by $\Ehat{u}$ and $\Ehat{v}$; that is, the minimal rotation operator that takes $\Ehat{u}$ to $\Ehat{v}$.
@@ -244,6 +248,7 @@ This is
     \proj_2 &= \frac{[\Ehat{u}\,\Ehat{u}^\top + \Ehat{v}\,\Ehat{v}^\top] - (\Ehat{u}^\top\Ehat{v})\,[\Ehat{u}\,\Ehat{v}^\top + \Ehat{v}\,\Ehat{u}^\top]}{1 - (\Ehat{u}^\top\Ehat{v})^2} ~,
 \end{align}
 where $\proj_2$ is the projection operator that projects onto the subspace spanned by $\Ehat{u}$ and $\Ehat{v}$, and $\proj_{d-2} = I_d - \proj_2$ is the complementary projection operator.
+\HOGG{SOLE: Can you check this expression (a) is it a rotation (is it a square root of the identity with determinant $+1$), and (b) does it rotate u to v?}
 This is a useful expression when you aren't given two complete coordinate bases, but instead just the two directions that define the endpoints of the rotation; it will generalize usefully to the relativistic case.
 
 \begin{figure}[t]
@@ -290,6 +295,7 @@ In $d\plus s$ the diagonal of the metric has $s$ values set to $+1$ and $d$ valu
 We are going to consider vectors $\Lvec{a}, \Lvec{b}, \Lvec{u}, \Lvec{v}\in\mathbb{R}^{(d+1)}$ in Lorentz space or Minkowski space or spacetime.
 We will call these vectors ``($d\plus1$)-vectors'', and typeset them sanserif with hats (arrows or carets, depending).
 
+% HOGG: MIGHT drop or move to footnote or an aside this Einstein summation notation part.
 Old-school relativists tend to write the relativistic inner product (the scalar product or Minkowski inner product) between two ($d\plus1$)-vectors $\Lvec{u}$ and $\Lvec{v}$ as
 \begin{align}
     \Lblank{u}^\mu\,\Lblank{v}_\mu &= \Lblank{v}^\mu\,\Lblank{u}_\mu ~,
@@ -399,7 +405,7 @@ That is, $n$ ($d\plus1$)-vectors $\Lvec{a}_j$ are linearly independent if there 
 
 How does orthonormalization work in relativity?
 Start with $n\leq d+1$ linearly independent ($d\plus1$)-vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$.
-If these vectors are randomly generated, then with high probability the straightforward generalization of Gram--Schmidt will work:
+Provided that the first vector $\Lvec{a}_1$ is not lightlike, Gram--Schmidt works:
 \begin{align}
     \Lvec{u}_1 &\leftarrow \Lvec{a}_1 \label{eq:rgs1}
     \\
@@ -408,34 +414,16 @@ If these vectors are randomly generated, then with high probability the straight
     \mbox{then for each $j$ ($1\leq j\leq n$):} ~~ \Lhat{u}_j &\leftarrow \frac{1}{\sqrt{|\Lvec{u}_j^\top\metric\,\Lvec{u}_j|}}\,\Lvec{u}_j ~, \label{eq:rgs3}
 \end{align}
 where we had to insert an absolute value inside the square-root operation because negative inner products will appear.
-We're done. \emph{Ta-da!}
-But we aren't really done, because the iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if the procedure accidentally produces a lightlike vector $\Lvec{u}_j$ for some $j$.
+We're done.
 
-In principle (and in practice if your context is adversarial), the orthonormalization procedure in \eqref{eq:rgs2} can produce a lightlike vector.
-If you start with $n$ linearly independent ($d\plus1$)-vectors $\Lvec{a}_j$, ($1\leq j\leq n$), begin the orthonormalization procedure, and then at some $j$ produce a lightlike $\Lvec{u}_j$, here are the strategies:
-\begin{enumerate}
-\item If all your input vectors $\Lvec{a}_j$ are lightlike, then by construction, $\Lvec{u}_1$ will be lightlike.
-    Replace the first two input vectors $\Lvec{a}_1,\Lvec{a}_2$ with two (possibly randomly constructed) independent linear combinations of the $\Lvec{a}_1$ and $\Lvec{a}_2$.
-    Re-start the orthonormalization.
-    With high probability the orthonormalization will succeed.
-    \item If not every one of your input vectors is lightlike, but the first one is, then by construction ${u}_1$ will be lightlike.
-    Reorder the vectors such that the first vector is not lightlike and re-start the orthonormalization.
-    With high probability the orthonormalization will succeed.
-    \item If none of your input vectors is lightlike, but a lightlike $\Lvec{u}_j$ is appearing, reorder the input vectors and re-start the orthonormalization.
-    \item If all of the above fails, replace the $n$ input vectors $\Lvec{a}_j$ with a randomly generated set of $n$ indepdent linear combinations of the original $n$ input vectors.
-    With high probability orthonormalization will succeed on this new set of inputs (and, by construction, it will span the same subspace as the original input vectors).
-\end{enumerate}
-These rules aren't extremely satisfying, because (unless you are extremely careful) they involve changing things like the orientation of the coordinate system.
-We conjecture that there are better possible rules.
+There is only one caveat:
+The iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if a lightlike vector appears.
+\HOGG{It would be fun to SHOW that lightlike vector can never be orthogonal to any timelike or spacelike vector, maybe in a previous paragraph.}
+Because lightlike vectors are not orthogonal to any timelike or spacelike vector, the only way that a lightlike vector can appear in this procedure is if the first input vector $\Lvec{a}_1$ is lightlike.
+Thus it is critical that the first input vector $\Lvec{a}_1$ is not lightlike.
 
-\HOGG{I think if we start with one timelike first and $n-1$ linearly independent spacelike afterwards, nothing ever borks.
-So just do that! Maybe? And can we prove this?}
-
-One comment to make is that orthonormalization is not necessarily numerically stable.
-That is, a set of vectors can be formally linearly independent, but only barely, or not at all at finite precision.
-It is out of scope for us here, but there are methods to improve the stability of orthonormalizations (\HOGG{SOLE WHAT TO CITE?}); these will be generalizable to the Lorentz space.
-
-Another comment to make is that if you start with $n=d+1$ linearly independent ($d\plus1$)-vectors, the outcome of the orthonormalization will be exactly one timelike vector and exactly $d$ spacelike vectors.
+The orthonormalization returns complete coordinate bases:
+If you start with $n=d+1$ linearly independent ($d\plus1$)-vectors, the outcome of the orthonormalization will be exactly one timelike vector and exactly $d$ spacelike vectors.
 Importantly for what follows, \emph{the algorithm-generated set of normalized unit vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+1}$ will form a coordinate basis in spacetime}, with one timelike (time) axis unit vector and $d$ orthogonal spacelike (spatial) axis unit vectors.
 \HOGG{Sole: Should we prove this?}
 
@@ -581,7 +569,7 @@ However, the expressions make no reference to the number of time coordinates, so
 
 \section{Discussion}\label{sec:discussion}
 
-We have established a set of rules or guidelines for successful orthonormalization of ($d\plus1$)-vectors in $d\plus1$ spacetimes---or even ($d\plus s$)-vectors in $d\plus s$ spacetimes---and we have used the produced orthonormal vectors to construct Lorentz transforms.
+We have recommended a procedure to make orthonormal basis vectors, and shown how to use these to construct Lorentz transforms.
 These constructions of Lorentz transforms are explicitly coordinate free; they depend only on the input vectors, and not on the coordinate system in which they are represented.
 Importantly, our formalism can produce any Lorentz transform, including arbitrary compositions of boosts, time reversals, spatial rotations, and spatial reflections.
 Much of our discussion is very mathematical and theoretical.
@@ -592,11 +580,6 @@ Thus, for us, Lorentz transforms include all arbitrary compositions of boost, ti
 Our parameterization covers all of these, naturally.
 That is, our parameterization generates all possible elements of the group O($1,d$).
 Others might restrict to a smaller set; in which case there are additional constraints beyond our definitions \eqref{eq:lore1} and \eqref{eq:lore2}; this would, in turn, restrict the orthonormal vector inputs to our expression \eqref{eq:LTQM} for the Lorentz transform.
-
-The biggest limitation of this work, for us, is that we find unsatisfying our bulleted list of hacks (in \secref{sec:orth}) to fix the orthonormalization when null vectors arise.
-We imagine that there might be better solutions.
-If your contexts are very predictable, that is, when you have $n$ independent ($d\plus1$)-vectors and you can always guarantee that one of them is timelike, then you can order the vectors in such a way that no null vector is ever produced.
-But if your context isn't this predictable, we don't have a cleaner solution at present.
 
 Everything in this \documentname{}, including the orthonormalization procedure and the outer-product form for the Lorentz transform, is written for $d\plus1$ spacetimes, governed by the group O($1,d$).
 However, everything also applies in more general $d\plus s$ spaces, governed by O($s,d$).
