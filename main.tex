@@ -484,11 +484,14 @@ If you want the Lorentz transformation to have no rotation or reflections, you c
 Then you orthonormalize the unprimed vectors, with the input order $\Lvec{u},\Lvec{a}_2,\ldots,\Lvec{a}_{d+s}$, to get orthonormal basis vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+s}$, and you orthonormalize the primed vectors, with the input order $\Lvec{v},\Lvec{b}_2,\ldots,\Lvec{b}_{d+s}$, to get orthonormal basis vectors $\Lhat{v}_1,\Lhat{v}_2,\ldots,\Lhat{v}_{d+s}$.
 Armed with these orthonormal basis vectors, the Lorentz transformation $Q$ that boosts from the unprimed frame to the primed frame is simply
 \begin{align}
-  Q &= \sum_{j=1}^{d+s} \ketbra{\Lhat{v}_j}{\Lhat{u}_j} \quad~ \mbox{iff} ~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{v}_j^\top\metric\,\Lhat{v}_j = \pm 1 ~ \mbox{for all $j$} \label{eq:LTQM} ~, \\
-  & \tag{\footnotesize Lorentz transformation $Q$ given two orthonormal bases $\Lhat{u}_1,\ldots,\Lhat{u}_{d+s}$ and $\Lhat{v}_1,\ldots,\Lhat{v}_{d+s}$}
+  Q = \sum_{j=1}^{d+s} \ketbra{\Lhat{v}_j}{\Lhat{u}_j} \quad~ \mbox{iff} ~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{v}_j^\top\metric\,\Lhat{v}_j = \pm 1 ~ \mbox{for all $j$} \label{eq:LTQM} ~,
 \end{align}
 where we have defined the kets and bras as in \eqref{eq:Lket} and \eqref{eq:Lbra}.
 This expression is the relativistic (Lorentz) generalization of the rotation--reflection operator in Euclidean space given in \eqref{eq:rotationoperator}.
+If we expand the kets and bras back to the linear-algebra forms, this expression becomes
+\begin{align}
+  Q &= \sum_{j=1}^{d+s} \frac{\Lhat{v}_j\,\Lhat{u}_j^\top\metric}{\Lhat{u}_j^\top\metric\,\Lhat{u}_j} \quad~ \mbox{iff} ~ \Lhat{u}_j^\top\metric\,\Lhat{u}_j = \Lhat{v}_j^\top\metric\,\Lhat{v}_j = \pm 1 ~ \mbox{for all $j$} ~.
+\end{align}
 
 A few comments about expression $\eqref{eq:LTQM}$ for the Lorentz transformation $Q$ could be the following:
 The orthonormalization always returns one timelike and three spacelike vectors;
