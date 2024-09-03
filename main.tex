@@ -93,7 +93,7 @@
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{draft as of 2024 August 31}
+\date{draft as of 2024 September 3}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -415,16 +415,22 @@ where we had to insert an absolute value inside the square-root operation becaus
 We're done.
 
 There is only one caveat:
-The iteration step \eqref{eq:rgs2} involves dividing by an inner product, and inner products can vanish if a lightlike vector appears.
-\HOGG{It would be fun to SHOW that lightlike vector can never be orthogonal to any timelike or spacelike vector, maybe in a previous paragraph. OH BUT WAIT they CAN be orthogonal as long as $d>1$ or $s>1$.}
-Because lightlike vectors are not orthogonal to any timelike or spacelike vector, the only way that a lightlike vector can appear in this procedure is if the first input vector $\Lvec{a}_1$ is lightlike.
-\HOGG{NOT TRUE!}
-Thus it is critical that the first input vector $\Lvec{a}_1$ is not lightlike.
+The iteration step \eqref{eq:rgs2} involves dividing by an inner product, as does the normalization step \eqref{eq:rgs3}, and inner products can vanish if a lightlike vector appears.
+Here are some comments and advice related to that eventuality:
+\begin{itemize}
+\item In fact this is very unlikely. If the input vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ are generated randomly, for example, the probability of creating a lightlike vector in the orthogonalization vanishes.
+\item Make sure the first input vector is not lightlike: If the first vector $\Lvec{a}_1$ is lightlike, then a lightlike $\Lvec{u}_1$ is generated. That said, it is fine for subsequent vectors $\Lvec{a}_j$ ($j>1$) to be lightlike.
+\item If all your input vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ are lightlike, then make spacelike and timelike linear combinations of them prior to the orthogonalization. Or, more minimally, at least replace the first input vector $\Lvec{a}_1$ with a non-lightlike linear combination of the first two lightlike vectors. Then with probability 1 the orthonormalization will succeed.
+\item If the procedure produces a lightlike $\Lvec{u}_j$ at $j>1$, try reordering the vectors or replacing them with linearly independent linear combinations of one another. Again, with probability 1 the orthonormalization will succeed.
+\item If none of this works---that is, if even randomly generated linear combination of your input vectors produces a lightlike $\Lvec{u}_j$, then you are in a (very rare) boundary case, such that the subspace is tangent to the manifold of lightlike rays. In this case there is no way to generate a orthonormal basis. The only recourse is to perturb the input vectors; that is, to orthogonalize a nearby set of inputs (and not precisely your original inputs). Full characterization of these tangent cases is beyond the scope of this \documentname, and is discussed elsewhere \cite{tangentspaces}.
+\end{itemize}
+In what follows we will assume that you have an input set of $n$ ($d\plus s$)-vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ that leads, without any issues, to an output set of $n$ orthonormal basis ($d\plus s$)-vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_n$.
 
-The orthonormalization returns complete coordinate bases:
-If you start with $n=d+s$ linearly independent ($d\plus s$)-vectors, the outcome of the orthonormalization will be exactly $s$ timelike vectors and exactly $d$ spacelike vectors.
+The orthonormalization---when successful (which is almost always)---returns complete coordinate bases:
+If you start with $n=(d+s)$ linearly independent ($d\plus s$)-vectors, the outcome of the orthonormalization will be exactly $s$ timelike vectors and exactly $d$ spacelike vectors.
 Importantly for what follows, \emph{the algorithm-generated set of normalized unit vectors $\Lhat{u}_1,\Lhat{u}_2,\ldots,\Lhat{u}_{d+s}$ will form a coordinate basis in spacetime}, with $s$ orthogonal timelike (time) axis unit vectors and $d$ orthogonal spacelike (spatial) axis unit vectors.
 \HOGG{Sole: Should we prove this?}
+\HOGG{Also, if $n<(d+s)$, then you get a Lorentz space O($q,p$) spanned by $n=(p+q)$ basis vectors, with $q\leq s$ and $p\leq d$. In string theory, we live on a $3+1$ subspace of some $d+s\geq 10$!}
 
 Now just like in O($d$) you can use the orthonormalization to make a subspace projection operator.
 If you have $n\leq d+s$ linearly independent ($d\plus s$)-vectors that span a subspace $\mathscr{T}$, then you can orthonormalize them and construct the subspace projection operator $\proj_\mathscr{T}$
@@ -532,17 +538,16 @@ The oddest kind of Lorentz transformation is one that reverses the time directio
 We don't recommend making such transformations, but they are permitted here.
 These can be constructed by multiplying one of the input ($d\plus s$)-vector velocities (either $\Lhat{u}$ or $\Lhat{v}$) by $-1$ before starting the orthonormalization.
 
-The second answer to our question---how to construct the Lorentz transformation $Q$ starting with two input ($d\plus s$)-vector velocities $\Lhat{u}$ and $\Lhat{v}$---is to write down the minimal \SOLE{The word ``minimal'' is not good here; be more specific.} Lorentz transformation that transforms $\Lhat{u}$ to $\Lhat{v}$.
+The second answer to our question---how to construct the Lorentz transformation $Q$ starting with two input ($d\plus s$)-vector velocities $\Lhat{u}$ and $\Lhat{v}$---is to write down the minimal \SOLE{The word ``minimal'' is not good here; be more specific.} Lorentz transformation $Q$ that transforms $\Lhat{u}$ to $\Lhat{v}$.
 This is analogous to the minimal Euclidean rotation matrix expression \eqref{eq:vecs2rot} developed above.
 The Lorentz generalization of that expression is
 \begin{align}
     Q &= \ketbra{\Lhat{v}}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{v}} + \braket{\Lhat{u}}{\Lhat{v}}\,\proj_{2} + \proj_{d+s-2} \quad~ \mbox{iff} ~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} = \pm 1 \label{eq:vecs2LT} \\
-    \tag{\footnotesize minimal Lorentz transformation $Q$ given two unit vectors $\Lhat{u}$ and $\Lhat{v}$} \\
     \proj_{2} &= \frac{\left(\ketbra{\Lhat{u}}{\Lhat{u}} + \ketbra{\Lhat{v}}{\Lhat{v}}\right) - \braket{\Lhat{u}}{\Lhat{v}}\,\left(\ketbra{\Lhat{u}}{\Lhat{v}} + \ketbra{\Lhat{v}}{\Lhat{u}}\right)}{1 - \braket{\Lhat{u}}{\Lhat{v}}^2} ~,
 \end{align}
 where $\proj_{2}$ is the projection operator into the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$,
 and $\proj_{d+s-2} = I_{d+s} - \proj_{2}$ is the complementary projection operator.
-This Lorentz transformation boosts from $\Lhat{u}$ to $\Lhat{v}$, but it does not modify any ($d\plus s$)-vector that is orthogonal to the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
+This Lorentz transformation \eqref{eq:vecs2LT} boosts from $\Lhat{u}$ to $\Lhat{v}$, but it does not modify any ($d\plus s$)-vector that is orthogonal to the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
 
 A few comments about the expression \eqref{eq:vecs2LT} could be the following:
 The initial problem statement started with two timelike unit vectors, $\Lhat{u}$ and $\Lhat{v}$.
@@ -554,9 +559,10 @@ and space reversal; \HOGG{Check!});
 when $s>1$ and the two vectors are timelike, the expression produces both a time-domain rotation and a boost in general;
 when the two vectors are spacelike, the expression produces both a spatial rotation and a boost in general.
 We derived the expression by explicitly orthogonalizing and constructing \eqref{eq:LTQM} for the case in which the transformation acts only in the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
-Expression \eqref{eq:LTQM} is less general than expression \eqref{eq:vecs2LT}, because it cannot produce spatial reflections.
+Expression \eqref{eq:vecs2LT} is less general than expression \eqref{eq:LTQM}, because it cannot produce spatial reflections.
 However, like \eqref{eq:LTQM}, the expression \eqref{eq:vecs2LT} is coordinate free and independent of the signature choice.
-Direct calculation will show that the expression \eqref{eq:vecs2LT} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transformation.
+Direct calculation shows that the expression \eqref{eq:vecs2LT} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transformation.
+\HOGG{SOLE: Please check this!}
 
 Finally, connecting this to standard teaching practice, we make the remark that if $\Lhat{u}$ is the ($d\plus s$)-vector velocity of the ``lab frame'' and $\Lhat{v}$ is the ($d\plus s$)-vector velocity of the ``rocket frame'' then the expression \eqref{eq:vecs2LT} delivers the pure boost Lorentz transformation that changes between these frames.
 These are the standard Lorentz transformations that are sought and used in the introductory textbooks on the subject.
@@ -581,6 +587,9 @@ Thus, for us, Lorentz transformations include all arbitrary compositions of boos
 Our parameterization covers all of these, naturally.
 That is, our parameterization generates all possible elements of the group O($s,d$).
 Others might restrict to a smaller set; in which case there are additional constraints beyond our definitions \eqref{eq:lore1} and \eqref{eq:lore2}; this would, in turn, restrict the orthonormal vector inputs to our expression \eqref{eq:LTQM} for the Lorentz transformation.
+\HOGG{Return to the point that if you require $\det=+1$ you might think that makes things better, but it doesn't!!}
+
+\HOGG{Note here that the tangent-space or boundary case is a very interesting issue. Note that we might be able to generate strategies that involve taking limits and giving up on normalization. Comment that the null, at probability 1, comes last! But of course in large spaces there are doubly-tangent cases that are even worse... Etc.}
 
 As the sum $d+s$ gets large, the orthonormalization can get numerically unstable, especially in adversarial situations.
 Most relativity work is at $d+s\leq 4$ (or conceivably 10, 11, or 26 if you are a string theorist) so numerical stability shouldn't be much of a problem.
