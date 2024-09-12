@@ -93,7 +93,7 @@
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{draft as of 2024 September 3}
+\date{draft as of 2024 September 12}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -506,12 +506,13 @@ If we expand the kets and bras back to the linear-algebra forms, this expression
 \end{align}
 
 A few comments about expression $\eqref{eq:LTQM}$ for the Lorentz transformation $Q$ could be the following:
-The orthonormalization always returns one timelike and three spacelike vectors;
+The orthonormalization (almost) always returns $s$ timelike and $d$ spacelike vectors;
 provided that these are ordered such that they match, that is, provided that $\Lhat{u}_k^\top\metric\,\Lhat{u}_k=\Lhat{v}_k^\top\metric\,\Lhat{v}_k$ for all $k$, the construction of $Q$ given by \eqref{eq:LTQM} will be a valid Lorentz transformation.
-If the inputs are ordered such that the first input vector ($\Lvec{a}_1$ in the orthonormalization procedure) is timelike, the orthonormalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
+If (as is sensible) the inputs are ordered such that the first input vector ($\Lvec{a}_1$ in the orthonormalization procedure) is timelike, the orthonormalization will make the first output unit vector $\Lhat{u}_1$ be timelike.
 If the first input vector is a ($d\plus s$)-vector velocity $\Lhat{u}$ (that is, timelike and unit norm), then the the first output vector $\Lhat{u}_1$ will be identical to the input vector $\Lhat{u}$.
 The expression \eqref{eq:LTQM} is coordinate free and independent of the signature choice.
 Finally, direct calculation will show that the expression \eqref{eq:LTQM} for $Q$ satisfies the definition \eqref{eq:lore2} of a Lorentz transformation.
+\HOGG{Many of these comments maybe don't deserve to be here, exactly? Reconsider these.}
 
 \begin{figure}[t]
 \begin{mdframed}
@@ -613,8 +614,9 @@ This code numerically tests the expressions developed here, makes all of the fig
 It is a pleasure to thank
   Roger Blandford (Stanford),
   Ben Blum-Smith (JHU),
-  Alex Jiang (CUNY), and
-  Clark Miyamoto (NYU)
+  Alex Jiang (CUNY),
+  Clark Miyamoto (NYU), and
+  Monica Pate (NYU)
 for valuable discussions.
 This research was supported in part by XXX YYY.
 The Flatiron Institute is a division of the Simons Foundation.
