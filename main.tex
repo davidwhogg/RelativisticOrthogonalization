@@ -13,10 +13,8 @@
 
 % To-do
 % -----
-% - Send to Blandford, Kleban for comments.
 % - Stronger literature searches.
 % - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
-% - Change the "2" and "d+s-2" subscripts to "uv" and "uvperp" on the various projection operators?
 % - This paper is too long! It only says a few things. Try to tighten it up.
 % - Where to submit? Maybe European Journal of Physics? (Open Access) or American Journal of Physics? (Maybe higher impact?)
 
@@ -84,7 +82,7 @@
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{draft as of 2024 September 27}
+\date{draft as of 2024 December 27}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -107,7 +105,7 @@ This \documentname{} is motivated partly by attempts to understand the geometric
 
 For group theorists, $(3\plus1)$-dimensional special relativity is equivariant with respect to the group called the Lorentz group and denoted O($1,3$).
 In ($d\plus1$)-dimensional spacetime the group is O($1,d$).
-The operators in the group O($1,d$) include rotations in the $d$-dimensional spatial subspace of spacetime, reflections in space and time, and boosts.
+The operators in the group O($1,d$) include rotations in the $d$-dimensional spatial subspace of spacetime, reflections in space and time, and boosts. %HOGG explain boosts in a sentence.
 And then there are groups with \emph{multiple times}, such that it is $(d\plus s)$-dimensional spacetime and the group is O($s,d$).
 When there are multiple times, the operators include rotations in the time sector as well as rotations in the spatial sector.
 All these spacetimes and groups are generalizations of Euclidean space and the orthogonal group O($d$), which is the group of rotations and reflections in $d$-dimensional space.
@@ -116,7 +114,7 @@ If you rotate, reflect, or boost the space, all of the predictions of the theory
 What group theorists call ``equivariance'', physicists call ``covariance'' or ``symmetry''.
 
 As a point of motivation, we got interested in the questions addressed in this paper through our work on invariant and equivariant machine-learning methods \cite{scalars}.
-In this work, we considered all classical groups, which included the Lorentz group.
+In this work, we considered several classical Lie groups, including the Lorentz group.
 We noticed that there are pathologies associated with orthogonal vectors (such that a vector can be orthogonal to itself, for instance).
 
 In some sense, the discovery of special relativity was the beginning of the discovery that physics can be stated in a coordinate-free form.
@@ -137,12 +135,12 @@ This form is based on outer products of basis vectors (or, in Dirac notation, ke
 This new form is coordinate-free, created directly out of the coordinate-basis unit vectors describing the two frames.
 It is analogous to a particular coordinate-free form for a Euclidean rotation matrix, but with modifications to account for the non-positive-definite properties of the metric; it works for all $d\plus s$ spacetimes.
 \item
-We additionally deliver (in \secref{sec:lt}) a more restricted coordinate-free form for the Lorentz transformation that can produces a pure boost given as input the two velocity vectors indicating the velocities of the two rest frames connected by the boost.
+We additionally deliver (in \secref{sec:lt}) a more restricted coordinate-free form for the Lorentz transformation that can produce a pure boost given as input the two velocity vectors indicating the velocities of the two rest frames connected by the boost.
 \end{itemize}
 
 \paragraph{Prior work:}
 Some of the ideas discussed here have been looked at previously.
-In particular, orthonormalization in special relativity is mentioned in in~\cite{joot}, which also thinks about different frames in terms of basis vectors produced by orthonormalization.
+In particular, orthonormalization in special relativity is mentioned in~\cite{joot}, which also thinks about different frames in terms of basis vectors produced by orthonormalization.
 Coordinate-free Lorentz transformations are partially developed in~\cite{wagner}, but with a very different notation (in terms of 3-vectors, not 4-vectors) and a very different set of goals, part of a bigger program of describing all of special relativity in coordinate-free form.
 Neither of these previous investigations develops the outer-product (or ket--bra) forms we show below, nor do they address any geometries beyond $3\plus 1$.
 Another relevant investigation decomposes the Lorentz transformation into orthogonal bivector expressions \cite{hanson}.
@@ -241,10 +239,10 @@ It is therefore coordinate-free.
 Finally, there is an even simpler expression for the rotation operator $R$ that rotates a vector through the angle betweeen unit vector $\Ehat{u}$ and unit vector $\Ehat{v}$ in the plane defined by $\Ehat{u}$ and $\Ehat{v}$; that is, the smallest-angle rotation operator that takes $\Ehat{u}$ to $\Ehat{v}$.
 This is
 \begin{align}
-    R &= \Ehat{v}\,\Ehat{u}^\top - \Ehat{u}\,\Ehat{v}^\top + (\Ehat{u}^\top\Ehat{v})\,\proj_{2} + \proj_{d-2} \label{eq:vecs2rot} \\
-    \proj_2 &= \frac{[\Ehat{u}\,\Ehat{u}^\top + \Ehat{v}\,\Ehat{v}^\top] - (\Ehat{u}^\top\Ehat{v})\,[\Ehat{u}\,\Ehat{v}^\top + \Ehat{v}\,\Ehat{u}^\top]}{1 - (\Ehat{u}^\top\Ehat{v})^2} ~,
+    R &= \Ehat{v}\,\Ehat{u}^\top - \Ehat{u}\,\Ehat{v}^\top + (\Ehat{u}^\top\Ehat{v})\,\proj_{uv} + \proj_{uv^\perp} \label{eq:vecs2rot} \\
+    \proj_{uv} &= \frac{[\Ehat{u}\,\Ehat{u}^\top + \Ehat{v}\,\Ehat{v}^\top] - (\Ehat{u}^\top\Ehat{v})\,[\Ehat{u}\,\Ehat{v}^\top + \Ehat{v}\,\Ehat{u}^\top]}{1 - (\Ehat{u}^\top\Ehat{v})^2} ~,
 \end{align}
-where $\proj_2$ is the projection operator that projects onto the subspace spanned by $\Ehat{u}$ and $\Ehat{v}$, and $\proj_{d-2} = I_d - \proj_2$ is the complementary projection operator.
+where $\proj_{uv}$ is the projection operator that projects onto the subspace spanned by $\Ehat{u}$ and $\Ehat{v}$, and $\proj_{uv^\perp} = I_d - \proj_{uv}$ is the complementary projection operator.
 % \HOGG{SOLE: Can you check this expression (a) is it a rotation (is it a square root of the identity with determinant $+1$), and (b) does it rotate u to v?}
 This is a useful expression when you aren't given two complete coordinate bases, but instead just the two directions that define the endpoints of the rotation; it will generalize usefully to the relativistic case.
 
@@ -552,11 +550,11 @@ By ``minimal'' here we mean, in some sense, ``closest to the identity.''
 It is minimal in the same sense that the Euclidean rotation operator given in \eqref{eq:vecs2rot} is the minimum-angle rotation that brings the one direction to the other.
 The Lorentz generalization of that Euclidean expression is
 \begin{align}
-    Q &= \ketbra{\Lhat{v}}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{v}} + \braket{\Lhat{u}}{\Lhat{v}}\,\proj_{2} + \proj_{d+s-2} \quad~ \mbox{iff} ~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} = \pm 1 \label{eq:vecs2LT} \\
-    \proj_{2} &= \frac{\left(\ketbra{\Lhat{u}}{\Lhat{u}} + \ketbra{\Lhat{v}}{\Lhat{v}}\right) - \braket{\Lhat{u}}{\Lhat{v}}\,\left(\ketbra{\Lhat{u}}{\Lhat{v}} + \ketbra{\Lhat{v}}{\Lhat{u}}\right)}{1 - \braket{\Lhat{u}}{\Lhat{v}}^2} ~,
+    Q &= \ketbra{\Lhat{v}}{\Lhat{u}} - \ketbra{\Lhat{u}}{\Lhat{v}} + \braket{\Lhat{u}}{\Lhat{v}}\,\proj_{uv} + \proj_{uv^\perp} \quad~ \mbox{iff} ~ \Lhat{u}^\top\metric\,\Lhat{u} = \Lhat{v}^\top\metric\,\Lhat{v} = \pm 1 \label{eq:vecs2LT} \\
+    \proj_{uv} &= \frac{\left(\ketbra{\Lhat{u}}{\Lhat{u}} + \ketbra{\Lhat{v}}{\Lhat{v}}\right) - \braket{\Lhat{u}}{\Lhat{v}}\,\left(\ketbra{\Lhat{u}}{\Lhat{v}} + \ketbra{\Lhat{v}}{\Lhat{u}}\right)}{1 - \braket{\Lhat{u}}{\Lhat{v}}^2} ~,
 \end{align}
-where $\proj_{2}$ is the projection operator into the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$,
-and $\proj_{d+s-2} = I_{d+s} - \proj_{2}$ is the complementary projection operator.
+where $\proj_{uv}$ is the projection operator into the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$,
+and $\proj_{uv^\perp} = I_{d+s} - \proj_{uv}$ is the complementary projection operator.
 This Lorentz transformation \eqref{eq:vecs2LT} boosts from $\Lhat{u}$ to $\Lhat{v}$, but it does not modify any ($d\plus s$)-vector that is orthogonal to the subspace spanned by $\Lhat{u}$ and $\Lhat{v}$.
 
 A few comments about the expression \eqref{eq:vecs2LT} could be the following:
