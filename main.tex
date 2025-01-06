@@ -14,6 +14,8 @@
 % To-do
 % -----
 % - Stronger literature searches.
+% - Are we happy with what is written about the literature?
+% - Can the expressions for the "minimal" rotation and LT be simplified further? 
 % - The references are a mess: German or English titles? Order? arXiv entries? Make it not suck.
 % - This paper is too long! It only says a few things. Try to tighten it up.
 % - Where to submit? Maybe European Journal of Physics? (Open Access) or American Journal of Physics? (Maybe higher impact?)
@@ -82,7 +84,7 @@
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{draft as of 2024 December 27}
+\date{draft as of 2025 January 6}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
@@ -90,7 +92,7 @@
 \begin{abstract}\noindent % don't use \plus or other macros in the abstract
     Special and general relativity in $d+s$ spacetime dimensions (our macroscopic Universe is $3+1$) are metric theories with a metric that isn't positive definite, such that timelike, lightlike (null), and spacelike vectors have positive, zero, and negative inner products with themselves.
     Orthonormalization of vectors works in these theories; it can be used to make a coordinate basis ($d+s$ orthogonal unit vectors, $s$ timelike and $d$ spacelike) out of (almost) any collection of $d+s$ linearly independent input vectors.
-    Given two such bases, the Lorentz transformation that goes from one of the two bases to the other can be constructed with a simple outer-product form.
+    Given two such bases, the Lorentz transformation that goes from one of the two bases to the other can be constructed with a simple outer-product form, analogous to a sum over ket-bras in Dirac notation.
     We thereby present a new coordinate-free parameterization of all possible Lorentz transformations for all $d+s$ spacetimes.
 \end{abstract}
 
@@ -413,7 +415,7 @@ The iteration step \eqref{eq:rgs2} involves dividing by the inner product $\Lvec
 Here are some comments and advice related to that eventuality:
 \begin{itemize}
 \item In fact it is very unlikely that the orthogonalization will produce a lightlike vector $\Lvec{u}_j$.
-If the input vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ are generated randomly, for example, the probability of producing a lightlike vector in the orthogonalization vanishes.
+If the input vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ are generated randomly from typical kinds of distributions, for example, the probability of producing a lightlike vector in the orthogonalization vanishes.
 \item It is critical that the first input vector is not lightlike: If the first vector $\Lvec{a}_1$ is lightlike, then a lightlike $\Lvec{u}_1$ is generated.
 That said, as long as $\Lvec{a}_1$ is not lightlike, it is fine for subsequent vectors $\Lvec{a}_j$ ($j>1$) to be lightlike.
 \item If all your input vectors $\Lvec{a}_1,\Lvec{a}_2,\ldots,\Lvec{a}_n$ are lightlike, then you ought to replace the first input vector $\Lvec{a}_1$ with a non-lightlike linear combination of the first two lightlike vectors.
