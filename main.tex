@@ -1,4 +1,4 @@
-% Copyright 2024, 2025 the authors. All rights reserved.
+% Copyright 2024, 2025, 2026 the authors. All rights reserved.
 
 % Style Notes
 % -----------
@@ -15,6 +15,8 @@
 
 % To-do
 % -----
+% - Alan Wiseman suggests that the index notation of Wald section 2.4 is relevant. Hogg thinks it is not, but it deserves one more read. It is relevant to the definition of a k-tensor of course.
+% - Should the pathologies in s>1 be mentioned in the abstract? And are they discussed enough in the main text?
 % - Stronger literature searches.
 % - Are we happy with what is written about the literature?
 % - Can the expressions for the "minimal" rotation and LT be simplified further? 
@@ -85,14 +87,14 @@
 \author{\textbf{David W. Hogg}\footnote{DWH is in the Center for Cosmology and Particle Physics, Department of Physics, New York University, and in the Max Planck Institute for Astronomy, and in the Center for Computational Astrophysics, Flatiron Institute. Send email to \texttt{<david.hogg@nyu.edu>}.}
         \and
         \textbf{Soledad Villar}\footnote{SV is in the Department of Applied Mathematics and Statistics, Johns Hopkins University, and in the Mathematical Institute of Data Science, Johns Hopkins University, and in the Center for Computational Mathematics, Flatiron Institute.}}
-\date{2025 January}
+\date{2026 June}
 
 \begin{document}\thispagestyle{plain}
 \maketitle
 
 \begin{abstract}\noindent % don't use \plus or other macros in the abstract
     Special and general relativity in $d+s$ spacetime dimensions (our macroscopic Universe is $3+1$) are metric theories with a metric that isn't positive definite, such that timelike, lightlike (null), and spacelike vectors have positive, zero, and negative inner products with themselves.
-    Orthonormalization of vectors works in these theories; it can be used to make a coordinate basis ($d+s$ orthogonal unit vectors, $s$ timelike and $d$ spacelike) out of (almost) any collection of $d+s$ linearly independent input vectors.
+    Orthonormalization of vectors works in these theories; it can be used to make a coordinate basis ($d+s$ orthogonal unit vectors, $s$ timelike and $d$ spacelike) out of almost any collection of $d+s$ linearly independent input vectors, with exceptions related to null subspaces that can appear when $\min(s,d)>1$.
     Given two such bases, the Lorentz transformation that goes from one of the two bases to the other can be constructed with a simple outer-product form, analogous to a sum over ket-bras in Dirac notation.
     We thereby present a new coordinate-free parameterization of all possible Lorentz transformations for all $d+s$ spacetimes.
 \end{abstract}
@@ -116,24 +118,24 @@ In the context of group theory, the word ``equivariant'' means the following:
 If you rotate, reflect, or boost the space, all of the predictions of the theory rotate, reflect, and boost appropriately to match.
 What group theorists call ``equivariance'', physicists call ``covariance'' or ``symmetry''.
 
-As a point of motivation, we got interested in the questions addressed in this paper through our work on invariant and equivariant machine-learning methods \cite{scalars}.
-In this work, we considered several classical Lie groups, including the Lorentz group.
+As a point of motivation, we got interested in the questions addressed in this paper through our work on invariant and equivariant machine-learning methods \cite{scalars} (see also \cite{gripaios2021lorentz, brehmer2024lorentz}).
+In \cite{scalars}, we considered several classical Lie groups, including the Lorentz group.
 We noticed that there are pathologies in the Lorentz group associated with orthogonal vectors (such that a vector can be orthogonal to itself, for instance).
 
 In some sense, the discovery of special relativity was the beginning of the discovery that physics can be stated in a coordinate-free form.
 That is, one does not need to specify a coordinate system in order to explain the physical behavior of a system.
 Sometimes a coordinate system is useful.
-But it is usually not \emph{required}.
-In the special-relativity literature, the Lorentz transformations are almost always expressed in a particular coordinate system, aligned with the boost direction (see, eg, \cite{french, zakamska} or just about any other textbook on the subject)
+But it is often not \emph{required}.
+In the special-relativity literature, the Lorentz transformations are almost always expressed in a particular coordinate system, aligned with the boost direction (see, eg, \cite{french, zakamska} or just about any other textbook on the subject).
 Here we develop completely coordinate-free expressions for these operators in special relativity; our expressions depend on the change of velocity or orientation between the two frames, but not on the coordinate system in which these are expressed.
 
 \paragraph{Our contributions:}
 \begin{itemize}
 \item
-We spell out the relationship between orthonormalization, projection, and rotation in Euclidean space and their relativistic equivalents (equivalents in Minkowski or Lorentz spacetime).
+The main goal of this \documentname{} is expository. We spell out the relationship between orthonormalization, projection, and rotation in Euclidean space and their relativistic equivalents (equivalents in Minkowski or Lorentz spacetime).
 The only substantial differences are the inclusion of the metric tensor $\metric$ in relevant places, and that there are some cases in which the orthonormalization procedure produces lightlike vectors (and thus borks).
 \item
-We use the output of the orthonormalization to produce (in \secref{sec:lt}) a new parameterization or new form for the Lorentz transformation, which transforms the coordinates of events between two reference frames.
+We use the output of the orthonormalization to produce (in \secref{sec:lt}) a new parameterization for the Lorentz transformation, which transforms the coordinates of events between two reference frames.
 This form is based on outer products of basis vectors (or, in Dirac notation, ket--bras).
 This new form is coordinate-free, created directly out of the coordinate-basis unit vectors describing the two frames.
 It is analogous to a particular coordinate-free form for a Euclidean rotation matrix, but with modifications to account for the non-positive-definite properties of the metric; it works for all $d\plus s$ spacetimes.
@@ -607,7 +609,7 @@ Unfortunately it doesn't, because you can reverse time and still have $\det Q = 
 The tangent-space or boundary cases in which subspaces of $d\plus s$ cannot be orthogonalized without generating nulls is a very interesting subject, and shows non-trivial phenomenology in $d\plus s$ when $d$ and $s$ get large.
 We have an intuition that these cases can be removed with infinitesimal perturbations or limits, but we don't have an explicit solution.
 One interesting fact is that if you obey the orthonormalization procedure described in \eqref{eq:rgs1} through \eqref{eq:rgs3} on a set of $k$ vectors spanning one of these pathological subspaces, the null basis vector will, with probability 1, be produced last (at position $k$) by the algorithm.
-In the even more pathological case of multiply-tangent spaces, the multiple null basis vectors get produced at the end of the list.
+In the even more pathological case of higher-dimensional null subspaces, the multiple null basis vectors get produced at the end of the list.
 There is obviously a lot of interesting geometry to explore here.
 That said, in most concepts of large Lorentz spaces (as arise in string theory, say; \cite{strings}), it is usually assumed that the space is $d+1$, not $d+s$.
 Fundamentally this is because those theories are careful to avoid closed timelike curves at compactification.
@@ -623,7 +625,7 @@ This contribution is purely technical, in the sense that we aren't advocating an
 The methods and expressions developed here are very easy to implement in clear and pragmatic code.
 That is, even if you are writing code in a specific coordinate system, these expressions are easy to implement and use; much easier than specifying all coordinate-dependent angles, reflections, and boosts in $d\plus s$.
 A trivial use of these expressions in code is demonstrated in the sample code associated with this \documentname.
-This code numerically tests the expressions developed here, makes the figures, and is available under an open-source license at \url{https://github.com/davidwhogg/RelativisticOrthogonalization}.
+This code is built purely for demonstration purposes, but it numerically tests the expressions developed here, makes the figures, and is available under an open-source license at \url{https://github.com/davidwhogg/RelativisticOrthogonalization}.
 
 \paragraph{Acknowledgements:}
 It is a pleasure to thank
